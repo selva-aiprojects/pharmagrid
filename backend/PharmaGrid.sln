@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2A9D3197-3E2F-4CE5-B5E4-1E971C071EAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmaGrid.Domain", "src\PharmaGrid.Domain\PharmaGrid.Domain.csproj", "{54A25212-3886-4E3A-AEE6-E6442212070E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmaGrid.Application", "src\PharmaGrid.Application\PharmaGrid.Application.csproj", "{37EC9B8A-64AF-4C7F-AE69-81D0B80911E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmaGrid.Infrastructure", "src\PharmaGrid.Infrastructure\PharmaGrid.Infrastructure.csproj", "{ADA68452-1A97-4FD5-A285-0CFE9B1B8C7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmaGrid.WebApi", "src\PharmaGrid.WebApi\PharmaGrid.WebApi.csproj", "{E87ED489-C60D-45CA-93ED-EB8D9237D8CC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{54A25212-3886-4E3A-AEE6-E6442212070E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54A25212-3886-4E3A-AEE6-E6442212070E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54A25212-3886-4E3A-AEE6-E6442212070E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54A25212-3886-4E3A-AEE6-E6442212070E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37EC9B8A-64AF-4C7F-AE69-81D0B80911E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37EC9B8A-64AF-4C7F-AE69-81D0B80911E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37EC9B8A-64AF-4C7F-AE69-81D0B80911E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37EC9B8A-64AF-4C7F-AE69-81D0B80911E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADA68452-1A97-4FD5-A285-0CFE9B1B8C7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADA68452-1A97-4FD5-A285-0CFE9B1B8C7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADA68452-1A97-4FD5-A285-0CFE9B1B8C7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADA68452-1A97-4FD5-A285-0CFE9B1B8C7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E87ED489-C60D-45CA-93ED-EB8D9237D8CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E87ED489-C60D-45CA-93ED-EB8D9237D8CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E87ED489-C60D-45CA-93ED-EB8D9237D8CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E87ED489-C60D-45CA-93ED-EB8D9237D8CC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{54A25212-3886-4E3A-AEE6-E6442212070E} = {2A9D3197-3E2F-4CE5-B5E4-1E971C071EAC}
+		{37EC9B8A-64AF-4C7F-AE69-81D0B80911E3} = {2A9D3197-3E2F-4CE5-B5E4-1E971C071EAC}
+		{ADA68452-1A97-4FD5-A285-0CFE9B1B8C7E} = {2A9D3197-3E2F-4CE5-B5E4-1E971C071EAC}
+		{E87ED489-C60D-45CA-93ED-EB8D9237D8CC} = {2A9D3197-3E2F-4CE5-B5E4-1E971C071EAC}
+	EndGlobalSection
+EndGlobal

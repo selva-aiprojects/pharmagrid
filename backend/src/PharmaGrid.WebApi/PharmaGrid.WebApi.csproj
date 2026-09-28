@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <AssemblyName>PharmaGrid.WebApi</AssemblyName>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PharmaGrid.Infrastructure\PharmaGrid.Infrastructure.csproj" />
+    <ProjectReference Include="..\PharmaGrid.Application\PharmaGrid.Application.csproj" />
+    <ProjectReference Include="..\PharmaGrid.Domain\PharmaGrid.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

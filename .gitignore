@@ -1,0 +1,47 @@
+# ==========================================
+# PharmaGrid Root .gitignore
+# ==========================================
+
+# .NET & C# Artifacts
+**/bin/
+**/obj/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+TestResults/
+*.Generated.cs
+
+# Node & Next.js Artifacts
+**/node_modules/
+**/.next/
+**/out/
+**/build/
+**/dist/
+**/.turbo/
+.pnp
+.pnp.js
+
+# TypeScript
+*.tsbuildinfo
+
+# Logs & Debugging
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Operating System & IDE
+.DS_Store
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+.idea/
+*.swp
+*~
+*.bak
+
+# Environment Local Overrides
+*.local
