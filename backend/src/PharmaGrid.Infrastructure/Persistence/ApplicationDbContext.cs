@@ -27,6 +27,12 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Scheme> Schemes => Set<Scheme>();
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
 
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        base.ConfigureConventions(configurationBuilder);
+        configurationBuilder.Properties<decimal>().HavePrecision(14, 2);
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

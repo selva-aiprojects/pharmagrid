@@ -1,7 +1,42 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
+using Npgsql;
 using PharmaGrid.Application.Common;
 using PharmaGrid.Infrastructure.Persistence;
 using PharmaGrid.Infrastructure.Services;
+
+// 0. Load Environment Variables from .env files if present
+var currentDir = Directory.GetCurrentDirectory();
+var candidateEnvFiles = new[]
+{
+    Path.Combine(currentDir, ".env"),
+    Path.Combine(currentDir, "..", ".env"),
+    Path.Combine(currentDir, "..", "..", ".env"),
+    Path.Combine(currentDir, "..", "..", "frontend", ".env")
+};
+
+foreach (var envPath in candidateEnvFiles)
+{
+    if (File.Exists(envPath))
+    {
+        foreach (var line in File.ReadAllLines(envPath))
+        {
+            var trimmed = line.Trim();
+            if (string.IsNullOrWhiteSpace(trimmed) || trimmed.StartsWith("#")) continue;
+            var splitIdx = trimmed.IndexOf('=');
+            if (splitIdx > 0)
+            {
+                var key = trimmed.Substring(0, splitIdx).Trim();
+                var val = trimmed.Substring(splitIdx + 1).Trim().Trim('"').Trim('\'');
+                if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable(key)))
+                {
+                    Environment.SetEnvironmentVariable(key, val);
+                }
+            }
+        }
+    }
+}
 
 var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.UseUrls("http://127.0.0.1:5050");
@@ -29,11 +64,69 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentTenantService, CurrentTenantService>();
 
-// 4. Register Entity Framework Core (In-Memory for development & PostgreSQL ready)
-builder.Services.AddDbContext<ApplicationDbContext>((sp, options) =>
+// 4. Register Entity Framework Core (Aiven PostgreSQL or In-Memory fallback)
+var rawConnection = Environment.GetEnvironmentVariable("DATABASE_URL")
+    ?? Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING")
+    ?? builder.Configuration.GetConnectionString("DefaultConnection");
+
+string? npgsqlConnString = null;
+
+if (!string.IsNullOrWhiteSpace(rawConnection))
 {
-    options.UseInMemoryDatabase("PharmaGrid_DevDb");
-});
+    if (rawConnection.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase) ||
+        rawConnection.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
+    {
+        try
+        {
+            var uri = new Uri(rawConnection);
+            var userInfo = uri.UserInfo.Split(':');
+            var user = userInfo.Length > 0 ? Uri.UnescapeDataString(userInfo[0]) : "";
+            var pass = userInfo.Length > 1 ? Uri.UnescapeDataString(userInfo[1]) : "";
+            var host = uri.Host;
+            var port = uri.Port > 0 ? uri.Port : 5432;
+            var dbName = uri.AbsolutePath.TrimStart('/');
+
+            npgsqlConnString = $"Host={host};Port={port};Database={dbName};Username={user};Password={pass};SSL Mode=Require;Trust Server Certificate=true;Include Error Detail=true;";
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"⚠️ Failed to parse DATABASE_URL URI: {ex.Message}. Falling back to raw string.");
+            npgsqlConnString = rawConnection;
+        }
+    }
+    else
+    {
+        npgsqlConnString = rawConnection;
+        if (!npgsqlConnString.Contains("Trust Server Certificate", StringComparison.OrdinalIgnoreCase))
+        {
+            npgsqlConnString += ";Trust Server Certificate=true;";
+        }
+    }
+}
+
+if (!string.IsNullOrWhiteSpace(npgsqlConnString))
+{
+    Console.WriteLine("🐘 Configuring Entity Framework Core with Aiven PostgreSQL...");
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    {
+        options.UseNpgsql(npgsqlConnString, npgsqlOpts =>
+        {
+            npgsqlOpts.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(10),
+                errorCodesToAdd: null);
+        });
+    });
+}
+else
+{
+    Console.WriteLine("💾 Configuring Entity Framework Core with In-Memory Database...");
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    {
+        options.UseInMemoryDatabase("PharmaGrid_DevDb");
+    });
+}
+
 builder.Services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
 // 5. Configure CORS for Next.js Web App
@@ -50,11 +143,34 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// 6. Automatic Data Seeding on Startup
+// 6. Automatic Database Schema Sync & Data Seeding on Startup
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    if (db.Database.IsRelational())
+    {
+        Console.WriteLine("🔄 Synchronizing database tables on Aiven PostgreSQL...");
+        var creator = db.Database.GetService<IDatabaseCreator>() as IRelationalDatabaseCreator;
+        if (creator != null)
+        {
+            try
+            {
+                await creator.CreateTablesAsync();
+                Console.WriteLine("✅ Database schema synchronized successfully.");
+            }
+            catch (PostgresException pex) when (pex.SqlState == "42P07")
+            {
+                Console.WriteLine("ℹ️ Tables already present in database.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ℹ️ Database table initialization note: {ex.Message}");
+            }
+        }
+    }
+    Console.WriteLine("🌱 Checking and seeding initial master data...");
     await DataSeeder.SeedAsync(db);
+    Console.WriteLine("✅ Master data verified.");
 }
 
 // 7. Configure HTTP Request Pipeline

@@ -45,3 +45,6 @@ ehthumbs.db
 
 # Environment Local Overrides
 *.local
+.env
+.env.*
+!.env.example
