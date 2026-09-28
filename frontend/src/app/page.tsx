@@ -12,10 +12,15 @@ import CustomersView from '@/components/CustomersView';
 import SchemesView from '@/components/SchemesView';
 import AuditLogView from '@/components/AuditLogView';
 import UserManagementView from '@/components/UserManagementView';
+import LandingPageView from '@/components/LandingPageView';
+import LoginView from '@/components/LoginView';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Home() {
+  const [viewMode, setViewMode] = useState<'erp' | 'landing' | 'login'>('erp');
   const [activeModule, setActiveModule] = useState<AppModuleId>('billing');
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const { switchPersona } = useAuth();
 
   // Global keyboard shortcut: Ctrl+B to toggle sidebar
   useEffect(() => {
@@ -28,6 +33,30 @@ export default function Home() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  // 1. PUBLIC MARKETING & SALES PITCH LANDING PAGE
+  if (viewMode === 'landing') {
+    return (
+      <LandingPageView
+        onLaunchApp={() => setViewMode('erp')}
+        onOpenLogin={() => setViewMode('login')}
+        onSelectPersonaLaunch={async (username) => {
+          await switchPersona(username);
+          setViewMode('erp');
+        }}
+      />
+    );
+  }
+
+  // 2. DEDICATED ENTERPRISE COUNTER LOGIN SCREEN
+  if (viewMode === 'login') {
+    return (
+      <LoginView
+        onSuccessLogin={() => setViewMode('erp')}
+        onBackToLanding={() => setViewMode('landing')}
+      />
+    );
+  }
 
   const renderActiveModule = () => {
     switch (activeModule) {
@@ -61,6 +90,8 @@ export default function Home() {
         activeModule={activeModule}
         isSidebarCollapsed={isSidebarCollapsed}
         setIsSidebarCollapsed={setIsSidebarCollapsed}
+        onOpenLanding={() => setViewMode('landing')}
+        onOpenLogin={() => setViewMode('login')}
       />
 
       {/* 2. BODY: COLLAPSIBLE SIDEBAR + MAIN CONTENT VIEWPORT */}

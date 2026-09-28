@@ -27,6 +27,8 @@ interface HeaderProps {
   activeModule: AppModuleId;
   isSidebarCollapsed: boolean;
   setIsSidebarCollapsed: (collapsed: boolean) => void;
+  onOpenLanding?: () => void;
+  onOpenLogin?: () => void;
 }
 
 const MODULE_TITLES: Record<AppModuleId, { title: string; subtitle: string }> = {
@@ -45,6 +47,8 @@ export default function Header({
   activeModule,
   isSidebarCollapsed,
   setIsSidebarCollapsed,
+  onOpenLanding,
+  onOpenLogin,
 }: HeaderProps) {
   const currentMeta = MODULE_TITLES[activeModule];
   const { theme, toggleTheme } = useTheme();
@@ -171,6 +175,18 @@ export default function Header({
             )}
           </button>
 
+          {/* Sales Pitch & Marketing Showcase Button */}
+          {onOpenLanding && (
+            <button
+              onClick={onOpenLanding}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/70 dark:hover:bg-blue-900/60 text-blue-700 dark:text-cyan-300 border border-blue-200 dark:border-blue-800 text-xs font-semibold transition-colors cursor-pointer shadow-2xs"
+              title="View Sales Pitch & Product Showcase"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-cyan-500 animate-pulse" />
+              <span className="hidden sm:inline">Sales Pitch</span>
+            </button>
+          )}
+
           {/* Interactive User Persona Dropdown */}
           <div className="relative">
             <button
@@ -257,10 +273,11 @@ export default function Header({
                       onClick={() => {
                         logout();
                         setIsPersonaMenuOpen(false);
+                        onOpenLogin?.();
                       }}
                       className="w-full flex items-center gap-2 p-2 rounded-lg text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition text-xs font-semibold cursor-pointer"
                     >
-                      <LogOut className="w-3.5 h-3.5" /> Sign Out / Reset Session
+                      <LogOut className="w-3.5 h-3.5" /> Sign Out / Terminal Switch
                     </button>
                   </div>
                 </div>

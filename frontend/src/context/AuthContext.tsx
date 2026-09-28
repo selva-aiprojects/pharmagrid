@@ -22,7 +22,9 @@ export interface DemoPersona {
 interface AuthContextType {
   user: UserProfile;
   token: string | null;
+  isAuthenticated: boolean;
   personas: DemoPersona[];
+  login: (username: string, password?: string) => Promise<boolean>;
   switchPersona: (username: string) => Promise<void>;
   logout: () => void;
   hasPermission: (moduleKey: string) => boolean;
@@ -71,7 +73,9 @@ const DEFAULT_USER: UserProfile = {
 const AuthContext = createContext<AuthContextType>({
   user: DEFAULT_USER,
   token: null,
+  isAuthenticated: true,
   personas: DEFAULT_PERSONAS,
+  login: async () => true,
   switchPersona: async () => {},
   logout: () => {},
   hasPermission: () => true,
@@ -82,6 +86,7 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5050';
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserProfile>(DEFAULT_USER);
   const [token, setToken] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
   const [personas, setPersonas] = useState<DemoPersona[]>(DEFAULT_PERSONAS);
 
   // Load active session from localStorage or initialize with admin
@@ -93,6 +98,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         setToken(savedToken);
         setUser(JSON.parse(savedUser));
+        setIsAuthenticated(true);
       } catch (err) {
         console.warn('Failed to parse saved auth profile:', err);
       }
@@ -109,6 +115,51 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .catch(err => console.warn('Personas fetch notice:', err));
   }, []);
 
+  const login = async (username: string, password: string = 'password123'): Promise<boolean> => {
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data.user);
+        setToken(data.token);
+        setIsAuthenticated(true);
+        localStorage.setItem('pharmagrid_token', data.token);
+        localStorage.setItem('pharmagrid_user', JSON.stringify(data.user));
+        return true;
+      }
+    } catch (err) {
+      console.warn('Login request error, trying fallback:', err);
+    }
+
+    // Fallback local login for personas
+    const cleanUser = username.trim().toLowerCase().split('@')[0];
+    const found = personas.find(p => p.username.toLowerCase() === cleanUser);
+    if (found) {
+      await switchPersona(found.username);
+      setIsAuthenticated(true);
+      return true;
+    }
+
+    // Generic fallback login
+    const fallbackUser: UserProfile = {
+      userId: '00000000-0000-0000-0000-000000000001',
+      username: cleanUser,
+      fullName: cleanUser.charAt(0).toUpperCase() + cleanUser.slice(1) + ' (Staff)',
+      roleName: 'BillingExecutive',
+      email: `${cleanUser}@pharmagrid.com`,
+      permissions: ['billing', 'customers', 'products', 'schemes'],
+    };
+    setUser(fallbackUser);
+    setIsAuthenticated(true);
+    localStorage.setItem('pharmagrid_user', JSON.stringify(fallbackUser));
+    return true;
+  };
+
   const switchPersona = async (username: string) => {
     try {
       const res = await fetch(`${API_BASE}/api/v1/auth/login`, {
@@ -121,32 +172,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const data = await res.json();
         setUser(data.user);
         setToken(data.token);
+        setIsAuthenticated(true);
         localStorage.setItem('pharmagrid_token', data.token);
         localStorage.setItem('pharmagrid_user', JSON.stringify(data.user));
-      } else {
-        // Fallback local switch
-        const found = personas.find(p => p.username === username);
-        if (found) {
-          const fallbackUser: UserProfile = {
-            userId: '00000000-0000-0000-0000-000000000001',
-            username: found.username,
-            fullName: found.fullName,
-            roleName: found.roleName,
-            email: `${found.username}@pharmagrid.com`,
-            permissions: found.roleName === 'Owner'
-              ? ['dashboard', 'billing', 'products', 'inventory', 'procurement', 'customers', 'schemes', 'audit', 'users']
-              : found.roleName === 'BillingExecutive'
-              ? ['billing', 'customers', 'schemes', 'products']
-              : found.roleName === 'WarehouseOperator'
-              ? ['inventory', 'procurement', 'products']
-              : ['dashboard', 'customers', 'schemes', 'audit'],
-          };
-          setUser(fallbackUser);
-          localStorage.setItem('pharmagrid_user', JSON.stringify(fallbackUser));
-        }
+        return;
       }
     } catch (err) {
       console.warn('Switch persona error, falling back locally:', err);
+    }
+
+    // Fallback local switch
+    const found = personas.find(p => p.username === username);
+    if (found) {
+      const fallbackUser: UserProfile = {
+        userId: '00000000-0000-0000-0000-000000000001',
+        username: found.username,
+        fullName: found.fullName,
+        roleName: found.roleName,
+        email: `${found.username}@pharmagrid.com`,
+        permissions: found.roleName === 'Owner'
+          ? ['dashboard', 'billing', 'products', 'inventory', 'procurement', 'customers', 'schemes', 'audit', 'users']
+          : found.roleName === 'BillingExecutive'
+          ? ['billing', 'customers', 'schemes', 'products']
+          : found.roleName === 'WarehouseOperator'
+          ? ['inventory', 'procurement', 'products']
+          : ['dashboard', 'customers', 'schemes', 'audit'],
+      };
+      setUser(fallbackUser);
+      setIsAuthenticated(true);
+      localStorage.setItem('pharmagrid_user', JSON.stringify(fallbackUser));
     }
   };
 
@@ -155,6 +209,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem('pharmagrid_user');
     setUser(DEFAULT_USER);
     setToken(null);
+    setIsAuthenticated(false);
   };
 
   const hasPermission = (moduleKey: string) => {
@@ -163,10 +218,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, personas, switchPersona, logout, hasPermission }}>
+    <AuthContext.Provider value={{ user, token, isAuthenticated, personas, login, switchPersona, logout, hasPermission }}>
       {children}
     </AuthContext.Provider>
   );
 }
 
 export const useAuth = () => useContext(AuthContext);
+
