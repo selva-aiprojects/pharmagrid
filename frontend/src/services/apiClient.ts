@@ -37,6 +37,17 @@ export interface ApiCustomer {
   currentOutstanding: number;
 }
 
+export interface ApiSupplier {
+  supplierId: string;
+  supplierCode: string;
+  supplierName: string;
+  gstinNumber: string;
+  stateCode: string;
+  drugLicenseNo: string;
+  currentPayableBalance: number;
+  creditPeriodDays: number;
+}
+
 export interface ApiDashboardSummary {
   branchName: string;
   todaysSalesValue: number;
@@ -462,6 +473,271 @@ export const pharmaApi = {
       throw new Error(err.message || 'Reset password error');
     }
     return await res.json();
+  },
+
+  // ----------------------------------------
+  // ORDERS MODULE (VENDOR PO & CUSTOMER PRE-ORDERS)
+  // ----------------------------------------
+  async getOrdersSummary(): Promise<ApiOrdersSummary> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/orders/summary`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Orders summary fetch error:', e);
+    }
+    return {
+      totalVendorPos: 3,
+      totalPoValue: 470200.00,
+      pendingPoDeliveries: 2,
+      totalCustomerOrders: 3,
+      totalOrderValue: 104210.00,
+      urgentBookings: 2
+    };
+  },
+
+  async getVendorPos(): Promise<ApiVendorPo[]> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/orders/vendor-pos`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Vendor PO fetch error:', e);
+    }
+    return [];
+  },
+
+  async createVendorPo(req: any): Promise<ApiVendorPo> {
+    const res = await fetch(`${BASE_URL}/api/v1/orders/vendor-pos`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req)
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(err || 'Failed to create Vendor PO');
+    }
+    return await res.json();
+  },
+
+  async convertPoToGrn(poId: string): Promise<any> {
+    const res = await fetch(`${BASE_URL}/api/v1/orders/vendor-pos/${poId}/convert-to-grn`, {
+      method: 'POST'
+    });
+    if (!res.ok) throw new Error('Failed to convert PO to Inward GRN');
+    return await res.json();
+  },
+
+  async getCustomerOrders(): Promise<ApiCustomerOrder[]> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/orders/customer-orders`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Customer orders fetch error:', e);
+    }
+    return [];
+  },
+
+  async createCustomerOrder(req: any): Promise<ApiCustomerOrder> {
+    const res = await fetch(`${BASE_URL}/api/v1/orders/customer-orders`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req)
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(err || 'Failed to book customer pre-order');
+    }
+    return await res.json();
+  },
+
+  async convertOrderToInvoice(orderId: string): Promise<any> {
+    const res = await fetch(`${BASE_URL}/api/v1/orders/customer-orders/${orderId}/convert-to-invoice`, {
+      method: 'POST'
+    });
+    if (!res.ok) throw new Error('Failed to convert order to invoice');
+    return await res.json();
+  },
+
+  // ----------------------------------------
+  // SHIPMENT & LOGISTICS MODULE
+  // ----------------------------------------
+  async getLogisticsSummary(): Promise<ApiLogisticsSummary> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/logistics/summary`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Logistics summary fetch error:', e);
+    }
+    return {
+      activeManifests: 2,
+      dispatchedParcels: 5,
+      deliveredToday: 1,
+      pendingCodCollections: 48200.00,
+      reconciledCodToday: 14500.00
+    };
+  },
+
+  async getDeliveryManifests(): Promise<ApiDeliveryManifest[]> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/logistics/manifests`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Manifests fetch error:', e);
+    }
+    return [];
+  },
+
+  async createDeliveryManifest(req: any): Promise<ApiDeliveryManifest> {
+    const res = await fetch(`${BASE_URL}/api/v1/logistics/manifests`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req)
+    });
+    if (!res.ok) throw new Error('Failed to create delivery manifest');
+    return await res.json();
+  },
+
+  async updateChallanPod(manifestId: string, challanId: string, req: any): Promise<ApiDeliveryManifest> {
+    const res = await fetch(`${BASE_URL}/api/v1/logistics/manifests/${manifestId}/challans/${challanId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req)
+    });
+    if (!res.ok) throw new Error('Failed to record POD');
+    return await res.json();
+  },
+
+  async completeManifest(manifestId: string): Promise<any> {
+    const res = await fetch(`${BASE_URL}/api/v1/logistics/manifests/${manifestId}/complete`, {
+      method: 'POST'
+    });
+    if (!res.ok) throw new Error('Failed to reconcile manifest');
+    return await res.json();
+  },
+
+  // ----------------------------------------
+  // UNIFIED STOCK MASTER & PHYSICAL ADJUSTMENTS
+  // ----------------------------------------
+  async getStockMasterSummary(): Promise<ApiStockMasterSummary> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/stockmaster/summary`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Stock master summary error:', e);
+    }
+    return {
+      totalSkus: 4,
+      totalBatches: 8,
+      totalValuation: 423700.00,
+      lowStockCount: 2,
+      expiredQuarantineCount: 60,
+      monthlyBreakageLoss: 7000.00
+    };
+  },
+
+  async getStockMasterItems(): Promise<ApiStockMasterItem[]> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/stockmaster/items`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Stock master items error:', e);
+    }
+    return [];
+  },
+
+  async getStockAdjustments(): Promise<ApiStockAdjustment[]> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/stockmaster/adjustments`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Stock adjustments error:', e);
+    }
+    return [];
+  },
+
+  async createStockAdjustment(req: any): Promise<ApiStockAdjustment> {
+    const res = await fetch(`${BASE_URL}/api/v1/stockmaster/adjustments`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req)
+    });
+    if (!res.ok) throw new Error('Failed to register stock adjustment');
+    return await res.json();
+  },
+
+  // ----------------------------------------
+  // DEMAND FORECAST & STOCKOUT RADAR
+  // ----------------------------------------
+  async getDemandForecastSummary(): Promise<ApiDemandForecastSummary> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/demandforecast/summary`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Demand forecast error:', e);
+    }
+    return {
+      criticalStockoutsCount: 1,
+      lowStockWarningsCount: 1,
+      healthyStockCount: 2,
+      totalRecommendedPoValue: 480000.00,
+      averageInventoryDays: 16.1,
+      items: []
+    };
+  },
+
+  async generatePoForForecastProduct(productId: string): Promise<any> {
+    const res = await fetch(`${BASE_URL}/api/v1/demandforecast/generate-po/${productId}`, {
+      method: 'POST'
+    });
+    if (!res.ok) throw new Error('Failed to generate automatic PO');
+    return await res.json();
+  },
+
+  // ----------------------------------------
+  // STAFF PAYROLL & SALARY SLIPS
+  // ----------------------------------------
+  async getPayrollSummary(month?: string): Promise<ApiPayrollRunSummary> {
+    try {
+      const query = month ? `?month=${encodeURIComponent(month)}` : '';
+      const res = await fetch(`${BASE_URL}/api/v1/payroll/summary${query}`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Payroll summary error:', e);
+    }
+    return {
+      monthYear: 'September 2026',
+      totalEmployees: 4,
+      totalGrossSalary: 210653.85,
+      totalNetDisbursement: 196129.45,
+      totalPfContribution: 14400.00,
+      totalEsiContribution: 2092.70,
+      status: 'Completed',
+      slips: []
+    };
+  },
+
+  async getPayrollSlip(employeeId: string, month?: string): Promise<ApiSalarySlip> {
+    const query = month ? `?month=${encodeURIComponent(month)}` : '';
+    const res = await fetch(`${BASE_URL}/api/v1/payroll/slip/${employeeId}${query}`);
+    if (!res.ok) throw new Error('Failed to fetch salary slip');
+    return await res.json();
+  },
+
+  async processPayroll(req: { monthYear: string; workingDaysInMonth: number }): Promise<ApiPayrollRunSummary> {
+    const res = await fetch(`${BASE_URL}/api/v1/payroll/process`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req)
+    });
+    if (!res.ok) throw new Error('Failed to process payroll');
+    return await res.json();
+  },
+
+  async disburseSalary(slipId: string): Promise<any> {
+    const res = await fetch(`${BASE_URL}/api/v1/payroll/disburse/${slipId}`, {
+      method: 'POST'
+    });
+    if (!res.ok) throw new Error('Failed to disburse salary');
+    return await res.json();
   }
 };
 
@@ -493,6 +769,235 @@ export interface ApiUserStats {
   billingExecutives: number;
   licensedPharmacists: number;
   suspendedAccounts: number;
+}
+
+// ==========================================
+// ENTERPRISE MODULES DTO INTERFACES
+// ==========================================
+export interface ApiVendorPoItem {
+  productId: string;
+  productName: string;
+  productCode: string;
+  quantityOrdered: number;
+  unitPrice: number;
+  gstRate: number;
+  lineTotal: number;
+}
+
+export interface ApiVendorPo {
+  id: string;
+  poNumber: string;
+  supplierId: string;
+  supplierName: string;
+  orderDate: string;
+  expectedDeliveryDate: string;
+  status: 'Draft' | 'Submitted' | 'PartiallyReceived' | 'Fulfilled' | 'Cancelled';
+  paymentTerms: string;
+  totalAmount: number;
+  notes: string;
+  items: ApiVendorPoItem[];
+}
+
+export interface ApiCustomerOrderItem {
+  productId: string;
+  productName: string;
+  productCode: string;
+  quantityOrdered: number;
+  unitPrice: number;
+  gstRate: number;
+  lineTotal: number;
+}
+
+export interface ApiCustomerOrder {
+  id: string;
+  orderNumber: string;
+  customerId: string;
+  customerName: string;
+  orderDate: string;
+  salesRepName: string;
+  priority: 'Normal' | 'Urgent' | 'ColdChain';
+  status: 'Booked' | 'Approved' | 'Dispatched' | 'Invoiced' | 'Cancelled';
+  totalAmount: number;
+  deliveryAddress: string;
+  notes: string;
+  items: ApiCustomerOrderItem[];
+}
+
+export interface ApiOrdersSummary {
+  totalVendorPos: number;
+  totalPoValue: number;
+  pendingPoDeliveries: number;
+  totalCustomerOrders: number;
+  totalOrderValue: number;
+  urgentBookings: number;
+}
+
+export interface ApiDeliveryChallan {
+  id: string;
+  challanNumber: string;
+  invoiceNumber: string;
+  customerName: string;
+  deliveryAddress: string;
+  contactPhone: string;
+  cartonCount: number;
+  codAmount: number;
+  paymentMode: 'Credit' | 'COD_Cash' | 'COD_UPI' | 'Prepaid';
+  deliveryStatus: 'Pending' | 'OutForDelivery' | 'Delivered' | 'AttemptedFailed' | 'Returned';
+  podReceiverName?: string | null;
+  podTimestamp?: string | null;
+  podRemarks?: string | null;
+}
+
+export interface ApiDeliveryManifest {
+  id: string;
+  manifestNumber: string;
+  routeName: string;
+  vehicleNumber: string;
+  driverName: string;
+  driverPhone: string;
+  dispatchDate: string;
+  status: 'Scheduled' | 'InTransit' | 'Completed' | 'Reconciled';
+  totalInvoices: number;
+  totalCartons: number;
+  totalCodAmount: number;
+  collectedCodAmount: number;
+  challans: ApiDeliveryChallan[];
+}
+
+export interface ApiLogisticsSummary {
+  activeManifests: number;
+  dispatchedParcels: number;
+  deliveredToday: number;
+  pendingCodCollections: number;
+  reconciledCodToday: number;
+}
+
+export interface ApiStockMasterBatch {
+  batchId: string;
+  batchNumber: string;
+  expiryDate: string;
+  physicalStock: number;
+  bookStock: number;
+  allocatedStock: number;
+  quarantineStock: number;
+  availableStock: number;
+  purchasePrice: number;
+  mrp: number;
+  locationBin: string;
+}
+
+export interface ApiStockMasterItem {
+  productId: string;
+  productCode: string;
+  brandName: string;
+  genericName: string;
+  manufacturer: string;
+  category: string;
+  hsnCode: string;
+  gstRate: number;
+  totalPhysicalStock: number;
+  totalBookStock: number;
+  totalAllocatedStock: number;
+  totalQuarantineStock: number;
+  totalAvailableStock: number;
+  batchCount: number;
+  storageCondition: string;
+  scheduleClass: string;
+  reorderLevel: number;
+  stockValue: number;
+  batches: ApiStockMasterBatch[];
+}
+
+export interface ApiStockAdjustment {
+  id: string;
+  adjustmentNumber: string;
+  productId: string;
+  productName: string;
+  batchNumber: string;
+  adjustmentType: 'Breakage' | 'Leakage' | 'ExpiryQuarantine' | 'PhysicalVariance' | 'Sample';
+  quantity: number;
+  unitCost: number;
+  totalValueLoss: number;
+  reasonCode: string;
+  approvedBy: string;
+  createdDate: string;
+  notes: string;
+}
+
+export interface ApiStockMasterSummary {
+  totalSkus: number;
+  totalBatches: number;
+  totalValuation: number;
+  lowStockCount: number;
+  expiredQuarantineCount: number;
+  monthlyBreakageLoss: number;
+}
+
+export interface ApiDemandForecastItem {
+  productId: string;
+  productCode: string;
+  brandName: string;
+  manufacturer: string;
+  currentAvailableStock: number;
+  dailySalesRunRate: number;
+  monthlySalesRunRate: number;
+  daysOfInventoryRemaining: number;
+  stockoutRisk: 'Critical_Stockout' | 'Low_Stock_Warning' | 'Adequate' | 'Overstocked';
+  reorderLevel: number;
+  recommendedReorderQuantity: number;
+  leadTimeDays: number;
+  supplierId: string;
+  supplierName: string;
+  estimatedPoValue: number;
+}
+
+export interface ApiDemandForecastSummary {
+  criticalStockoutsCount: number;
+  lowStockWarningsCount: number;
+  healthyStockCount: number;
+  totalRecommendedPoValue: number;
+  averageInventoryDays: number;
+  items: ApiDemandForecastItem[];
+}
+
+export interface ApiSalarySlip {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  roleName: string;
+  panNumber: string;
+  uanNumber: string;
+  monthYear: string;
+  totalWorkingDays: number;
+  daysWorked: number;
+  lopDays: number;
+  basicSalary: number;
+  hra: number;
+  conveyanceAllowance: number;
+  medicalAllowance: number;
+  specialAllowance: number;
+  grossEarnings: number;
+  pfEmployeeDeduction: number;
+  esiEmployeeDeduction: number;
+  professionalTax: number;
+  tdsDeduction: number;
+  totalDeductions: number;
+  netSalary: number;
+  netSalaryInWords: string;
+  paymentStatus: 'Draft' | 'Approved' | 'Paid';
+  paymentReference?: string | null;
+  processedDate: string;
+}
+
+export interface ApiPayrollRunSummary {
+  monthYear: string;
+  totalEmployees: number;
+  totalGrossSalary: number;
+  totalNetDisbursement: number;
+  totalPfContribution: number;
+  totalEsiContribution: number;
+  status: string;
+  slips: ApiSalarySlip[];
 }
 
 

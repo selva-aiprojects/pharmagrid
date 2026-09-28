@@ -18,17 +18,27 @@ import {
   Flame,
   Lock,
   UserCog,
+  ShoppingCart,
+  Truck,
+  TrendingUp,
+  IndianRupee,
+  Layers
 } from 'lucide-react';
 
 export type AppModuleId =
   | 'billing'
   | 'dashboard'
-  | 'products'
-  | 'inventory'
+  | 'orders'
   | 'procurement'
+  | 'logistics'
+  | 'products'
+  | 'stockmaster'
+  | 'inventory'
+  | 'demandforecast'
   | 'customers'
   | 'schemes'
   | 'audit'
+  | 'payroll'
   | 'users';
 
 interface SidebarProps {
@@ -78,15 +88,36 @@ export default function Sidebar({
           icon: LayoutDashboard,
         },
         {
+          id: 'orders',
+          label: 'Orders & Indents (PO/SO)',
+          icon: ShoppingCart,
+          badge: 'B2B',
+          badgeColor: 'cyan',
+        },
+        {
           id: 'procurement',
-          label: 'Inward GRN & Orders',
+          label: 'Inward GRN Ingestion',
           icon: FileInput,
+        },
+        {
+          id: 'logistics',
+          label: 'Shipment & Fleet (COD)',
+          icon: Truck,
+          badge: 'Live',
+          badgeColor: 'emerald',
         },
       ],
     },
     {
-      title: 'Inventory & Catalog',
+      title: 'Inventory & Planning',
       items: [
+        {
+          id: 'stockmaster',
+          label: 'Unified Stock Master',
+          icon: Layers,
+          badge: 'Audit',
+          badgeColor: 'cyan',
+        },
         {
           id: 'products',
           label: 'Master SKU Catalog',
@@ -99,6 +130,13 @@ export default function Sidebar({
           label: 'Batch Rack Balances',
           icon: Boxes,
           badge: '23 Low',
+          badgeColor: 'amber',
+        },
+        {
+          id: 'demandforecast',
+          label: 'Demand Forecast Radar',
+          icon: TrendingUp,
+          badge: 'AI Run',
           badgeColor: 'amber',
         },
         {
@@ -126,8 +164,15 @@ export default function Sidebar({
       ],
     },
     {
-      title: 'Administration & Security',
+      title: 'Administration & Finance',
       items: [
+        {
+          id: 'payroll',
+          label: 'Staff Payroll & Slips',
+          icon: IndianRupee,
+          badge: 'Pay',
+          badgeColor: 'emerald',
+        },
         {
           id: 'users',
           label: 'Staff & Role Access',

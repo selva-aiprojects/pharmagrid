@@ -14,6 +14,11 @@ import AuditLogView from '@/components/AuditLogView';
 import UserManagementView from '@/components/UserManagementView';
 import LandingPageView from '@/components/LandingPageView';
 import LoginView from '@/components/LoginView';
+import OrdersManagementView from '@/components/OrdersManagementView';
+import LogisticsDispatchView from '@/components/LogisticsDispatchView';
+import StockMasterView from '@/components/StockMasterView';
+import DemandForecastView from '@/components/DemandForecastView';
+import PayrollView from '@/components/PayrollView';
 import { useAuth } from '@/context/AuthContext';
 
 export default function Home() {
@@ -64,18 +69,28 @@ export default function Home() {
         return <RapidBillingWorkspace />;
       case 'dashboard':
         return <ExecutiveDashboardView />;
-      case 'products':
-        return <ProductCatalogView />;
-      case 'inventory':
-        return <WarehouseInventoryView />;
+      case 'orders':
+        return <OrdersManagementView />;
       case 'procurement':
         return <ProcurementGrnView />;
+      case 'logistics':
+        return <LogisticsDispatchView />;
+      case 'products':
+        return <ProductCatalogView />;
+      case 'stockmaster':
+        return <StockMasterView />;
+      case 'inventory':
+        return <WarehouseInventoryView />;
+      case 'demandforecast':
+        return <DemandForecastView />;
       case 'customers':
         return <CustomersView />;
       case 'schemes':
         return <SchemesView />;
       case 'audit':
         return <AuditLogView />;
+      case 'payroll':
+        return <PayrollView />;
       case 'users':
         return <UserManagementView />;
       default:

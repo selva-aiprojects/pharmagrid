@@ -34,12 +34,17 @@ interface HeaderProps {
 const MODULE_TITLES: Record<AppModuleId, { title: string; subtitle: string }> = {
   billing: { title: 'Rapid Counter Billing', subtitle: '100% Zero-Mouse POS Invoicing (F1-F8)' },
   dashboard: { title: 'Executive Dashboard', subtitle: 'Real-Time Financial KPIs & Expiry Radar' },
-  products: { title: 'Master SKU Catalog', subtitle: 'CDSCO Schedules H/H1/G & Cold-Chain Master' },
-  inventory: { title: 'Warehouse Balances', subtitle: 'Zone-Rack-Shelf-Bin Batch Allocations' },
+  orders: { title: 'Orders & Indents', subtitle: 'Manufacturer Indents (PO) & Chemist Field Bookings (SO)' },
   procurement: { title: 'Inbound GRN', subtitle: 'Goods Receipt Note & Batch Date Ingestion' },
+  logistics: { title: 'Shipment & Fleet', subtitle: 'Van Dispatch Manifests, COD Reconciliation & POD' },
+  products: { title: 'Master SKU Catalog', subtitle: 'CDSCO Schedules H/H1/G & Cold-Chain Master' },
+  stockmaster: { title: 'Unified Stock Master', subtitle: 'Consolidated SKU Inventory & CDSCO Breakage Register' },
+  inventory: { title: 'Warehouse Balances', subtitle: 'Zone-Rack-Shelf-Bin Batch Allocations' },
+  demandforecast: { title: 'Demand Forecast Radar', subtitle: '30-Day Sales Run Rate & Days of Inventory (DOI)' },
   customers: { title: 'Customer Registry', subtitle: 'Pharmacies, Form 20B/21B & Credit Limits' },
   schemes: { title: 'Scheme Engine', subtitle: 'Volumetric Bonus Deals & Rebate Claims' },
   audit: { title: 'Regulatory Audit', subtitle: 'Immutable Append-Only Compliance Trail' },
+  payroll: { title: 'Staff Payroll & Slips', subtitle: 'Monthly Salary Disbursement & Statutory A4 Payslips' },
   users: { title: 'Staff & RBAC Management', subtitle: 'CDSCO Pharmacist Licensing & Counter Access' },
 };
 

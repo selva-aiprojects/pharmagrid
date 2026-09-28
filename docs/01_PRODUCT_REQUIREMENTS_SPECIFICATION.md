@@ -56,22 +56,33 @@ PharmaFlow serves as the central operational nexus of the pharmaceutical supply 
 
 ---
 
-## 3. Product Scope & MVP Module Decomposition
+## 3. Product Scope & End-to-End Enterprise Module Decomposition
 
 ```
-PharmaFlow Core Platform
-├── 01. Organization & Multi-Tenancy (Tenant sandboxing, Branch & Warehouse hierarchy)
-├── 02. Identity, RBAC & Security (JWT, Granular action permissions, Device sessions)
-├── 03. Product Master Catalog (Generic, Brand, Pack Size, HSN, Tax %, Drug Schedule Class, Cold Chain)
-├── 04. Stakeholder CRM & Vendor Master (Suppliers, Pharmacies, Drug License 20B/21B, GSTIN, Credit limits)
-├── 05. Procurement & GRN Lifecycle (PO → Supplier Invoice → Physical GRN → Batch Ingestion → Payables)
-├── 06. Intelligent Batch & FEFO Inventory (Zone-Rack-Shelf-Bin, FEFO Auto-allocator, Batch splitting)
-├── 07. High-Velocity Sales Billing Engine (2-sec SLA, Redis distributed lock, Cash/Credit, Dual GST)
-├── 08. Pharmaceutical Scheme Management (Volumetric Free, Value Discount, Manufacturer Rebate Accrual)
-├── 09. Expiry Analytics & Returns Lifecycle (0-30/31-60/61-90/91+ Day buckets, Quarantine, Supplier Returns)
+PharmaGrid™ Complete Enterprise Distribution Cloud ERP Suite
+├── 01. Organization & Multi-Tenancy (Tenant sandboxing, Branch & Depot hierarchy)
+├── 02. Identity, RBAC & Security (JWT, CDSCO Registered Pharmacist credentials, Granular guards)
+├── 03. Product Master Catalog (Generic, Brand, Pack Size, HSN, Tax %, Schedules H/H1/X/G, Cold Chain)
+├── 04. Stakeholder CRM & Vendor Master (Suppliers, Pharmacies, Form 20B/21B validities, Credit limits)
+├── 05. Upstream Procurement & Orders Lifecycle
+│   ├── 05a. Vendor Purchase Orders (PO) & Customer Sales Pre-Orders (Field booking)
+│   └── 05b. Inward GRN & Batch Ingestion (Mandatory EXP > MFG validation, Bonus Scheme Units)
+├── 06. Unified Stock Master & Physical Inventory Management
+│   ├── 06a. Consolidated Stock Master (Physical vs Book vs Allocated vs Quarantined stock)
+│   ├── 06b. Physical Stock Adjustment Center (CDSCO Breakage, Ampoule Leakage, Expiry write-offs)
+│   └── 06c. Intelligent FEFO Batch & Rack Allocator (Zone-Rack-Bin put-away, Auto multi-batch split)
+├── 07. High-Velocity Sales & Outward Logistics
+│   ├── 07a. Rapid Counter Billing Engine (100% Zero-Mouse F1-F8, Sub-2s SLA, Dual Indian GST)
+│   ├── 07b. Statutory Rule 46 GST Invoicing & CDSCO Section 18 Declarations (A4 & Thermal Print)
+│   └── 07c. Shipment, Delivery Challans & Route Dispatch Manifests (Van trip sheets, COD & POD)
+├── 08. Pharmaceutical Scheme Management (10+1, 20+2 Volumetric deals, Rebate claim accruals)
+├── 09. Expiry Analytics & Predictive Inventory
+│   ├── 09a. 4-Tier Expiry Defense Radar (0-30d Quarantine, 31-60d Return, 61-90d Promo Clearance)
+│   └── 09b. Algorithmic Demand Forecasting & Stockout Radar (Days of Inventory DOI, Sales Run Rate)
 ├── 10. Financial Ledgers & Receivables (Customer Ledger, Supplier Ledger, Aging, Multi-modal Payment)
-├── 11. Immutable Audit Logging (Tamper-evident operations trail, Before/After delta capture)
-└── 12. Executive Analytics & Operational Queue (Live picking tracker, Low stock alerts, Real-time P&L KPIs)
+├── 11. Immutable Audit Logging (Tamper-evident operations trail, 21 CFR Part 11 before/after delta capture)
+├── 12. Executive Analytics & Operational Queue (Live picking tracker, Low stock alerts, Real-time P&L KPIs)
+└── 13. Internal Human Capital & Staff Payroll (Monthly salary slip generation, Allowances, PF/ESI)
 ```
 
 ---

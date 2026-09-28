@@ -256,3 +256,272 @@ public record UserStatsDto(
     int LicensedPharmacists,
     int SuspendedAccounts);
 
+// ==========================================
+// 1. ORDERS MODULE (VENDOR PO & CUSTOMER PRE-ORDERS)
+// ==========================================
+public record VendorPoItemDto(
+    Guid ProductId,
+    string ProductName,
+    string ProductCode,
+    int QuantityOrdered,
+    decimal UnitPrice,
+    decimal GstRate,
+    decimal LineTotal);
+
+public record VendorPoDto(
+    Guid Id,
+    string PoNumber,
+    Guid SupplierId,
+    string SupplierName,
+    DateTime OrderDate,
+    DateTime ExpectedDeliveryDate,
+    string Status, // Draft, Submitted, PartiallyReceived, Fulfilled, Cancelled
+    string PaymentTerms,
+    decimal TotalAmount,
+    string Notes,
+    List<VendorPoItemDto> Items);
+
+public record CreateVendorPoRequest(
+    Guid SupplierId,
+    string SupplierName,
+    DateTime ExpectedDeliveryDate,
+    string PaymentTerms,
+    string Notes,
+    List<VendorPoItemDto> Items);
+
+public record CustomerOrderItemDto(
+    Guid ProductId,
+    string ProductName,
+    string ProductCode,
+    int QuantityOrdered,
+    decimal UnitPrice,
+    decimal GstRate,
+    decimal LineTotal);
+
+public record CustomerOrderDto(
+    Guid Id,
+    string OrderNumber,
+    Guid CustomerId,
+    string CustomerName,
+    DateTime OrderDate,
+    string SalesRepName,
+    string Priority, // Normal, Urgent, ColdChain
+    string Status,   // Booked, Approved, Dispatched, Invoiced, Cancelled
+    decimal TotalAmount,
+    string DeliveryAddress,
+    string Notes,
+    List<CustomerOrderItemDto> Items);
+
+public record CreateCustomerOrderRequest(
+    Guid CustomerId,
+    string CustomerName,
+    string SalesRepName,
+    string Priority,
+    string DeliveryAddress,
+    string Notes,
+    List<CustomerOrderItemDto> Items);
+
+public record OrdersSummaryDto(
+    int TotalVendorPos,
+    decimal TotalPoValue,
+    int PendingPoDeliveries,
+    int TotalCustomerOrders,
+    decimal TotalOrderValue,
+    int UrgentBookings);
+
+// ==========================================
+// 2. SHIPMENT & LOGISTICS (DELIVERY MANIFESTS & COD)
+// ==========================================
+public record DeliveryChallanDto(
+    Guid Id,
+    string ChallanNumber,
+    string InvoiceNumber,
+    string CustomerName,
+    string DeliveryAddress,
+    string ContactPhone,
+    int CartonCount,
+    decimal CodAmount,
+    string PaymentMode, // Credit, COD_Cash, COD_UPI, Prepaid
+    string DeliveryStatus, // Pending, OutForDelivery, Delivered, AttemptedFailed, Returned
+    string? PodReceiverName,
+    DateTime? PodTimestamp,
+    string? PodRemarks);
+
+public record DeliveryManifestDto(
+    Guid Id,
+    string ManifestNumber,
+    string RouteName,
+    string VehicleNumber,
+    string DriverName,
+    string DriverPhone,
+    DateTime DispatchDate,
+    string Status, // Scheduled, InTransit, Completed, Reconciled
+    int TotalInvoices,
+    int TotalCartons,
+    decimal TotalCodAmount,
+    decimal CollectedCodAmount,
+    List<DeliveryChallanDto> Challans);
+
+public record CreateManifestRequest(
+    string RouteName,
+    string VehicleNumber,
+    string DriverName,
+    string DriverPhone,
+    List<DeliveryChallanDto> Challans);
+
+public record UpdateChallanPodRequest(
+    string DeliveryStatus,
+    string? PodReceiverName,
+    decimal? CollectedAmount,
+    string? PodRemarks);
+
+public record LogisticsSummaryDto(
+    int ActiveManifests,
+    int DispatchedParcels,
+    int DeliveredToday,
+    decimal PendingCodCollections,
+    decimal ReconciledCodToday);
+
+// ==========================================
+// 3. UNIFIED STOCK MASTER & PHYSICAL ADJUSTMENTS
+// ==========================================
+public record StockMasterBatchDto(
+    Guid BatchId,
+    string BatchNumber,
+    DateTime ExpiryDate,
+    int PhysicalStock,
+    int BookStock,
+    int AllocatedStock,
+    int QuarantineStock,
+    int AvailableStock,
+    decimal PurchasePrice,
+    decimal Mrp,
+    string LocationBin);
+
+public record StockMasterItemDto(
+    Guid ProductId,
+    string ProductCode,
+    string BrandName,
+    string GenericName,
+    string Manufacturer,
+    string Category,
+    string HsnCode,
+    decimal GstRate,
+    int TotalPhysicalStock,
+    int TotalBookStock,
+    int TotalAllocatedStock,
+    int TotalQuarantineStock,
+    int TotalAvailableStock,
+    int BatchCount,
+    string StorageCondition,
+    string ScheduleClass,
+    int ReorderLevel,
+    decimal StockValue,
+    List<StockMasterBatchDto> Batches);
+
+public record StockAdjustmentDto(
+    Guid Id,
+    string AdjustmentNumber,
+    Guid ProductId,
+    string ProductName,
+    string BatchNumber,
+    string AdjustmentType, // Breakage, Leakage, ExpiryQuarantine, PhysicalVariance, Sample
+    int Quantity,
+    decimal UnitCost,
+    decimal TotalValueLoss,
+    string ReasonCode,
+    string ApprovedBy,
+    DateTime CreatedDate,
+    string Notes);
+
+public record CreateStockAdjustmentRequest(
+    Guid ProductId,
+    string ProductName,
+    string BatchNumber,
+    string AdjustmentType,
+    int Quantity,
+    string ReasonCode,
+    string ApprovedBy,
+    string Notes);
+
+public record StockMasterSummaryDto(
+    int TotalSkus,
+    int TotalBatches,
+    decimal TotalValuation,
+    int LowStockCount,
+    int ExpiredQuarantineCount,
+    decimal MonthlyBreakageLoss);
+
+// ==========================================
+// 4. DEMAND FORECASTING & STOCKOUT RADAR
+// ==========================================
+public record DemandForecastItemDto(
+    Guid ProductId,
+    string ProductCode,
+    string BrandName,
+    string Manufacturer,
+    int CurrentAvailableStock,
+    decimal DailySalesRunRate,
+    int MonthlySalesRunRate,
+    decimal DaysOfInventoryRemaining,
+    string StockoutRisk, // Critical_Stockout, Low_Stock_Warning, Adequate, Overstocked
+    int ReorderLevel,
+    int RecommendedReorderQuantity,
+    int LeadTimeDays,
+    Guid SupplierId,
+    string SupplierName,
+    decimal EstimatedPoValue);
+
+public record DemandForecastSummaryDto(
+    int CriticalStockoutsCount,
+    int LowStockWarningsCount,
+    int HealthyStockCount,
+    decimal TotalRecommendedPoValue,
+    decimal AverageInventoryDays,
+    List<DemandForecastItemDto> Items);
+
+// ==========================================
+// 5. STAFF PAYROLL & SALARY SLIPS
+// ==========================================
+public record SalarySlipDto(
+    Guid Id,
+    Guid EmployeeId,
+    string EmployeeName,
+    string RoleName,
+    string PanNumber,
+    string UanNumber,
+    string MonthYear,
+    int TotalWorkingDays,
+    int DaysWorked,
+    int LopDays,
+    decimal BasicSalary,
+    decimal Hra,
+    decimal ConveyanceAllowance,
+    decimal MedicalAllowance,
+    decimal SpecialAllowance,
+    decimal GrossEarnings,
+    decimal PfEmployeeDeduction,
+    decimal EsiEmployeeDeduction,
+    decimal ProfessionalTax,
+    decimal TdsDeduction,
+    decimal TotalDeductions,
+    decimal NetSalary,
+    string NetSalaryInWords,
+    string PaymentStatus, // Draft, Approved, Paid
+    string? PaymentReference,
+    DateTime ProcessedDate);
+
+public record PayrollRunSummaryDto(
+    string MonthYear,
+    int TotalEmployees,
+    decimal TotalGrossSalary,
+    decimal TotalNetDisbursement,
+    decimal TotalPfContribution,
+    decimal TotalEsiContribution,
+    string Status,
+    List<SalarySlipDto> Slips);
+
+public record ProcessPayrollRequest(
+    string MonthYear,
+    int WorkingDaysInMonth);
+

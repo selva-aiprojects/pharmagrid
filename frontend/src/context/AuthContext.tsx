@@ -67,7 +67,7 @@ const DEFAULT_USER: UserProfile = {
   fullName: 'Selva Kumaran',
   roleName: 'Owner',
   email: 'admin@pharmagrid.com',
-  permissions: ['dashboard', 'billing', 'products', 'inventory', 'procurement', 'customers', 'schemes', 'audit', 'users'],
+  permissions: ['dashboard', 'billing', 'orders', 'procurement', 'logistics', 'products', 'stockmaster', 'inventory', 'demandforecast', 'customers', 'schemes', 'audit', 'payroll', 'users'],
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -191,12 +191,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         roleName: found.roleName,
         email: `${found.username}@pharmagrid.com`,
         permissions: found.roleName === 'Owner'
-          ? ['dashboard', 'billing', 'products', 'inventory', 'procurement', 'customers', 'schemes', 'audit', 'users']
+          ? ['dashboard', 'billing', 'orders', 'procurement', 'logistics', 'products', 'stockmaster', 'inventory', 'demandforecast', 'customers', 'schemes', 'audit', 'payroll', 'users']
           : found.roleName === 'BillingExecutive'
-          ? ['billing', 'customers', 'schemes', 'products']
+          ? ['billing', 'orders', 'customers', 'schemes', 'products']
           : found.roleName === 'WarehouseOperator'
-          ? ['inventory', 'procurement', 'products']
-          : ['dashboard', 'customers', 'schemes', 'audit'],
+          ? ['inventory', 'stockmaster', 'procurement', 'logistics', 'products']
+          : ['dashboard', 'payroll', 'customers', 'schemes', 'audit'],
       };
       setUser(fallbackUser);
       setIsAuthenticated(true);
