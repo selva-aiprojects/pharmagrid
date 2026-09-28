@@ -161,28 +161,30 @@ public class InventoryController : ControllerBase
     [HttpGet("batches")]
     public async Task<IActionResult> GetAllBatches()
     {
-        var batches = await _context.Batches
+        var rawBatches = await _context.Batches
             .Include(b => b.Product)
             .OrderBy(b => b.ExpiryDate)
-            .Select(b => new
-            {
-                batchId = b.Id,
-                productId = b.ProductId,
-                productCode = b.Product != null ? b.Product.ProductCode : string.Empty,
-                productName = b.Product != null ? b.Product.ProductName : "Unknown",
-                batchNumber = b.BatchNumber,
-                manufacturingDate = b.ManufacturingDate.ToString("yyyy-MM-dd"),
-                expiryDate = b.ExpiryDate.ToString("yyyy-MM-dd"),
-                availableQuantity = b.AvailableQuantity,
-                ptr = b.PTR,
-                mrp = b.MRP,
-                locationRackBin = b.LocationRackBin,
-                isQuarantined = b.IsQuarantined,
-                storageCondition = b.Product != null ? b.Product.StorageCondition.ToString() : "RoomTemperature",
-                scheduleClass = b.Product != null ? b.Product.ScheduleClass.ToString() : "Regular",
-                daysToExpiry = (b.ExpiryDate.ToDateTime(TimeOnly.MinValue) - DateTime.UtcNow).Days
-            })
             .ToListAsync();
+
+        var today = DateOnly.FromDateTime(DateTime.UtcNow);
+        var batches = rawBatches.Select(b => new
+        {
+            batchId = b.Id,
+            productId = b.ProductId,
+            productCode = b.Product != null ? b.Product.ProductCode : string.Empty,
+            productName = b.Product != null ? b.Product.ProductName : "Unknown",
+            batchNumber = b.BatchNumber,
+            manufacturingDate = b.ManufacturingDate.ToString("yyyy-MM-dd"),
+            expiryDate = b.ExpiryDate.ToString("yyyy-MM-dd"),
+            availableQuantity = b.AvailableQuantity,
+            ptr = b.PTR,
+            mrp = b.MRP,
+            locationRackBin = b.LocationRackBin,
+            isQuarantined = b.IsQuarantined,
+            storageCondition = b.Product != null ? b.Product.StorageCondition.ToString() : "RoomTemperature",
+            scheduleClass = b.Product != null ? b.Product.ScheduleClass.ToString() : "Regular",
+            daysToExpiry = b.ExpiryDate.DayNumber - today.DayNumber
+        }).ToList();
 
         return Ok(batches);
     }

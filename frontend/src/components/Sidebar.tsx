@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useAuth } from '@/context/AuthContext';
 import {
   Zap,
   LayoutDashboard,
@@ -15,6 +16,7 @@ import {
   Sparkles,
   Command,
   Flame,
+  Lock,
 } from 'lucide-react';
 
 export type AppModuleId =
@@ -54,6 +56,8 @@ export default function Sidebar({
   isCollapsed,
   setIsCollapsed,
 }: SidebarProps) {
+  const { user, hasPermission } = useAuth();
+
   const navSections: NavSection[] = [
     {
       title: 'Core Operations',
@@ -140,16 +144,19 @@ export default function Sidebar({
             {section.items.map(item => {
               const Icon = item.icon;
               const isActive = activeModule === item.id;
+              const isPermitted = hasPermission(item.id);
 
               return (
                 <button
                   key={item.id}
                   onClick={() => setActiveModule(item.id)}
-                  title={isCollapsed ? item.label : undefined}
+                  title={isCollapsed ? item.label : (!isPermitted ? `Restricted for ${user.roleName}` : undefined)}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all relative group cursor-pointer ${
                     isActive
                       ? 'sidebar-active-item bg-blue-50/90 border border-blue-200/90 text-blue-700 font-bold shadow-xs dark:bg-slate-800 dark:border-blue-500/50 dark:text-blue-200'
-                      : 'text-slate-600 hover:text-blue-900 hover:bg-slate-100/80 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-900/80 border border-transparent'
+                      : isPermitted
+                      ? 'text-slate-600 hover:text-blue-900 hover:bg-slate-100/80 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-900/80 border border-transparent'
+                      : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50 dark:text-slate-500 dark:hover:text-slate-300 dark:hover:bg-slate-900/40 border border-transparent opacity-75'
                   } ${isCollapsed ? 'justify-center px-2' : ''}`}
                 >
                   <Icon
@@ -162,7 +169,13 @@ export default function Sidebar({
                     <div className="flex-1 text-left flex items-center justify-between gap-1 overflow-hidden">
                       <span className="truncate">{item.label}</span>
 
-                      {item.shortcut && (
+                      {!isPermitted && (
+                        <span title={`Restricted for ${user.roleName}`}>
+                          <Lock className="w-3 h-3 text-slate-400 dark:text-slate-500" />
+                        </span>
+                      )}
+
+                      {isPermitted && item.shortcut && (
                         <kbd
                           className={`px-1.5 py-0.2 rounded text-[9px] font-mono border ${
                             isActive
@@ -174,7 +187,7 @@ export default function Sidebar({
                         </kbd>
                       )}
 
-                      {item.badge && !item.shortcut && (
+                      {isPermitted && item.badge && !item.shortcut && (
                         <span
                           className={`px-1.5 py-0.2 rounded text-[9px] font-mono font-bold ${
                             item.badgeColor === 'amber'

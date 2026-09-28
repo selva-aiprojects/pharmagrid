@@ -31,7 +31,9 @@ import {
   Tag,
   Check,
   X,
+  FileText,
 } from 'lucide-react';
+import TaxInvoiceModal, { InvoicePrintData } from '@/components/TaxInvoiceModal';
 
 const formatInr = (val: number): string => Number(val || 0).toLocaleString('en-IN');
 
@@ -144,6 +146,7 @@ export default function RapidBillingWorkspace() {
   const [activeSchemeModalLine, setActiveSchemeModalLine] = useState<InvoiceLine | null>(null);
   const [isCommitting, setIsCommitting] = useState(false);
   const [invoiceCommitted, setInvoiceCommitted] = useState<any | null>(null);
+  const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
 
   // Keyboard shortcut listener
   useEffect(() => {
@@ -322,6 +325,80 @@ export default function RapidBillingWorkspace() {
   const creditUsagePct = Math.min(100, Math.round((currentOutstanding / creditLimit) * 100));
   const isCreditExceeded = currentOutstanding + netPayable > creditLimit;
 
+  // Print data structure for A4 Statutory Tax Invoice
+  const invoicePrintData: InvoicePrintData = {
+    invoiceNumber: invoiceCommitted?.invoiceNumber || `INV-2026-PREVIEW`,
+    invoiceDate: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }),
+    invoiceMode: invoiceMode,
+    placeOfSupply: selectedCustomer.stateCode,
+    irnHash: invoiceCommitted?.irnHash || '8374363E92878C48FA45B4D084620023B2201948842EA56',
+    customer: {
+      name: selectedCustomer.name,
+      code: selectedCustomer.code,
+      gstin: selectedCustomer.gstin,
+      drugLicense20B: selectedCustomer.drugLicense20B,
+      drugLicense21B: selectedCustomer.drugLicense21B,
+      address: selectedCustomer.address || 'Chennai Central Depot, Tamil Nadu',
+      stateCode: selectedCustomer.stateCode,
+    },
+    stockist: {
+      legalName: 'PharmaGrid Healthcare Logistics Pvt Ltd',
+      tradeName: 'PharmaGrid Chennai Stockist',
+      address: 'Plot 100, Anna Salai Wholesale Hub, Guindy Industrial Estate',
+      city: 'Chennai',
+      pincode: '600032',
+      gstin: '33AABCP9981E1Z9',
+      pan: 'ABCDE1234F',
+      drugLicense20B: 'TN/CHE/20B/2024/001',
+      drugLicense21B: 'TN/CHE/21B/2024/002',
+      stateCode: '33',
+      phone: '+91 98401 22334',
+      email: 'billing@pharmagrid.com',
+      bankName: 'HDFC Bank Ltd',
+      accountNo: '50200088991122',
+      ifsc: 'HDFC0001234',
+      branch: 'Anna Salai Main Branch',
+    },
+    items: lines.map(line => {
+      const lineGross = line.quantity * line.ptr;
+      const lineDiscount = lineGross * (line.discountPct / 100);
+      const lineTaxable = lineGross - lineDiscount;
+      const rate = line.gstPercentage;
+      const halfRate = rate / 2;
+      const cgst = isIntraState ? lineTaxable * (halfRate / 100) : 0;
+      const sgst = isIntraState ? lineTaxable * (halfRate / 100) : 0;
+      const igst = !isIntraState ? lineTaxable * (rate / 100) : 0;
+      return {
+        productName: line.productName,
+        genericName: line.genericName,
+        hsnCode: line.hsnCode,
+        batchNumber: line.batchNumber,
+        expiryDate: line.expiryDate,
+        quantity: line.quantity,
+        freeQuantity: line.freeQuantity,
+        mrp: line.mrp,
+        ptr: line.ptr,
+        discountPct: line.discountPct,
+        taxableAmount: lineTaxable,
+        gstPercentage: line.gstPercentage,
+        cgstAmount: cgst,
+        sgstAmount: sgst,
+        igstAmount: igst,
+        netAmount: lineTaxable + cgst + sgst + igst,
+      };
+    }),
+    totals: {
+      grossAmount: grossTotal,
+      tradeDiscount: tradeDiscountTotal,
+      taxableAmount: taxableTotal,
+      cgstAmount: cgstTotal,
+      sgstAmount: sgstTotal,
+      igstAmount: igstTotal,
+      roundOff: roundOff,
+      netPayable: netPayable,
+    },
+  };
+
   // Commit Invoice via live .NET 9 Web API (Sub-2-Second Checkout Guarantee)
   const handleCommitInvoice = async () => {
     if (lines.length === 0) return;
@@ -484,6 +561,14 @@ export default function RapidBillingWorkspace() {
               CASH
             </button>
           </div>
+
+          <button
+            onClick={() => setIsPrintModalOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-semibold transition-all cursor-pointer shadow-xs"
+            title="Preview standard statutory A4 Tax Invoice"
+          >
+            <FileText className="w-4 h-4 text-blue-600 dark:text-blue-400" /> A4 Invoice Preview
+          </button>
 
           <button
             onClick={handleAddNewLine}
@@ -977,20 +1062,27 @@ export default function RapidBillingWorkspace() {
             <div className="flex items-center gap-3 mt-2">
               <button
                 onClick={() => setInvoiceCommitted(null)}
-                className="flex-1 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs transition-colors"
+                className="flex-1 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs transition-colors cursor-pointer"
               >
                 Close & Next Order [Esc]
               </button>
               <button
-                onClick={() => window.print()}
-                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs shadow-md transition-colors"
+                onClick={() => setIsPrintModalOpen(true)}
+                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-md transition-colors cursor-pointer"
               >
-                <Printer className="w-4 h-4" /> Print Thermal Receipt
+                <FileText className="w-4 h-4" /> Print A4 Tax Invoice
               </button>
             </div>
           </div>
         </div>
       )}
+
+      {/* MODAL 4: FULL A4 STATUTORY GST TAX INVOICE PRINT PREVIEW */}
+      <TaxInvoiceModal
+        data={invoicePrintData}
+        isOpen={isPrintModalOpen}
+        onClose={() => setIsPrintModalOpen(false)}
+      />
     </div>
   );
 }

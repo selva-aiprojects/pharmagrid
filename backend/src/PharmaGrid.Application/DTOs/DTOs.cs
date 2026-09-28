@@ -186,3 +186,8 @@ public record DashboardSummaryDto(
     decimal OverdueReceivables,
     int OverdueCustomerCount,
     decimal ActiveExpiryRiskHorizonValue);
+
+public record LoginRequest(string Username, string Password);
+public record UserProfileDto(Guid UserId, string Username, string FullName, string RoleName, string Email, List<string> Permissions);
+public record LoginResponse(string Token, UserProfileDto User);
+public record DemoPersonaDto(string Username, string RoleName, string FullName, string Description, string AvatarInitials);

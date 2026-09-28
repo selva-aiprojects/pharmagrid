@@ -373,5 +373,18 @@ export const pharmaApi = {
       throw new Error(err.message || 'GRN failed');
     }
     return await res.json();
+  },
+
+  // 15. Inbound GRN Audit History
+  async getGrnHistory() {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/purchases/grn-history`, { cache: 'no-store' });
+      if (!res.ok) throw new Error('Failed to fetch GRN history');
+      return await res.json();
+    } catch (e) {
+      console.warn('Failed to fetch GRN history:', e);
+      return [];
+    }
   }
 };
+
