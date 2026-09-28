@@ -17,6 +17,7 @@ import {
   Command,
   Flame,
   Lock,
+  UserCog,
 } from 'lucide-react';
 
 export type AppModuleId =
@@ -27,7 +28,8 @@ export type AppModuleId =
   | 'procurement'
   | 'customers'
   | 'schemes'
-  | 'audit';
+  | 'audit'
+  | 'users';
 
 interface SidebarProps {
   activeModule: AppModuleId;
@@ -120,6 +122,18 @@ export default function Sidebar({
           id: 'audit',
           label: 'CDSCO Regulatory Audit',
           icon: Shield,
+        },
+      ],
+    },
+    {
+      title: 'Administration & Security',
+      items: [
+        {
+          id: 'users',
+          label: 'Staff & Role Access',
+          icon: UserCog,
+          badge: 'RBAC',
+          badgeColor: 'cyan',
         },
       ],
     },

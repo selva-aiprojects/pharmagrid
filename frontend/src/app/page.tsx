@@ -11,6 +11,7 @@ import ProcurementGrnView from '@/components/ProcurementGrnView';
 import CustomersView from '@/components/CustomersView';
 import SchemesView from '@/components/SchemesView';
 import AuditLogView from '@/components/AuditLogView';
+import UserManagementView from '@/components/UserManagementView';
 
 export default function Home() {
   const [activeModule, setActiveModule] = useState<AppModuleId>('billing');
@@ -46,6 +47,8 @@ export default function Home() {
         return <SchemesView />;
       case 'audit':
         return <AuditLogView />;
+      case 'users':
+        return <UserManagementView />;
       default:
         return <RapidBillingWorkspace />;
     }

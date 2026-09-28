@@ -65,7 +65,7 @@ const DEFAULT_USER: UserProfile = {
   fullName: 'Selva Kumaran',
   roleName: 'Owner',
   email: 'admin@pharmagrid.com',
-  permissions: ['dashboard', 'billing', 'products', 'inventory', 'procurement', 'customers', 'schemes', 'audit'],
+  permissions: ['dashboard', 'billing', 'products', 'inventory', 'procurement', 'customers', 'schemes', 'audit', 'users'],
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -134,7 +134,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             roleName: found.roleName,
             email: `${found.username}@pharmagrid.com`,
             permissions: found.roleName === 'Owner'
-              ? ['dashboard', 'billing', 'products', 'inventory', 'procurement', 'customers', 'schemes', 'audit']
+              ? ['dashboard', 'billing', 'products', 'inventory', 'procurement', 'customers', 'schemes', 'audit', 'users']
               : found.roleName === 'BillingExecutive'
               ? ['billing', 'customers', 'schemes', 'products']
               : found.roleName === 'WarehouseOperator'

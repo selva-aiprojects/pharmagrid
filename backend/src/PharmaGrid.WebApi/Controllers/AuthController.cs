@@ -40,7 +40,7 @@ public class AuthController : ControllerBase
 
         var permissions = persona.RoleName switch
         {
-            "Owner" => new List<string> { "dashboard", "billing", "products", "inventory", "procurement", "customers", "schemes", "audit" },
+            "Owner" => new List<string> { "dashboard", "billing", "products", "inventory", "procurement", "customers", "schemes", "audit", "users" },
             "BillingExecutive" => new List<string> { "billing", "customers", "schemes", "products" },
             "WarehouseOperator" => new List<string> { "inventory", "procurement", "products" },
             "AccountsExecutive" => new List<string> { "dashboard", "customers", "schemes", "audit" },
@@ -96,7 +96,7 @@ public class AuthController : ControllerBase
 
         var permissions = role switch
         {
-            "Owner" => new List<string> { "dashboard", "billing", "products", "inventory", "procurement", "customers", "schemes", "audit" },
+            "Owner" => new List<string> { "dashboard", "billing", "products", "inventory", "procurement", "customers", "schemes", "audit", "users" },
             "BillingExecutive" => new List<string> { "billing", "customers", "schemes", "products" },
             "WarehouseOperator" => new List<string> { "inventory", "procurement", "products" },
             "AccountsExecutive" => new List<string> { "dashboard", "customers", "schemes", "audit" },

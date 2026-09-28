@@ -38,6 +38,7 @@ const MODULE_TITLES: Record<AppModuleId, { title: string; subtitle: string }> = 
   customers: { title: 'Customer Registry', subtitle: 'Pharmacies, Form 20B/21B & Credit Limits' },
   schemes: { title: 'Scheme Engine', subtitle: 'Volumetric Bonus Deals & Rebate Claims' },
   audit: { title: 'Regulatory Audit', subtitle: 'Immutable Append-Only Compliance Trail' },
+  users: { title: 'Staff & RBAC Management', subtitle: 'CDSCO Pharmacist Licensing & Counter Access' },
 };
 
 export default function Header({

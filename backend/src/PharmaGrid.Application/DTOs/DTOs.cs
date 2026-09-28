@@ -191,3 +191,68 @@ public record LoginRequest(string Username, string Password);
 public record UserProfileDto(Guid UserId, string Username, string FullName, string RoleName, string Email, List<string> Permissions);
 public record LoginResponse(string Token, UserProfileDto User);
 public record DemoPersonaDto(string Username, string RoleName, string FullName, string Description, string AvatarInitials);
+
+public record UserItemDto(
+    Guid UserId,
+    string Username,
+    string FullName,
+    string Email,
+    string PhoneNumber,
+    string RoleName,
+    string BranchName,
+    string CounterNumber,
+    string Shift,
+    bool IsActive,
+    bool IsRegisteredPharmacist,
+    string? PharmacistCouncilRegNo,
+    string? PharmacistCouncilExpiry,
+    decimal MaxDiscountPercentage,
+    bool CanAuthorizeReturns,
+    bool CanCancelInvoices,
+    bool CanAccessScheduleX,
+    DateTime LastLoginAt,
+    List<string> Permissions);
+
+public record CreateUserRequest(
+    string Username,
+    string FullName,
+    string Email,
+    string PhoneNumber,
+    string RoleName,
+    string BranchName,
+    string CounterNumber,
+    string Shift,
+    bool IsRegisteredPharmacist,
+    string? PharmacistCouncilRegNo,
+    string? PharmacistCouncilExpiry,
+    decimal MaxDiscountPercentage,
+    bool CanAuthorizeReturns,
+    bool CanCancelInvoices,
+    bool CanAccessScheduleX,
+    List<string>? Permissions);
+
+public record UpdateUserRequest(
+    string FullName,
+    string Email,
+    string PhoneNumber,
+    string RoleName,
+    string BranchName,
+    string CounterNumber,
+    string Shift,
+    bool IsActive,
+    bool IsRegisteredPharmacist,
+    string? PharmacistCouncilRegNo,
+    string? PharmacistCouncilExpiry,
+    decimal MaxDiscountPercentage,
+    bool CanAuthorizeReturns,
+    bool CanCancelInvoices,
+    bool CanAccessScheduleX,
+    List<string> Permissions);
+
+public record UserStatsDto(
+    int TotalStaff,
+    int ActiveNow,
+    int BillingExecutives,
+    int LicensedPharmacists,
+    int SuspendedAccounts);
+

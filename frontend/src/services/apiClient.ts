@@ -385,6 +385,114 @@ export const pharmaApi = {
       console.warn('Failed to fetch GRN history:', e);
       return [];
     }
+  },
+
+  // 16. User & Staff Management
+  async getUsers(params?: { q?: string; role?: string; status?: string }): Promise<ApiUserItem[]> {
+    try {
+      const query = new URLSearchParams();
+      if (params?.q) query.append('q', params.q);
+      if (params?.role) query.append('role', params.role);
+      if (params?.status) query.append('status', params.status);
+
+      const qs = query.toString() ? `?${query.toString()}` : '';
+      const res = await fetch(`${BASE_URL}/api/v1/users${qs}`, { cache: 'no-store' });
+      if (!res.ok) throw new Error('Failed to fetch users');
+      return await res.json();
+    } catch (e) {
+      console.warn('Failed to fetch users:', e);
+      return [];
+    }
+  },
+
+  async getUserStats(): Promise<ApiUserStats | null> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/users/stats`, { cache: 'no-store' });
+      if (!res.ok) throw new Error('Failed to fetch user stats');
+      return await res.json();
+    } catch (e) {
+      console.warn('Failed to fetch user stats:', e);
+      return null;
+    }
+  },
+
+  async createUser(payload: any): Promise<ApiUserItem> {
+    const res = await fetch(`${BASE_URL}/api/v1/users`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ message: 'Failed to create user' }));
+      throw new Error(err.message || 'Create user error');
+    }
+    return await res.json();
+  },
+
+  async updateUser(userId: string, payload: any): Promise<ApiUserItem> {
+    const res = await fetch(`${BASE_URL}/api/v1/users/${userId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ message: 'Failed to update user' }));
+      throw new Error(err.message || 'Update user error');
+    }
+    return await res.json();
+  },
+
+  async toggleUserStatus(userId: string) {
+    const res = await fetch(`${BASE_URL}/api/v1/users/${userId}/status`, {
+      method: 'PATCH',
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ message: 'Failed to toggle status' }));
+      throw new Error(err.message || 'Status toggle error');
+    }
+    return await res.json();
+  },
+
+  async resetUserPassword(userId: string) {
+    const res = await fetch(`${BASE_URL}/api/v1/users/${userId}/reset-password`, {
+      method: 'POST',
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ message: 'Failed to reset password' }));
+      throw new Error(err.message || 'Reset password error');
+    }
+    return await res.json();
   }
 };
+
+export interface ApiUserItem {
+  userId: string;
+  username: string;
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  roleName: 'Owner' | 'BillingExecutive' | 'Pharmacist' | 'WarehouseOperator' | 'AccountsExecutive' | string;
+  branchName: string;
+  counterNumber: string;
+  shift: string;
+  isActive: boolean;
+  isRegisteredPharmacist: boolean;
+  pharmacistCouncilRegNo?: string | null;
+  pharmacistCouncilExpiry?: string | null;
+  maxDiscountPercentage: number;
+  canAuthorizeReturns: boolean;
+  canCancelInvoices: boolean;
+  canAccessScheduleX: boolean;
+  lastLoginAt: string;
+  permissions: string[];
+}
+
+export interface ApiUserStats {
+  totalStaff: number;
+  activeNow: number;
+  billingExecutives: number;
+  licensedPharmacists: number;
+  suspendedAccounts: number;
+}
+
 
