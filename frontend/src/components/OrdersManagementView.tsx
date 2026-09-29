@@ -10,6 +10,7 @@ import {
   ApiSupplier,
   ApiCustomer
 } from '@/services/apiClient';
+import SmartPharmaTextArea from '@/components/SmartPharmaTextArea';
 import {
   ShoppingCart,
   FileCheck,
@@ -724,18 +725,14 @@ export default function OrdersManagementView() {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                  Special Logistics / Cold Chain Instructions
-                </label>
-                <textarea
-                  value={poNotes}
-                  onChange={e => setPoNotes(e.target.value)}
-                  placeholder="e.g. Maintain cold-chain at 2°C to 8°C. Include digital temperature logger."
-                  rows={2}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm text-slate-200 focus:outline-none focus:border-blue-500"
-                />
-              </div>
+              <SmartPharmaTextArea
+                label="Special Logistics / Cold Chain Instructions"
+                context="logistics"
+                value={poNotes}
+                onChange={setPoNotes}
+                placeholder="e.g. Maintain cold-chain at 2°C to 8°C. Include calibrated digital temperature data logger."
+                rows={2}
+              />
             </div>
 
             <div className="p-4 bg-slate-950 border-t border-slate-800 flex justify-between items-center">
