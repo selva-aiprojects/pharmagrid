@@ -73,7 +73,7 @@ const DEFAULT_USER: UserProfile = {
 const AuthContext = createContext<AuthContextType>({
   user: DEFAULT_USER,
   token: null,
-  isAuthenticated: true,
+  isAuthenticated: false,
   personas: DEFAULT_PERSONAS,
   login: async () => true,
   switchPersona: async () => {},
@@ -86,7 +86,7 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5050';
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserProfile>(DEFAULT_USER);
   const [token, setToken] = useState<string | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [personas, setPersonas] = useState<DemoPersona[]>(DEFAULT_PERSONAS);
 
   // Load active session from localStorage or initialize with admin

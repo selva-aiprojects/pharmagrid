@@ -23,10 +23,33 @@ import MastersManagementView from '@/components/MastersManagementView';
 import { useAuth } from '@/context/AuthContext';
 
 export default function Home() {
-  const [viewMode, setViewMode] = useState<'erp' | 'landing' | 'login'>('erp');
+  const { isAuthenticated, logout, switchPersona } = useAuth();
+
+  // 'landing' = public marketing page
+  // 'login'   = enterprise login screen
+  // 'erp'     = authenticated app shell
+  const [viewMode, setViewMode] = useState<'erp' | 'landing' | 'login'>('landing');
+  const [hasHydrated, setHasHydrated] = useState(false);
   const [activeModule, setActiveModule] = useState<AppModuleId>('billing');
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-  const { switchPersona } = useAuth();
+
+  // Wait for AuthContext to finish reading localStorage before routing
+  useEffect(() => {
+    setHasHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hasHydrated) return;
+    if (isAuthenticated) {
+      setViewMode('erp');
+    }
+  }, [isAuthenticated, hasHydrated]);
+
+  // Handle logout from Header: clear auth and go to login screen
+  const handleLogout = () => {
+    logout();
+    setViewMode('login');
+  };
 
   // Global keyboard shortcut: Ctrl+B to toggle sidebar
   useEffect(() => {
@@ -40,27 +63,48 @@ export default function Home() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Show nothing until AuthContext has read localStorage (prevents flash)
+  if (!hasHydrated) {
+    return (
+      <div className="min-h-screen bg-[#07091a] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 rounded-full border-2 border-[#4f46e5] border-t-transparent animate-spin" />
+          <span className="text-[#6e7a9f] text-sm font-medium tracking-wide">Loading PharmaGrid…</span>
+        </div>
+      </div>
+    );
+  }
+
   // 1. PUBLIC MARKETING & SALES PITCH LANDING PAGE
   if (viewMode === 'landing') {
     return (
-      <LandingPageView
-        onLaunchApp={() => setViewMode('erp')}
-        onOpenLogin={() => setViewMode('login')}
-        onSelectPersonaLaunch={async (username) => {
-          await switchPersona(username);
-          setViewMode('erp');
-        }}
-      />
+      <div className="landing-page-root dark">
+        <LandingPageView
+          onLaunchApp={async () => {
+            if (!isAuthenticated) {
+              await switchPersona('admin');
+            }
+            setViewMode('erp');
+          }}
+          onOpenLogin={() => setViewMode('login')}
+          onSelectPersonaLaunch={async (username) => {
+            await switchPersona(username);
+            setViewMode('erp');
+          }}
+        />
+      </div>
     );
   }
 
   // 2. DEDICATED ENTERPRISE COUNTER LOGIN SCREEN
   if (viewMode === 'login') {
     return (
-      <LoginView
-        onSuccessLogin={() => setViewMode('erp')}
-        onBackToLanding={() => setViewMode('landing')}
-      />
+      <div className="login-page-root dark">
+        <LoginView
+          onSuccessLogin={() => setViewMode('erp')}
+          onBackToLanding={() => setViewMode('landing')}
+        />
+      </div>
     );
   }
 
@@ -102,7 +146,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f1f5f9] dark:bg-[#070b14] text-slate-900 dark:text-slate-100 flex flex-col transition-colors duration-200">
+    <div className="erp-shell min-h-screen bg-[#f0f2f8] dark:bg-[#07091a] text-slate-900 dark:text-[#e8eaff] flex flex-col transition-colors duration-200">
       {/* 1. TOP GLOBAL APP HEADER */}
       <Header
         activeModule={activeModule}
@@ -110,6 +154,7 @@ export default function Home() {
         setIsSidebarCollapsed={setIsSidebarCollapsed}
         onOpenLanding={() => setViewMode('landing')}
         onOpenLogin={() => setViewMode('login')}
+        onLogout={handleLogout}
       />
 
       {/* 2. BODY: COLLAPSIBLE SIDEBAR + MAIN CONTENT VIEWPORT */}
@@ -123,30 +168,31 @@ export default function Home() {
         />
 
         {/* Dynamic Workspace Container */}
-        <main className="flex-1 overflow-y-auto p-4 max-w-[1780px] w-full mx-auto">
+        <main className="flex-1 overflow-y-auto p-5 max-w-[1820px] w-full mx-auto text-slate-900 dark:text-[#e8eaff]">
           {renderActiveModule()}
         </main>
       </div>
 
       {/* 3. FOOTER STATUTORY & ENGINE STATUS BAR */}
-      <footer className="border-t border-slate-200 dark:border-slate-800/80 bg-white dark:bg-[#090d18] px-4 py-2 text-[11px] text-slate-500 dark:text-slate-400 flex flex-wrap items-center justify-between gap-4 transition-colors duration-200">
+      <footer className="border-t border-[#e2e5f0] dark:border-white/5 bg-white/98 dark:bg-[#07091a]/98 px-4 py-2 text-[11px] text-[#6b7280] dark:text-[#6e7a9f] flex flex-wrap items-center justify-between gap-4 transition-colors duration-200 backdrop-blur-sm">
         <div className="flex items-center gap-4">
-          <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-medium">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            Core Engine Online (99.5% Uptime SLA)
+          <span className="flex items-center gap-1.5 font-semibold">
+            <span className="status-dot-online" />
+            <span className="text-emerald-600 dark:text-[#34d399]">Core Engine Online</span>
+            <span className="text-[#9ca3af] dark:text-[#44506a] font-normal">(99.5% SLA)</span>
           </span>
-          <span className="text-slate-300 dark:text-slate-700 hidden sm:inline">|</span>
-          <span className="hidden sm:inline">PostgreSQL 16: <strong className="text-slate-700 dark:text-slate-300">Tenant-Scoped Isolation</strong></span>
-          <span className="text-slate-300 dark:text-slate-700 hidden md:inline">|</span>
-          <span className="hidden md:inline">Redis Lock: <strong className="text-blue-700 dark:text-blue-400 font-semibold">RedLock Active</strong></span>
-          <span className="text-slate-300 dark:text-slate-700 hidden lg:inline">|</span>
-          <span className="hidden lg:inline">CDSCO Compliance: <strong className="text-slate-700 dark:text-slate-300">Schedules H / H1 / X &amp; Indian Dual GST</strong></span>
+          <span className="text-[#d1d5f0] dark:text-white/10 hidden sm:inline">|</span>
+          <span className="hidden sm:inline">PostgreSQL 16: <strong className="text-[#2d3554] dark:text-[#b0b7d8]">Tenant-Scoped Isolation</strong></span>
+          <span className="text-[#d1d5f0] dark:text-white/10 hidden md:inline">|</span>
+          <span className="hidden md:inline">Redis Lock: <strong className="text-[#4f46e5] dark:text-[#818cf8] font-semibold">RedLock Active</strong></span>
+          <span className="text-[#d1d5f0] dark:text-white/10 hidden lg:inline">|</span>
+          <span className="hidden lg:inline">CDSCO Compliance: <strong className="text-[#2d3554] dark:text-[#b0b7d8]">Schedules H / H1 / X &amp; Indian Dual GST</strong></span>
         </div>
 
-        <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
-          <span className="font-medium text-slate-700 dark:text-slate-300">Pharma<span className="text-blue-700 dark:text-blue-400 font-bold">Grid™</span> Cloud ERP v1.0</span>
-          <span>•</span>
-          <span className="text-emerald-700 dark:text-emerald-400 font-mono font-semibold">2-Second Checkout Guarantee</span>
+        <div className="flex items-center gap-2">
+          <span className="font-semibold text-[#2d3554] dark:text-[#b0b7d8]">Pharma<span className="text-[#4f46e5] dark:text-[#818cf8] font-black">Grid™</span> Cloud ERP v1.0</span>
+          <span className="text-[#d1d5f0] dark:text-white/10">•</span>
+          <span className="text-[#10b981] dark:text-[#34d399] font-mono font-bold tracking-tight">2-Second Checkout Guarantee</span>
         </div>
       </footer>
     </div>

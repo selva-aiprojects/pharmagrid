@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import { SAMPLE_PRODUCTS, ProductItem } from '@/data/mockData';
@@ -54,7 +54,7 @@ export default function ProductCatalogView() {
   const handleCreateMedicine = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.genericName.trim()) {
-      showToast('⚠️ Please enter Medicine Brand Name and Generic Molecule');
+      showToast('⚠️  Please enter Medicine Brand Name and Generic Molecule');
       return;
     }
 
@@ -147,14 +147,14 @@ export default function ProductCatalogView() {
             <Package className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
             Master Product Catalog &amp; SKU Directory
           </h2>
-          <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-600 dark:text-[#adb5d4] mt-0.5">
             CDSCO Drugs &amp; Cosmetics classification, Indian GST HSN codes, and cold-chain attributes.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           {/* Schedule Filter Tabs */}
-          <div className="bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-1 flex text-xs">
+          <div className="bg-slate-100 dark:bg-[#0d1130] border border-slate-200 dark:border-white/8 rounded-lg p-1 flex text-xs">
             {['all', 'Regular', 'H', 'H1', 'G'].map(sch => (
               <button
                 key={sch}
@@ -162,7 +162,7 @@ export default function ProductCatalogView() {
                 className={`px-3 py-1 rounded font-semibold transition-all ${
                   scheduleFilter === sch
                     ? 'bg-cyan-600 text-white shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
+                    : 'text-slate-600 hover:text-slate-900 dark:text-[#adb5d4] dark:hover:text-white'
                 }`}
               >
                 {sch === 'all' ? 'All Classes' : `Sch ${sch}`}
@@ -188,11 +188,11 @@ export default function ProductCatalogView() {
             placeholder="Search by Brand Name, Molecule / Generic, HSN Code..."
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="w-full bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 focus:border-cyan-500 rounded-lg pl-9 pr-4 py-2 text-xs text-slate-900 dark:text-white outline-none shadow-xs"
+            className="w-full bg-white dark:bg-[#0d1130] border border-slate-200 dark:border-white/8 focus:border-cyan-500 rounded-lg pl-9 pr-4 py-2 text-xs text-slate-900 dark:text-white outline-none shadow-xs"
           />
         </div>
 
-        <div className="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-400 font-mono">
+        <div className="flex items-center gap-3 text-xs text-slate-600 dark:text-[#adb5d4] font-mono">
           <span>Showing <strong className="text-cyan-700 dark:text-cyan-400">{filteredProducts.length}</strong> of {products.length} SKUs</span>
           <span>•</span>
           <span>Active Batches: <strong className="text-emerald-700 dark:text-emerald-400">{products.reduce((s, p) => s + p.batches.length, 0)} Available</strong></span>
@@ -203,7 +203,7 @@ export default function ProductCatalogView() {
       <div className="glass-panel rounded-xl overflow-hidden shadow-xl">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 uppercase tracking-wider text-[11px] font-bold border-b border-slate-300 dark:border-slate-700">
+            <thead className="bg-slate-100 dark:bg-[#111535] text-slate-800 dark:text-[#e8eaff] uppercase tracking-wider text-[11px] font-bold border-b border-slate-300 dark:border-white/11">
               <tr>
                 <th className="py-3 px-4">Medicine Brand &amp; Generic Molecule</th>
                 <th className="py-3 px-3">Manufacturer</th>
@@ -216,12 +216,12 @@ export default function ProductCatalogView() {
                 <th className="py-3 px-3 text-right">Total Available</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/70 font-medium text-slate-800 dark:text-slate-200">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/70 font-medium text-slate-800 dark:text-[#d4d8f5]">
               {filteredProducts.map(prod => {
                 const totalUnits = prod.batches.reduce((sum, b) => sum + b.availableQty, 0);
 
                 return (
-                  <tr key={prod.productId} className="hover:bg-blue-50/50 dark:hover:bg-slate-800/60 transition-colors">
+                  <tr key={prod.productId} className="hover:bg-blue-50/50 dark:hover:bg-[#161940]/60 transition-colors">
                     {/* Brand & Molecule */}
                     <td className="py-3 px-4">
                       <div className="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-2">
@@ -232,37 +232,37 @@ export default function ProductCatalogView() {
                           </span>
                         )}
                       </div>
-                      <div className="text-[11px] text-slate-600 dark:text-slate-400 font-normal mt-0.5">
+                      <div className="text-[11px] text-slate-600 dark:text-[#adb5d4] font-normal mt-0.5">
                         {prod.genericName}
                       </div>
                     </td>
 
                     {/* Manufacturer */}
-                    <td className="py-3 px-3 text-slate-800 dark:text-slate-200">
+                    <td className="py-3 px-3 text-slate-800 dark:text-[#d4d8f5]">
                       {prod.manufacturer}
                     </td>
 
                     {/* Pack & Form */}
-                    <td className="py-3 px-3 text-slate-700 dark:text-slate-300 font-mono">
+                    <td className="py-3 px-3 text-slate-700 dark:text-[#c2c8e8] font-mono">
                       <div>{prod.dosageForm}</div>
                       <div className="text-[10px] text-slate-500">{prod.packSize}</div>
                     </td>
 
                     {/* HSN & GST */}
                     <td className="py-3 px-3 text-center font-mono">
-                      <div className="text-slate-800 dark:text-slate-200">{prod.hsnCode}</div>
-                      <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-slate-100 dark:bg-slate-800 text-blue-700 dark:text-cyan-400 border border-slate-200 dark:border-slate-700">
+                      <div className="text-slate-800 dark:text-[#d4d8f5]">{prod.hsnCode}</div>
+                      <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-slate-100 dark:bg-[#111535] text-blue-700 dark:text-cyan-400 border border-slate-200 dark:border-white/11">
                         {prod.gstPercentage}% GST
                       </span>
                     </td>
 
                     {/* PTR Rate */}
-                    <td className="py-3 px-3 text-right font-mono font-semibold text-slate-900 dark:text-slate-100">
+                    <td className="py-3 px-3 text-right font-mono font-semibold text-slate-900 dark:text-[#e8eaff]">
                       ₹{prod.ptr.toFixed(2)}
                     </td>
 
                     {/* MRP */}
-                    <td className="py-3 px-3 text-right font-mono text-slate-600 dark:text-slate-400 font-medium">
+                    <td className="py-3 px-3 text-right font-mono text-slate-600 dark:text-[#adb5d4] font-medium">
                       ₹{prod.mrp.toFixed(2)}
                     </td>
 
@@ -281,7 +281,7 @@ export default function ProductCatalogView() {
                           Schedule G
                         </span>
                       ) : (
-                        <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-700 border border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-700 border border-slate-200 dark:bg-[#111535] dark:text-[#c2c8e8] dark:border-white/11">
                           Regular
                         </span>
                       )}
@@ -289,7 +289,7 @@ export default function ProductCatalogView() {
 
                     {/* Batches Held */}
                     <td className="py-3 px-3 text-center font-mono">
-                      <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 text-xs font-medium">
+                      <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-[#0d1130] text-slate-700 dark:text-[#c2c8e8] border border-slate-200 dark:border-white/8 text-xs font-medium">
                         {prod.batches.length} {prod.batches.length === 1 ? 'Batch' : 'Batches'}
                       </span>
                     </td>
@@ -309,20 +309,20 @@ export default function ProductCatalogView() {
       {/* 4. MODAL: ADD NEW MEDICINE */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] animate-in zoom-in-95">
-            <div className="p-4 bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+          <div className="bg-white dark:bg-[#0d1130] border border-slate-200 dark:border-white/8 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] animate-in zoom-in-95">
+            <div className="p-4 bg-slate-50 dark:bg-[#070a1e] border-b border-slate-200 dark:border-white/8 flex justify-between items-center">
               <div>
                 <h3 className="font-bold text-slate-900 dark:text-white text-base flex items-center gap-2">
                   <Package className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
                   Register New Pharmaceutical SKU
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-slate-500 dark:text-[#adb5d4]">
                   CDSCO Drugs &amp; Cosmetics Act compliance, Indian GST HSN slab, and opening batch inventory.
                 </p>
               </div>
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-lg transition"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-[#d4d8f5] p-1 rounded-lg transition"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -331,7 +331,7 @@ export default function ProductCatalogView() {
             <form onSubmit={handleCreateMedicine} className="p-5 overflow-y-auto space-y-4 text-xs">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                     Brand Name / Commercial Trade Name *
                   </label>
                   <input
@@ -340,12 +340,12 @@ export default function ProductCatalogView() {
                     placeholder="e.g. Azithral 500mg Tablet"
                     value={formData.name}
                     onChange={e => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                     Generic Molecule / Composition *
                   </label>
                   <input
@@ -354,18 +354,18 @@ export default function ProductCatalogView() {
                     placeholder="e.g. Azithromycin 500mg IP"
                     value={formData.genericName}
                     onChange={e => setFormData({ ...formData, genericName: e.target.value })}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                     Manufacturing Principal / Company *
                   </label>
                   <select
                     value={formData.manufacturer}
                     onChange={e => setFormData({ ...formData, manufacturer: e.target.value })}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
                   >
                     <option value="Sun Pharmaceutical Industries">Sun Pharmaceutical Industries</option>
                     <option value="Cipla Ltd">Cipla Ltd</option>
@@ -380,13 +380,13 @@ export default function ProductCatalogView() {
 
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                       Dosage Form
                     </label>
                     <select
                       value={formData.dosageForm}
                       onChange={e => setFormData({ ...formData, dosageForm: e.target.value })}
-                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
+                      className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
                     >
                       <option value="Tablet">Tablet</option>
                       <option value="Capsule">Capsule</option>
@@ -398,7 +398,7 @@ export default function ProductCatalogView() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                       Pack Size
                     </label>
                     <input
@@ -406,20 +406,20 @@ export default function ProductCatalogView() {
                       placeholder="e.g. 10 Tablets"
                       value={formData.packSize}
                       onChange={e => setFormData({ ...formData, packSize: e.target.value })}
-                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
+                      className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-3 gap-2">
                   <div>
-                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                       CDSCO Schedule
                     </label>
                     <select
                       value={formData.scheduleClass}
                       onChange={e => setFormData({ ...formData, scheduleClass: e.target.value as any })}
-                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
+                      className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
                     >
                       <option value="Regular">Regular (OTC/Standard)</option>
                       <option value="H">Schedule H</option>
@@ -429,24 +429,24 @@ export default function ProductCatalogView() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                       HSN Code
                     </label>
                     <input
                       type="text"
                       value={formData.hsnCode}
                       onChange={e => setFormData({ ...formData, hsnCode: e.target.value })}
-                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none font-mono"
+                      className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none font-mono"
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                       GST Rate %
                     </label>
                     <select
                       value={formData.gstPercentage}
                       onChange={e => setFormData({ ...formData, gstPercentage: Number(e.target.value) })}
-                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
+                      className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
                     >
                       <option value="0">0% (Nil)</option>
                       <option value="5">5% (Essential)</option>
@@ -458,7 +458,7 @@ export default function ProductCatalogView() {
 
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                       PTR Rate (₹ Price to Retailer) *
                     </label>
                     <input
@@ -467,11 +467,11 @@ export default function ProductCatalogView() {
                       required
                       value={formData.ptr}
                       onChange={e => setFormData({ ...formData, ptr: Number(e.target.value) })}
-                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-bold focus:border-cyan-500 outline-none font-mono"
+                      className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-bold focus:border-cyan-500 outline-none font-mono"
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                       MRP (₹ Maximum Retail Price) *
                     </label>
                     <input
@@ -480,19 +480,19 @@ export default function ProductCatalogView() {
                       required
                       value={formData.mrp}
                       onChange={e => setFormData({ ...formData, mrp: Number(e.target.value) })}
-                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-bold focus:border-cyan-500 outline-none font-mono"
+                      className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-bold focus:border-cyan-500 outline-none font-mono"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                     Storage &amp; Cold Chain Requirement
                   </label>
                   <select
                     value={formData.storageCondition}
                     onChange={e => setFormData({ ...formData, storageCondition: e.target.value as any })}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
                   >
                     <option value="Room Temperature">Room Temperature (Below 25°C)</option>
                     <option value="Cold Chain (2-8°C)">Cold Chain Required (2°C to 8°C Refrigerator)</option>
@@ -502,14 +502,14 @@ export default function ProductCatalogView() {
               </div>
 
               {/* Initial Batch & Physical Location */}
-              <div className="p-3 bg-blue-50/50 dark:bg-slate-950/60 rounded-xl border border-blue-200 dark:border-slate-800 space-y-3">
+              <div className="p-3 bg-blue-50/50 dark:bg-[#070a1e]/60 rounded-xl border border-blue-200 dark:border-white/8 space-y-3">
                 <div className="font-bold text-blue-900 dark:text-cyan-400 flex items-center gap-1.5">
                   <Layers className="w-4 h-4" />
                   Initial Opening Batch &amp; Warehouse Location
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   <div>
-                    <label className="block text-slate-600 dark:text-slate-400 text-[11px] mb-1 font-semibold">
+                    <label className="block text-slate-600 dark:text-[#adb5d4] text-[11px] mb-1 font-semibold">
                       Batch Number
                     </label>
                     <input
@@ -517,11 +517,11 @@ export default function ProductCatalogView() {
                       required
                       value={formData.initialBatchNumber}
                       onChange={e => setFormData({ ...formData, initialBatchNumber: e.target.value })}
-                      className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded p-1.5 font-mono text-slate-900 dark:text-white text-xs font-bold uppercase"
+                      className="w-full bg-white dark:bg-[#0d1130] border border-slate-300 dark:border-white/11 rounded p-1.5 font-mono text-slate-900 dark:text-white text-xs font-bold uppercase"
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-600 dark:text-slate-400 text-[11px] mb-1 font-semibold">
+                    <label className="block text-slate-600 dark:text-[#adb5d4] text-[11px] mb-1 font-semibold">
                       Expiry Date
                     </label>
                     <input
@@ -529,11 +529,11 @@ export default function ProductCatalogView() {
                       required
                       value={formData.initialExpiryDate}
                       onChange={e => setFormData({ ...formData, initialExpiryDate: e.target.value })}
-                      className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded p-1.5 font-mono text-slate-900 dark:text-white text-xs"
+                      className="w-full bg-white dark:bg-[#0d1130] border border-slate-300 dark:border-white/11 rounded p-1.5 font-mono text-slate-900 dark:text-white text-xs"
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-600 dark:text-slate-400 text-[11px] mb-1 font-semibold">
+                    <label className="block text-slate-600 dark:text-[#adb5d4] text-[11px] mb-1 font-semibold">
                       Opening Quantity
                     </label>
                     <input
@@ -542,11 +542,11 @@ export default function ProductCatalogView() {
                       min="1"
                       value={formData.initialQty}
                       onChange={e => setFormData({ ...formData, initialQty: Number(e.target.value) })}
-                      className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded p-1.5 font-mono text-slate-900 dark:text-white text-xs font-bold"
+                      className="w-full bg-white dark:bg-[#0d1130] border border-slate-300 dark:border-white/11 rounded p-1.5 font-mono text-slate-900 dark:text-white text-xs font-bold"
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-600 dark:text-slate-400 text-[11px] mb-1 font-semibold">
+                    <label className="block text-slate-600 dark:text-[#adb5d4] text-[11px] mb-1 font-semibold">
                       Rack Location (Z-R-S)
                     </label>
                     <input
@@ -554,17 +554,17 @@ export default function ProductCatalogView() {
                       required
                       value={formData.rackLocation}
                       onChange={e => setFormData({ ...formData, rackLocation: e.target.value })}
-                      className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded p-1.5 font-mono text-slate-900 dark:text-white text-xs"
+                      className="w-full bg-white dark:bg-[#0d1130] border border-slate-300 dark:border-white/11 rounded p-1.5 font-mono text-slate-900 dark:text-white text-xs"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-200 dark:border-slate-800">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-200 dark:border-white/8">
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold transition"
+                  className="px-4 py-2 rounded-xl border border-slate-300 dark:border-white/11 text-slate-700 dark:text-[#c2c8e8] hover:bg-slate-100 dark:hover:bg-[#161940] font-semibold transition"
                 >
                   Cancel
                 </button>
@@ -583,3 +583,4 @@ export default function ProductCatalogView() {
     </div>
   );
 }
+

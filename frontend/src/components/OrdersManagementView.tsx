@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect } from 'react';
 import {
@@ -181,7 +181,7 @@ export default function OrdersManagementView() {
       };
 
       await pharmaApi.createVendorPo(payload);
-      showToast('🎉 Vendor Purchase Order committed and dispatched to supplier!');
+      showToast('ðŸŽ‰ Vendor Purchase Order committed and dispatched to supplier!');
       setShowNewPoModal(false);
       setPoLines([]);
       setPoNotes('');
@@ -244,7 +244,7 @@ export default function OrdersManagementView() {
       };
 
       const newOrder = await pharmaApi.createCustomerOrder(payload);
-      showToast(`🎉 Customer Pre-Order ${newOrder.orderNumber || 'SO-2026'} booked successfully!`);
+      showToast(`ðŸŽ‰ Customer Pre-Order ${newOrder.orderNumber || 'SO-2026'} booked successfully!`);
       setShowNewCustomerOrderModal(false);
       setCustomerOrderLines([]);
       setCustomerOrderNotes('');
@@ -275,7 +275,7 @@ export default function OrdersManagementView() {
         }))
       };
       setCustomerOrders(prev => [mockOrder, ...prev]);
-      showToast(`🎉 Customer Pre-Order ${orderNum} booked successfully!`);
+      showToast(`ðŸŽ‰ Customer Pre-Order ${orderNum} booked successfully!`);
       setShowNewCustomerOrderModal(false);
       setCustomerOrderLines([]);
       setCustomerOrderNotes('');
@@ -293,7 +293,7 @@ export default function OrdersManagementView() {
       )}
 
       {/* Header and Controls */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-slate-900/90 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-[#0d1130] p-6 rounded-2xl border border-slate-200 dark:border-white/8 shadow-sm">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800 dark:bg-blue-500/20 dark:text-blue-300 border border-blue-200 dark:border-blue-500/30">
@@ -301,11 +301,11 @@ export default function OrdersManagementView() {
             </span>
             <span className="text-slate-500 text-xs">CDSCO Form 20B/21B Compliant</span>
           </div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
             <ShoppingCart className="w-7 h-7 text-blue-600 dark:text-blue-400" />
             Orders & Indent Lifecycle
           </h1>
-          <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">
+          <p className="text-sm text-slate-600 dark:text-[#c2c8e8] mt-1">
             Manage manufacturer indents (Vendor POs) and chemist field bookings (Customer Pre-Orders) with 1-click execution.
           </p>
         </div>
@@ -314,7 +314,7 @@ export default function OrdersManagementView() {
           <button
             onClick={loadData}
             disabled={loading}
-            className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 text-sm font-semibold flex items-center gap-2 transition cursor-pointer"
+            className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-[#111535]/80 dark:hover:bg-[#1a1f4a] text-slate-700 dark:text-[#d4d8f5] border border-slate-200 dark:border-white/11 text-sm font-semibold flex items-center gap-2 transition cursor-pointer"
             title="Refresh Orders"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-blue-600 dark:text-blue-400' : ''}`} />
@@ -324,7 +324,7 @@ export default function OrdersManagementView() {
           {activeTab === 'vendor' ? (
             <button
               onClick={() => setShowNewPoModal(true)}
-              className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm flex items-center gap-2 shadow-sm transition cursor-pointer"
+              className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm flex items-center gap-2 shadow-sm transition cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               New Vendor PO
@@ -344,44 +344,44 @@ export default function OrdersManagementView() {
       {/* KPI Cards */}
       {summary && (
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
-            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Total Vendor POs</div>
+          <div className="bg-white dark:bg-[#0d1130]/90 p-4 rounded-xl border border-slate-200 dark:border-white/8 shadow-xs">
+            <div className="text-slate-500 dark:text-[#adb5d4] text-xs font-bold uppercase tracking-wider">Total Vendor POs</div>
             <div className="text-2xl font-black text-slate-900 dark:text-white mt-1">{summary.totalVendorPos}</div>
             <div className="text-xs text-blue-600 dark:text-blue-400 mt-1 flex items-center gap-1 font-medium">
               <Building className="w-3.5 h-3.5" /> Manufacturer Indents
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
-            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Vendor PO Value</div>
+          <div className="bg-white dark:bg-[#0d1130]/90 p-4 rounded-xl border border-slate-200 dark:border-white/8 shadow-xs">
+            <div className="text-slate-500 dark:text-[#adb5d4] text-xs font-bold uppercase tracking-wider">Vendor PO Value</div>
             <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1">₹{summary.totalPoValue.toLocaleString('en-IN')}</div>
-            <div className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">Committed Procurement</div>
+            <div className="text-xs text-slate-500 dark:text-[#adb5d4] mt-1 font-medium">Committed Procurement</div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
-            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">In-Transit Indents</div>
+          <div className="bg-white dark:bg-[#0d1130]/90 p-4 rounded-xl border border-slate-200 dark:border-white/8 shadow-xs">
+            <div className="text-slate-500 dark:text-[#adb5d4] text-xs font-bold uppercase tracking-wider">In-Transit Indents</div>
             <div className="text-2xl font-black text-amber-600 dark:text-amber-400 mt-1">{summary.pendingPoDeliveries}</div>
             <div className="text-xs text-amber-700 dark:text-amber-400/90 mt-1 flex items-center gap-1 font-medium">
               <Truck className="w-3.5 h-3.5" /> Awaiting Inward GRN
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
-            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Customer Orders</div>
+          <div className="bg-white dark:bg-[#0d1130]/90 p-4 rounded-xl border border-slate-200 dark:border-white/8 shadow-xs">
+            <div className="text-slate-500 dark:text-[#adb5d4] text-xs font-bold uppercase tracking-wider">Customer Orders</div>
             <div className="text-2xl font-black text-purple-600 dark:text-purple-400 mt-1">{summary.totalCustomerOrders}</div>
             <div className="text-xs text-purple-700 dark:text-purple-400 mt-1 flex items-center gap-1 font-medium">
               <User className="w-3.5 h-3.5" /> Chemist Pre-Bookings
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
-            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Order Value</div>
+          <div className="bg-white dark:bg-[#0d1130]/90 p-4 rounded-xl border border-slate-200 dark:border-white/8 shadow-xs">
+            <div className="text-slate-500 dark:text-[#adb5d4] text-xs font-bold uppercase tracking-wider">Order Value</div>
             <div className="text-2xl font-black text-purple-600 dark:text-purple-400 mt-1">₹{summary.totalOrderValue.toLocaleString('en-IN')}</div>
-            <div className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">B2B Sales Pipeline</div>
+            <div className="text-xs text-slate-500 dark:text-[#adb5d4] mt-1 font-medium">B2B Sales Pipeline</div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
-            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Priority / Cold-Chain</div>
+          <div className="bg-white dark:bg-[#0d1130]/90 p-4 rounded-xl border border-slate-200 dark:border-white/8 shadow-xs">
+            <div className="text-slate-500 dark:text-[#adb5d4] text-xs font-bold uppercase tracking-wider">Priority / Cold-Chain</div>
             <div className="text-2xl font-black text-rose-600 dark:text-rose-400 mt-1">{summary.urgentBookings}</div>
             <div className="text-xs text-rose-700 dark:text-rose-400/90 mt-1 flex items-center gap-1 font-medium">
               <Clock className="w-3.5 h-3.5" /> Expedited Dispatch
@@ -391,13 +391,13 @@ export default function OrdersManagementView() {
       )}
 
       {/* Tabs */}
-      <div className="flex border-b border-slate-200 dark:border-slate-800 gap-4">
+      <div className="flex border-b border-slate-200 dark:border-white/8 gap-4">
         <button
           onClick={() => setActiveTab('vendor')}
           className={`pb-3 px-2 font-semibold text-sm flex items-center gap-2 border-b-2 transition cursor-pointer ${
             activeTab === 'vendor'
               ? 'border-blue-600 text-blue-600 dark:border-blue-500 dark:text-blue-400'
-              : 'border-transparent text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
+              : 'border-transparent text-slate-500 hover:text-slate-800 dark:text-[#adb5d4] dark:hover:text-[#d4d8f5]'
           }`}
         >
           <Building className="w-4 h-4" />
@@ -408,7 +408,7 @@ export default function OrdersManagementView() {
           className={`pb-3 px-2 font-semibold text-sm flex items-center gap-2 border-b-2 transition cursor-pointer ${
             activeTab === 'customer'
               ? 'border-purple-600 text-purple-600 dark:border-purple-500 dark:text-purple-400'
-              : 'border-transparent text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
+              : 'border-transparent text-slate-500 hover:text-slate-800 dark:text-[#adb5d4] dark:hover:text-[#d4d8f5]'
           }`}
         >
           <ShoppingCart className="w-4 h-4" />
@@ -418,15 +418,15 @@ export default function OrdersManagementView() {
 
       {/* Tab 1: Vendor Purchase Orders */}
       {activeTab === 'vendor' && (
-        <div className="bg-white dark:bg-slate-900/80 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-xs">
-          <div className="p-4 border-b border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
-            <div className="text-sm font-bold text-slate-800 dark:text-slate-200">Active Manufacturer Procurement Indents</div>
-            <div className="text-xs text-slate-500 dark:text-slate-400">Auto-links to Goods Receipt Notes (GRN) upon arrival</div>
+        <div className="bg-white dark:bg-[#0d1130]/90 rounded-2xl border border-slate-200 dark:border-white/8 overflow-hidden shadow-xs">
+          <div className="p-4 border-b border-slate-200 dark:border-white/6 flex items-center justify-between">
+            <div className="text-sm font-bold text-slate-800 dark:text-[#d4d8f5]">Active Manufacturer Procurement Indents</div>
+            <div className="text-xs text-slate-500 dark:text-[#adb5d4]">Auto-links to Goods Receipt Notes (GRN) upon arrival</div>
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-800 dark:text-slate-200">
-              <thead className="bg-slate-50 dark:bg-slate-950/80 text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
+            <table className="w-full text-left text-sm text-slate-800 dark:text-[#d4d8f5]">
+              <thead className="bg-slate-50 dark:bg-[#070a1e]/90 text-xs font-bold text-slate-700 dark:text-[#c2c8e8] uppercase tracking-wider border-b border-slate-200 dark:border-white/8">
                 <tr>
                   <th className="py-3 px-4">PO Number</th>
                   <th className="py-3 px-4">Manufacturer / Supplier</th>
@@ -440,24 +440,24 @@ export default function OrdersManagementView() {
               </thead>
               <tbody className="divide-y divide-slate-200 dark:divide-slate-800/60">
                 {vendorPos.map(po => (
-                  <tr key={po.id} className="hover:bg-slate-50 dark:hover:bg-slate-850/60 transition">
+                  <tr key={po.id} className="hover:bg-slate-50 dark:hover:bg-[#0f1238]/60 transition">
                     <td className="py-3.5 px-4 font-mono font-bold text-blue-600 dark:text-blue-400">
                       {po.poNumber}
                     </td>
                     <td className="py-3.5 px-4">
                       <div className="font-semibold text-slate-900 dark:text-white">{po.supplierName}</div>
-                      <div className="text-xs text-slate-500 dark:text-slate-400">{po.paymentTerms}</div>
+                      <div className="text-xs text-slate-500 dark:text-[#adb5d4]">{po.paymentTerms}</div>
                     </td>
-                    <td className="py-3.5 px-4 text-xs text-slate-600 dark:text-slate-400">
+                    <td className="py-3.5 px-4 text-xs text-slate-600 dark:text-[#adb5d4]">
                       {new Date(po.orderDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
                     </td>
-                    <td className="py-3.5 px-4 text-xs text-slate-600 dark:text-slate-400">
+                    <td className="py-3.5 px-4 text-xs text-slate-600 dark:text-[#adb5d4]">
                       {new Date(po.expectedDeliveryDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}
                     </td>
                     <td className="py-3.5 px-4">
                       <button
                         onClick={() => setInspectPo(po)}
-                        className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-xs text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition cursor-pointer"
+                        className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-slate-100 hover:bg-slate-200 dark:bg-[#111535] dark:hover:bg-[#1a1f4a] text-xs text-slate-700 dark:text-[#c2c8e8] border border-slate-200 dark:border-white/11 transition cursor-pointer"
                       >
                         <Package className="w-3 h-3 text-blue-600 dark:text-blue-400" />
                         {po.items.length} SKUs
@@ -490,7 +490,7 @@ export default function OrdersManagementView() {
                           Receive to GRN
                         </button>
                       ) : (
-                        <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">GRN Ingested</span>
+                        <span className="text-xs text-slate-500 dark:text-[#adb5d4] font-mono">GRN Ingested</span>
                       )}
                     </td>
                   </tr>
@@ -503,15 +503,15 @@ export default function OrdersManagementView() {
 
       {/* Tab 2: Customer Sales Orders */}
       {activeTab === 'customer' && (
-        <div className="bg-white dark:bg-slate-900/80 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-xs">
-          <div className="p-4 border-b border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
-            <div className="text-sm font-bold text-slate-800 dark:text-slate-200">Chemist Booking Pre-Orders</div>
-            <div className="text-xs text-slate-500 dark:text-slate-400">Field sales bookings ready for warehouse picking & invoicing</div>
+        <div className="bg-white dark:bg-[#0d1130]/90 rounded-2xl border border-slate-200 dark:border-white/8 overflow-hidden shadow-xs">
+          <div className="p-4 border-b border-slate-200 dark:border-white/6 flex items-center justify-between">
+            <div className="text-sm font-bold text-slate-800 dark:text-[#d4d8f5]">Chemist Booking Pre-Orders</div>
+            <div className="text-xs text-slate-500 dark:text-[#adb5d4]">Field sales bookings ready for warehouse picking & invoicing</div>
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-800 dark:text-slate-200">
-              <thead className="bg-slate-50 dark:bg-slate-950/80 text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
+            <table className="w-full text-left text-sm text-slate-800 dark:text-[#d4d8f5]">
+              <thead className="bg-slate-50 dark:bg-[#070a1e]/90 text-xs font-bold text-slate-700 dark:text-[#c2c8e8] uppercase tracking-wider border-b border-slate-200 dark:border-white/8">
                 <tr>
                   <th className="py-3 px-4">Order #</th>
                   <th className="py-3 px-4">Chemist Pharmacy</th>
@@ -525,15 +525,15 @@ export default function OrdersManagementView() {
               </thead>
               <tbody className="divide-y divide-slate-200 dark:divide-slate-800/60">
                 {customerOrders.map(ord => (
-                  <tr key={ord.id} className="hover:bg-slate-50 dark:hover:bg-slate-850/60 transition">
+                  <tr key={ord.id} className="hover:bg-slate-50 dark:hover:bg-[#0f1238]/60 transition">
                     <td className="py-3.5 px-4 font-mono font-bold text-purple-600 dark:text-purple-400">
                       {ord.orderNumber}
                     </td>
                     <td className="py-3.5 px-4">
                       <div className="font-semibold text-slate-900 dark:text-white">{ord.customerName}</div>
-                      <div className="text-xs text-slate-500 dark:text-slate-400 truncate max-w-xs">{ord.deliveryAddress}</div>
+                      <div className="text-xs text-slate-500 dark:text-[#adb5d4] truncate max-w-xs">{ord.deliveryAddress}</div>
                     </td>
-                    <td className="py-3.5 px-4 text-xs text-slate-600 dark:text-slate-400">
+                    <td className="py-3.5 px-4 text-xs text-slate-600 dark:text-[#adb5d4]">
                       {ord.salesRepName}
                     </td>
                     <td className="py-3.5 px-4">
@@ -542,7 +542,7 @@ export default function OrdersManagementView() {
                           ? 'bg-blue-100 text-blue-800 border border-blue-200 dark:bg-cyan-500/20 dark:text-cyan-300 dark:border-cyan-500/30'
                           : ord.priority === 'Urgent'
                           ? 'bg-rose-100 text-rose-800 border border-rose-200 dark:bg-rose-500/20 dark:text-rose-300 dark:border-rose-500/30'
-                          : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
+                          : 'bg-slate-100 dark:bg-[#111535] text-slate-700 dark:text-[#c2c8e8]'
                       }`}>
                         {ord.priority}
                       </span>
@@ -550,7 +550,7 @@ export default function OrdersManagementView() {
                     <td className="py-3.5 px-4">
                       <button
                         onClick={() => setInspectOrder(ord)}
-                        className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-xs text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition cursor-pointer"
+                        className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-slate-100 hover:bg-slate-200 dark:bg-[#111535] dark:hover:bg-[#1a1f4a] text-xs text-slate-700 dark:text-[#c2c8e8] border border-slate-200 dark:border-white/11 transition cursor-pointer"
                       >
                         <Package className="w-3 h-3 text-purple-600 dark:text-purple-400" />
                         {ord.items.length} SKUs
@@ -580,7 +580,7 @@ export default function OrdersManagementView() {
                           Generate Invoice
                         </button>
                       ) : (
-                        <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">Invoiced</span>
+                        <span className="text-xs text-slate-500 dark:text-[#adb5d4] font-mono">Invoiced</span>
                       )}
                     </td>
                   </tr>
@@ -594,22 +594,22 @@ export default function OrdersManagementView() {
       {/* Modal: Inspect PO Line Items */}
       {inspectPo && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl animate-in zoom-in-95">
-            <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+          <div className="bg-white dark:bg-[#0d1130] border border-slate-200 dark:border-white/8 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl animate-in zoom-in-95">
+            <div className="p-5 border-b border-slate-200 dark:border-white/8 flex items-center justify-between">
               <div>
                 <h3 className="font-bold text-slate-900 dark:text-white text-lg flex items-center gap-2">
                   <Package className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                   Vendor PO Items: {inspectPo.poNumber}
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{inspectPo.supplierName} • {inspectPo.paymentTerms}</p>
+                <p className="text-xs text-slate-500 dark:text-[#adb5d4] mt-0.5">{inspectPo.supplierName} • {inspectPo.paymentTerms}</p>
               </div>
-              <button onClick={() => setInspectPo(null)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer">
+              <button onClick={() => setInspectPo(null)} className="text-slate-400 hover:text-slate-600 dark:hover:text-[#d4d8f5] cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>
             <div className="p-5 overflow-y-auto max-h-96">
-              <table className="w-full text-left text-xs text-slate-800 dark:text-slate-300">
-                <thead className="bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-400 font-bold uppercase border-b border-slate-200 dark:border-slate-800">
+              <table className="w-full text-left text-xs text-slate-800 dark:text-[#c2c8e8]">
+                <thead className="bg-slate-50 dark:bg-[#070a1e] text-slate-700 dark:text-[#adb5d4] font-bold uppercase border-b border-slate-200 dark:border-white/8">
                   <tr>
                     <th className="py-2.5 px-3">Product Name</th>
                     <th className="py-2.5 px-3">Item Code</th>
@@ -621,10 +621,10 @@ export default function OrdersManagementView() {
                 </thead>
                 <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
                   {inspectPo.items.map((it, idx) => (
-                    <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-slate-800/30">
-                      <td className="py-2.5 px-3 font-semibold text-slate-900 dark:text-slate-100">{it.productName}</td>
-                      <td className="py-2.5 px-3 font-mono text-slate-600 dark:text-slate-400">{it.productCode}</td>
-                      <td className="py-2.5 px-3 font-bold text-slate-900 dark:text-slate-100">{it.quantityOrdered}</td>
+                    <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-[#161940]/30">
+                      <td className="py-2.5 px-3 font-semibold text-slate-900 dark:text-[#e8eaff]">{it.productName}</td>
+                      <td className="py-2.5 px-3 font-mono text-slate-600 dark:text-[#adb5d4]">{it.productCode}</td>
+                      <td className="py-2.5 px-3 font-bold text-slate-900 dark:text-[#e8eaff]">{it.quantityOrdered}</td>
                       <td className="py-2.5 px-3">₹{it.unitPrice.toFixed(2)}</td>
                       <td className="py-2.5 px-3">{it.gstRate}%</td>
                       <td className="py-2.5 px-3 text-right font-bold text-emerald-700 dark:text-emerald-400">₹{it.lineTotal.toFixed(2)}</td>
@@ -633,19 +633,19 @@ export default function OrdersManagementView() {
                 </tbody>
               </table>
               {inspectPo.notes && (
-                <div className="mt-4 p-3 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400">
-                  <span className="font-semibold text-slate-800 dark:text-slate-300">PO Notes: </span>
+                <div className="mt-4 p-3 bg-slate-50 dark:bg-[#070a1e] rounded-xl border border-slate-200 dark:border-white/8 text-xs text-slate-600 dark:text-[#adb5d4]">
+                  <span className="font-semibold text-slate-800 dark:text-[#c2c8e8]">PO Notes: </span>
                   {inspectPo.notes}
                 </div>
               )}
             </div>
-            <div className="p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center">
-              <div className="text-sm font-bold text-slate-800 dark:text-slate-300">
+            <div className="p-4 bg-slate-50 dark:bg-[#070a1e] border-t border-slate-200 dark:border-white/8 flex justify-between items-center">
+              <div className="text-sm font-bold text-slate-800 dark:text-[#c2c8e8]">
                 Total PO Value: <span className="text-emerald-700 dark:text-emerald-400">₹{inspectPo.totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
               </div>
               <button
                 onClick={() => setInspectPo(null)}
-                className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-300 text-xs font-semibold cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-[#111535] dark:hover:bg-[#1a1f4a] text-slate-800 dark:text-[#c2c8e8] text-xs font-semibold cursor-pointer"
               >
                 Close
               </button>
@@ -657,22 +657,22 @@ export default function OrdersManagementView() {
       {/* Modal: Inspect Customer Order Line Items */}
       {inspectOrder && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl animate-in zoom-in-95">
-            <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+          <div className="bg-white dark:bg-[#0d1130] border border-slate-200 dark:border-white/8 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl animate-in zoom-in-95">
+            <div className="p-5 border-b border-slate-200 dark:border-white/8 flex items-center justify-between">
               <div>
                 <h3 className="font-bold text-slate-900 dark:text-white text-lg flex items-center gap-2">
                   <ShoppingCart className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                   Chemist Pre-Order: {inspectOrder.orderNumber}
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{inspectOrder.customerName} • Rep: {inspectOrder.salesRepName}</p>
+                <p className="text-xs text-slate-500 dark:text-[#adb5d4] mt-0.5">{inspectOrder.customerName} • Rep: {inspectOrder.salesRepName}</p>
               </div>
-              <button onClick={() => setInspectOrder(null)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer">
+              <button onClick={() => setInspectOrder(null)} className="text-slate-400 hover:text-slate-600 dark:hover:text-[#d4d8f5] cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>
             <div className="p-5 overflow-y-auto max-h-96">
-              <table className="w-full text-left text-xs text-slate-800 dark:text-slate-300">
-                <thead className="bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-400 font-bold uppercase border-b border-slate-200 dark:border-slate-800">
+              <table className="w-full text-left text-xs text-slate-800 dark:text-[#c2c8e8]">
+                <thead className="bg-slate-50 dark:bg-[#070a1e] text-slate-700 dark:text-[#adb5d4] font-bold uppercase border-b border-slate-200 dark:border-white/8">
                   <tr>
                     <th className="py-2.5 px-3">Product Name</th>
                     <th className="py-2.5 px-3">Quantity</th>
@@ -683,9 +683,9 @@ export default function OrdersManagementView() {
                 </thead>
                 <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
                   {inspectOrder.items.map((it, idx) => (
-                    <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-slate-800/30">
-                      <td className="py-2.5 px-3 font-semibold text-slate-900 dark:text-slate-100">{it.productName}</td>
-                      <td className="py-2.5 px-3 font-bold text-slate-900 dark:text-slate-100">{it.quantityOrdered}</td>
+                    <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-[#161940]/30">
+                      <td className="py-2.5 px-3 font-semibold text-slate-900 dark:text-[#e8eaff]">{it.productName}</td>
+                      <td className="py-2.5 px-3 font-bold text-slate-900 dark:text-[#e8eaff]">{it.quantityOrdered}</td>
                       <td className="py-2.5 px-3">₹{it.unitPrice.toFixed(2)}</td>
                       <td className="py-2.5 px-3">{it.gstRate}%</td>
                       <td className="py-2.5 px-3 text-right font-bold text-purple-700 dark:text-purple-400">₹{it.lineTotal.toFixed(2)}</td>
@@ -693,18 +693,18 @@ export default function OrdersManagementView() {
                   ))}
                 </tbody>
               </table>
-              <div className="mt-4 p-3 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 space-y-1">
-                <div><span className="font-semibold text-slate-800 dark:text-slate-300">Delivery Address: </span>{inspectOrder.deliveryAddress}</div>
-                {inspectOrder.notes && <div><span className="font-semibold text-slate-800 dark:text-slate-300">Instructions: </span>{inspectOrder.notes}</div>}
+              <div className="mt-4 p-3 bg-slate-50 dark:bg-[#070a1e] rounded-xl border border-slate-200 dark:border-white/8 text-xs text-slate-600 dark:text-[#adb5d4] space-y-1">
+                <div><span className="font-semibold text-slate-800 dark:text-[#c2c8e8]">Delivery Address: </span>{inspectOrder.deliveryAddress}</div>
+                {inspectOrder.notes && <div><span className="font-semibold text-slate-800 dark:text-[#c2c8e8]">Instructions: </span>{inspectOrder.notes}</div>}
               </div>
             </div>
-            <div className="p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center">
-              <div className="text-sm font-bold text-slate-800 dark:text-slate-300">
+            <div className="p-4 bg-slate-50 dark:bg-[#070a1e] border-t border-slate-200 dark:border-white/8 flex justify-between items-center">
+              <div className="text-sm font-bold text-slate-800 dark:text-[#c2c8e8]">
                 Order Value: <span className="text-purple-700 dark:text-purple-400">₹{inspectOrder.totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
               </div>
               <button
                 onClick={() => setInspectOrder(null)}
-                className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-300 text-xs font-semibold cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-[#111535] dark:hover:bg-[#1a1f4a] text-slate-800 dark:text-[#c2c8e8] text-xs font-semibold cursor-pointer"
               >
                 Close
               </button>
@@ -716,16 +716,16 @@ export default function OrdersManagementView() {
       {/* Modal: Create New Vendor PO */}
       {showNewPoModal && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh] animate-in zoom-in-95">
-            <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+          <div className="bg-white dark:bg-[#0d1130] border border-slate-200 dark:border-white/8 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh] animate-in zoom-in-95">
+            <div className="p-5 border-b border-slate-200 dark:border-white/8 flex items-center justify-between">
               <div>
                 <h3 className="font-bold text-slate-900 dark:text-white text-lg flex items-center gap-2">
                   <Plus className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                   Generate Manufacturer Purchase Order
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Formal statutory indent dispatch to pharmaceutical supplier</p>
+                <p className="text-xs text-slate-500 dark:text-[#adb5d4] mt-0.5">Formal statutory indent dispatch to pharmaceutical supplier</p>
               </div>
-              <button onClick={() => setShowNewPoModal(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer">
+              <button onClick={() => setShowNewPoModal(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-[#d4d8f5] cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -733,13 +733,13 @@ export default function OrdersManagementView() {
             <div className="p-6 space-y-5 overflow-y-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-[#c2c8e8] uppercase tracking-wider mb-2">
                     Select Manufacturer / Supplier
                   </label>
                   <select
                     value={selectedSupplierId}
                     onChange={e => setSelectedSupplierId(e.target.value)}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-blue-500"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-xl px-3 py-2.5 text-sm text-slate-900 dark:text-[#e8eaff] focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
                   >
                     {suppliers.map(s => (
                       <option key={s.supplierId} value={s.supplierId}>
@@ -749,20 +749,20 @@ export default function OrdersManagementView() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-[#c2c8e8] uppercase tracking-wider mb-2">
                     Payment Terms
                   </label>
                   <input
                     type="text"
                     defaultValue="30 Days Net"
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-xl px-3 py-2.5 text-sm text-slate-900 dark:text-[#e8eaff]"
                   />
                 </div>
               </div>
 
               {/* Add SKUs to PO */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-[#c2c8e8] uppercase tracking-wider mb-2">
                   Quick Add Catalog SKUs
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -770,7 +770,7 @@ export default function OrdersManagementView() {
                     <button
                       key={prod.productId}
                       onClick={() => addPoLine(prod)}
-                      className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 dark:bg-slate-800 dark:hover:bg-blue-600/30 text-xs text-slate-700 hover:text-blue-900 dark:text-slate-300 border border-slate-200 hover:border-blue-400 dark:border-slate-700 dark:hover:border-blue-500/50 flex items-center gap-1.5 transition cursor-pointer"
+                      className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 dark:bg-[#111535] dark:hover:bg-blue-600/30 text-xs text-slate-700 hover:text-blue-900 dark:text-[#c2c8e8] border border-slate-200 hover:border-blue-400 dark:border-white/11 dark:hover:border-blue-500/50 flex items-center gap-1.5 transition cursor-pointer"
                     >
                       <Plus className="w-3 h-3 text-blue-600 dark:text-blue-400" />
                       {prod.productName}
@@ -781,12 +781,12 @@ export default function OrdersManagementView() {
 
               {/* PO Line Items Table */}
               <div>
-                <div className="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
+                <div className="text-xs font-semibold text-slate-700 dark:text-[#c2c8e8] uppercase tracking-wider mb-2">
                   Indent Line Items ({poLines.length})
                 </div>
-                <div className="border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs">
-                  <table className="w-full text-left text-xs text-slate-800 dark:text-slate-300">
-                    <thead className="bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-400 font-bold uppercase border-b border-slate-200 dark:border-slate-800">
+                <div className="border border-slate-200 dark:border-white/8 rounded-xl overflow-hidden shadow-xs">
+                  <table className="w-full text-left text-xs text-slate-800 dark:text-[#c2c8e8]">
+                    <thead className="bg-slate-50 dark:bg-[#070a1e] text-slate-700 dark:text-[#adb5d4] font-bold uppercase border-b border-slate-200 dark:border-white/8">
                       <tr>
                         <th className="py-2.5 px-3">Product Name</th>
                         <th className="py-2.5 px-3">Qty</th>
@@ -798,14 +798,14 @@ export default function OrdersManagementView() {
                     <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
                       {poLines.length === 0 ? (
                         <tr>
-                          <td colSpan={5} className="py-6 text-center text-slate-500 dark:text-slate-400">
+                          <td colSpan={5} className="py-6 text-center text-slate-500 dark:text-[#adb5d4]">
                             No items added yet. Click items above to add to this indent.
                           </td>
                         </tr>
                       ) : (
                         poLines.map((line, idx) => (
-                          <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-slate-800/30">
-                            <td className="py-2 px-3 font-semibold text-slate-900 dark:text-slate-200">{line.productName}</td>
+                          <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-[#161940]/30">
+                            <td className="py-2 px-3 font-semibold text-slate-900 dark:text-[#d4d8f5]">{line.productName}</td>
                             <td className="py-2 px-3">
                               <input
                                 type="number"
@@ -814,7 +814,7 @@ export default function OrdersManagementView() {
                                   const val = parseInt(e.target.value) || 0;
                                   setPoLines(poLines.map((l, i) => i === idx ? { ...l, qty: val } : l));
                                 }}
-                                className="w-20 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-900 dark:text-slate-200 text-xs"
+                                className="w-20 bg-white dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded px-2 py-1 text-slate-900 dark:text-[#d4d8f5] text-xs"
                               />
                             </td>
                             <td className="py-2 px-3">₹{line.price.toFixed(2)}</td>
@@ -847,8 +847,8 @@ export default function OrdersManagementView() {
               />
             </div>
 
-            <div className="p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center">
-              <div className="text-sm font-bold text-slate-800 dark:text-slate-300">
+            <div className="p-4 bg-slate-50 dark:bg-[#070a1e] border-t border-slate-200 dark:border-white/8 flex justify-between items-center">
+              <div className="text-sm font-bold text-slate-800 dark:text-[#c2c8e8]">
                 Total Est. Indent: <span className="text-emerald-700 dark:text-emerald-400 font-bold">
                   ₹{poLines.reduce((acc, l) => acc + (l.qty * l.price * (1 + l.gstRate / 100)), 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                 </span>
@@ -856,14 +856,14 @@ export default function OrdersManagementView() {
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setShowNewPoModal(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-300 text-xs font-semibold cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-[#111535] dark:hover:bg-[#1a1f4a] text-slate-800 dark:text-[#c2c8e8] text-xs font-semibold cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleCreateVendorPo}
                   disabled={poLines.length === 0}
-                  className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white text-xs font-semibold shadow-sm flex items-center gap-2 cursor-pointer"
+                  className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-xs font-semibold shadow-sm flex items-center gap-2 cursor-pointer"
                 >
                   <Send className="w-3.5 h-3.5" />
                   Commit & Dispatch Indent
@@ -877,20 +877,20 @@ export default function OrdersManagementView() {
       {/* Modal: Book Chemist Pre-Order */}
       {showNewCustomerOrderModal && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh] animate-in zoom-in-95">
-            <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+          <div className="bg-white dark:bg-[#0d1130] border border-slate-200 dark:border-white/8 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh] animate-in zoom-in-95">
+            <div className="p-5 border-b border-slate-200 dark:border-white/8 flex items-center justify-between">
               <div>
                 <h3 className="font-bold text-slate-900 dark:text-white text-lg flex items-center gap-2">
                   <Plus className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                   Book Chemist / Hospital Pharmacy Order
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                <p className="text-xs text-slate-500 dark:text-[#adb5d4] mt-0.5">
                   Direct B2B trade booking with instantaneous allocation & dispatch priority
                 </p>
               </div>
               <button
                 onClick={() => setShowNewCustomerOrderModal(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-[#d4d8f5] cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -899,13 +899,13 @@ export default function OrdersManagementView() {
             <div className="p-6 space-y-5 overflow-y-auto">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-[#c2c8e8] uppercase tracking-wider mb-2">
                     Customer / Pharmacy
                   </label>
                   <select
                     value={selectedCustomerId}
                     onChange={e => setSelectedCustomerId(e.target.value)}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-xl px-3 py-2.5 text-sm text-slate-900 dark:text-[#e8eaff] focus:outline-none focus:border-emerald-500"
                   >
                     {customers.length > 0 ? (
                       customers.map(c => (
@@ -924,13 +924,13 @@ export default function OrdersManagementView() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-[#c2c8e8] uppercase tracking-wider mb-2">
                     Fulfillment Priority
                   </label>
                   <select
                     value={orderPriority}
                     onChange={e => setOrderPriority(e.target.value as any)}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-xl px-3 py-2.5 text-sm text-slate-900 dark:text-[#e8eaff] focus:outline-none focus:border-emerald-500"
                   >
                     <option value="Normal">Normal (Standard 24h Route)</option>
                     <option value="Urgent">Urgent (Express 4h Dispatch)</option>
@@ -939,7 +939,7 @@ export default function OrdersManagementView() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-[#c2c8e8] uppercase tracking-wider mb-2">
                     Sales Rep / Source
                   </label>
                   <input
@@ -947,14 +947,14 @@ export default function OrdersManagementView() {
                     value={salesRepName}
                     onChange={e => setSalesRepName(e.target.value)}
                     placeholder="Field Executive / Rep Name"
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-xl px-3 py-2.5 text-sm text-slate-900 dark:text-[#e8eaff] focus:outline-none focus:border-emerald-500"
                   />
                 </div>
               </div>
 
               {/* Quick Add SKUs */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-[#c2c8e8] uppercase tracking-wider mb-2">
                   Quick Add Catalog SKUs
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -963,7 +963,7 @@ export default function OrdersManagementView() {
                       key={prod.productId}
                       onClick={() => addCustomerOrderLine(prod)}
                       type="button"
-                      className="text-xs bg-slate-100 dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 hover:text-emerald-700 dark:hover:text-emerald-300 border border-slate-300 dark:border-slate-700 hover:border-emerald-300 rounded-lg px-2.5 py-1.5 transition flex items-center gap-1.5 cursor-pointer"
+                      className="text-xs bg-slate-100 dark:bg-[#111535] hover:bg-emerald-50 dark:hover:bg-emerald-950/60 hover:text-emerald-700 dark:hover:text-emerald-300 border border-slate-300 dark:border-white/11 hover:border-emerald-300 rounded-lg px-2.5 py-1.5 transition flex items-center gap-1.5 cursor-pointer"
                     >
                       <Plus className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
                       <span>{prod.productName}</span>
@@ -976,15 +976,15 @@ export default function OrdersManagementView() {
               {/* Order Line Items */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-[#c2c8e8] uppercase tracking-wider">
                     Requested Order Lines ({customerOrderLines.length})
                   </label>
                   <span className="text-xs text-slate-500">Click SKU above or adjust quantities</span>
                 </div>
 
-                <div className="border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden">
+                <div className="border border-slate-200 dark:border-white/8 rounded-xl overflow-hidden">
                   <table className="w-full text-left text-xs">
-                    <thead className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold uppercase">
+                    <thead className="bg-slate-100 dark:bg-[#111535] text-slate-700 dark:text-[#c2c8e8] font-bold uppercase">
                       <tr>
                         <th className="py-2.5 px-3">Product Name</th>
                         <th className="py-2.5 px-3 w-28 text-center">Billed Qty</th>
@@ -1004,7 +1004,7 @@ export default function OrdersManagementView() {
                       ) : (
                         customerOrderLines.map(line => (
                           <tr key={line.productId}>
-                            <td className="py-2 px-3 font-semibold text-slate-900 dark:text-slate-100">
+                            <td className="py-2 px-3 font-semibold text-slate-900 dark:text-[#e8eaff]">
                               {line.productName}
                               <div className="text-[10px] text-slate-500 font-mono">{line.productCode}</div>
                             </td>
@@ -1019,13 +1019,13 @@ export default function OrdersManagementView() {
                                     l.productId === line.productId ? { ...l, qty: val } : l
                                   ));
                                 }}
-                                className="w-20 text-center bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg py-1 text-xs text-slate-900 dark:text-slate-100 font-bold"
+                                className="w-20 text-center bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg py-1 text-xs text-slate-900 dark:text-[#e8eaff] font-bold"
                               />
                             </td>
-                            <td className="py-2 px-3 text-right font-mono text-slate-800 dark:text-slate-200">
+                            <td className="py-2 px-3 text-right font-mono text-slate-800 dark:text-[#d4d8f5]">
                               ₹{line.price.toFixed(2)}
                             </td>
-                            <td className="py-2 px-3 text-center font-mono text-slate-600 dark:text-slate-400">
+                            <td className="py-2 px-3 text-center font-mono text-slate-600 dark:text-[#adb5d4]">
                               {line.gstRate}%
                             </td>
                             <td className="py-2 px-3 text-right font-bold text-emerald-700 dark:text-emerald-400 font-mono">
@@ -1049,7 +1049,7 @@ export default function OrdersManagementView() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-[#c2c8e8] uppercase tracking-wider mb-1.5">
                   Delivery Notes &amp; Special Handling
                 </label>
                 <input
@@ -1057,13 +1057,13 @@ export default function OrdersManagementView() {
                   value={customerOrderNotes}
                   onChange={e => setCustomerOrderNotes(e.target.value)}
                   placeholder="e.g. Deliver before 12:00 PM. Gate entry authorization required. Verify cold-chain pack."
-                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-[#e8eaff] focus:outline-none focus:border-emerald-500"
                 />
               </div>
             </div>
 
-            <div className="p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center">
-              <div className="text-sm font-bold text-slate-800 dark:text-slate-300">
+            <div className="p-4 bg-slate-50 dark:bg-[#070a1e] border-t border-slate-200 dark:border-white/8 flex justify-between items-center">
+              <div className="text-sm font-bold text-slate-800 dark:text-[#c2c8e8]">
                 Total Order Value: <span className="text-emerald-700 dark:text-emerald-400 font-bold">
                   ₹{customerOrderLines.reduce((acc, l) => acc + (l.qty * l.price * (1 + l.gstRate / 100)), 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                 </span>
@@ -1071,7 +1071,7 @@ export default function OrdersManagementView() {
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setShowNewCustomerOrderModal(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-300 text-xs font-semibold cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-[#111535] dark:hover:bg-[#1a1f4a] text-slate-800 dark:text-[#c2c8e8] text-xs font-semibold cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -1091,3 +1091,4 @@ export default function OrdersManagementView() {
     </div>
   );
 }
+

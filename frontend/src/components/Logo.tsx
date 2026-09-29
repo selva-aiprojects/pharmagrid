@@ -21,7 +21,7 @@ export default function Logo({
     <div className={`flex items-center gap-3 select-none ${className}`}>
       {/* Clinical Royal Blue & Pharmacy Emerald Network Matrix SVG Mark */}
       <div
-        className="relative flex items-center justify-center rounded-xl p-1 bg-white dark:bg-slate-900 border border-blue-200/90 dark:border-blue-700/50 shadow-xs dark:shadow-md group transition-all duration-300 hover:border-blue-500/80"
+        className="relative flex items-center justify-center rounded-xl p-1 bg-white dark:bg-[#0d1130] border border-blue-200/90 dark:border-blue-700/50 shadow-xs dark:shadow-md group transition-all duration-300 hover:border-blue-500/80"
         style={{ width: size + 10, height: size + 10 }}
       >
         <svg
@@ -133,10 +133,10 @@ export default function Logo({
             )}
           </div>
           {showTagline && (
-            <div className="text-[10px] tracking-wide text-slate-500 dark:text-slate-400 font-medium -mt-0.5 flex items-center gap-1.5">
+            <div className="text-[10px] tracking-wide text-slate-500 dark:text-[#adb5d4] font-medium -mt-0.5 flex items-center gap-1.5">
               <span>{tagline}</span>
               <span className="w-1 h-1 rounded-full bg-emerald-600 dark:bg-emerald-400" />
-              <span className="text-slate-400 dark:text-slate-500 font-mono">v1.0</span>
+              <span className="text-slate-400 dark:text-[#8892b0] font-mono">v1.0</span>
             </div>
           )}
         </div>

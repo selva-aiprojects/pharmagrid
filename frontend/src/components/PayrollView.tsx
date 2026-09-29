@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect } from 'react';
 import {
@@ -58,7 +58,7 @@ export default function PayrollView() {
   const handleCreateSalarySlip = (e: React.FormEvent) => {
     e.preventDefault();
     if (!salaryForm.employeeName.trim()) {
-      showToast('⚠️ Employee Name is required');
+      showToast('⚠️  Employee Name is required');
       return;
     }
 
@@ -137,7 +137,7 @@ export default function PayrollView() {
   const handleDisburse = async (slipId: string) => {
     try {
       const res = await pharmaApi.disburseSalary(slipId);
-      showToast(`🎉 ${res.message || 'Salary disbursed successfully!'}`);
+      showToast(`ðŸŽ‰ ${res.message || 'Salary disbursed successfully!'}`);
       loadData();
     } catch (e: any) {
       alert(e.message || 'Failed to disburse salary');
@@ -159,7 +159,7 @@ export default function PayrollView() {
       )}
 
       {/* Header and Controls */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-slate-900/90 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-[#0d1130] p-6 rounded-2xl border border-slate-200 dark:border-white/8 shadow-sm">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-teal-100 text-teal-800 dark:bg-teal-500/20 dark:text-teal-300 border border-teal-200 dark:border-teal-500/30">
@@ -167,11 +167,11 @@ export default function PayrollView() {
             </span>
             <span className="text-slate-500 text-xs">PF • ESI • Professional Tax • Form 16 / Salary Slips</span>
           </div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
             <IndianRupee className="w-7 h-7 text-teal-600 dark:text-teal-400" />
             Staff Payroll & Salary Slips
           </h1>
-          <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">
+          <p className="text-sm text-slate-600 dark:text-[#c2c8e8] mt-1">
             Monthly payroll cycle execution, statutory deductions, bank NEFT disbursement, and printable A4 salary slips.
           </p>
         </div>
@@ -180,7 +180,7 @@ export default function PayrollView() {
           <select
             value={selectedMonth}
             onChange={e => setSelectedMonth(e.target.value)}
-            className="bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-teal-500"
+            className="bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-xl px-3 py-2 text-sm text-slate-900 dark:text-[#e8eaff] focus:outline-none focus:border-teal-500"
           >
             <option value="September 2026">September 2026</option>
             <option value="August 2026">August 2026</option>
@@ -190,7 +190,7 @@ export default function PayrollView() {
           <button
             onClick={loadData}
             disabled={loading}
-            className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 text-sm font-semibold flex items-center gap-2 transition cursor-pointer"
+            className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-[#111535]/80 dark:hover:bg-[#1a1f4a] text-slate-700 dark:text-[#d4d8f5] border border-slate-200 dark:border-white/11 text-sm font-semibold flex items-center gap-2 transition cursor-pointer"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-teal-600 dark:text-teal-400' : ''}`} />
             Refresh
@@ -208,36 +208,36 @@ export default function PayrollView() {
       {/* KPI Cards */}
       {summary && (
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
-            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Staff Roster</div>
+          <div className="bg-white dark:bg-[#0d1130]/90 p-4 rounded-xl border border-slate-200 dark:border-white/8 shadow-xs">
+            <div className="text-slate-500 dark:text-[#adb5d4] text-xs font-bold uppercase tracking-wider">Staff Roster</div>
             <div className="text-2xl font-black text-slate-900 dark:text-white mt-1">{summary.totalEmployees}</div>
             <div className="text-xs text-teal-600 dark:text-teal-400 mt-1 flex items-center gap-1 font-medium">
               <User className="w-3.5 h-3.5" /> Active Employees
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
-            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Gross Payroll</div>
+          <div className="bg-white dark:bg-[#0d1130]/90 p-4 rounded-xl border border-slate-200 dark:border-white/8 shadow-xs">
+            <div className="text-slate-500 dark:text-[#adb5d4] text-xs font-bold uppercase tracking-wider">Gross Payroll</div>
             <div className="text-2xl font-black text-slate-900 dark:text-white mt-1">₹{summary.totalGrossSalary.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</div>
-            <div className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">Total CTC Accrual</div>
+            <div className="text-xs text-slate-500 dark:text-[#adb5d4] mt-1 font-medium">Total CTC Accrual</div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
-            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Net Bank Payout</div>
+          <div className="bg-white dark:bg-[#0d1130]/90 p-4 rounded-xl border border-slate-200 dark:border-white/8 shadow-xs">
+            <div className="text-slate-500 dark:text-[#adb5d4] text-xs font-bold uppercase tracking-wider">Net Bank Payout</div>
             <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1">₹{summary.totalNetDisbursement.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</div>
             <div className="text-xs text-emerald-700 dark:text-emerald-400/90 mt-1 flex items-center gap-1 font-medium">
               <CreditCard className="w-3.5 h-3.5" /> Direct Bank Transfer
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
-            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">PF Statutory Deposit</div>
+          <div className="bg-white dark:bg-[#0d1130]/90 p-4 rounded-xl border border-slate-200 dark:border-white/8 shadow-xs">
+            <div className="text-slate-500 dark:text-[#adb5d4] text-xs font-bold uppercase tracking-wider">PF Statutory Deposit</div>
             <div className="text-2xl font-black text-blue-600 dark:text-blue-400 mt-1">₹{summary.totalPfContribution.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</div>
             <div className="text-xs text-blue-700 dark:text-blue-400/90 mt-1 font-medium">Employee + Employer (24%)</div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
-            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">ESI Health Insurance</div>
+          <div className="bg-white dark:bg-[#0d1130]/90 p-4 rounded-xl border border-slate-200 dark:border-white/8 shadow-xs">
+            <div className="text-slate-500 dark:text-[#adb5d4] text-xs font-bold uppercase tracking-wider">ESI Health Insurance</div>
             <div className="text-2xl font-black text-purple-600 dark:text-purple-400 mt-1">₹{summary.totalEsiContribution.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</div>
             <div className="text-xs text-purple-700 dark:text-purple-400/90 mt-1 font-medium">Total ESI Challan (4%)</div>
           </div>
@@ -246,19 +246,19 @@ export default function PayrollView() {
 
       {/* Salary Slips Table */}
       {summary && (
-        <div className="bg-white dark:bg-slate-900/80 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-xs">
-          <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
-            <div className="text-sm font-bold text-slate-800 dark:text-slate-200">
+        <div className="bg-white dark:bg-[#0d1130]/90 rounded-2xl border border-slate-200 dark:border-white/8 overflow-hidden shadow-xs">
+          <div className="p-4 border-b border-slate-200 dark:border-white/8 flex items-center justify-between">
+            <div className="text-sm font-bold text-slate-800 dark:text-[#d4d8f5]">
               Staff Salary Slips: {selectedMonth}
             </div>
-            <div className="text-xs text-slate-500 dark:text-slate-400">
+            <div className="text-xs text-slate-500 dark:text-[#adb5d4]">
               Click &quot;View Payslip&quot; to print statutory salary certificate
             </div>
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-800 dark:text-slate-200">
-              <thead className="bg-slate-50 dark:bg-slate-950/80 text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
+            <table className="w-full text-left text-sm text-slate-800 dark:text-[#d4d8f5]">
+              <thead className="bg-slate-50 dark:bg-[#070a1e]/90 text-xs font-bold text-slate-700 dark:text-[#c2c8e8] uppercase tracking-wider border-b border-slate-200 dark:border-white/8">
                 <tr>
                   <th className="py-3 px-4">Employee</th>
                   <th className="py-3 px-4">Role</th>
@@ -272,19 +272,19 @@ export default function PayrollView() {
               </thead>
               <tbody className="divide-y divide-slate-200 dark:divide-slate-800/60">
                 {summary.slips.map(slip => (
-                  <tr key={slip.id} className="hover:bg-slate-50 dark:hover:bg-slate-850/60 transition">
+                  <tr key={slip.id} className="hover:bg-slate-50 dark:hover:bg-[#0f1238]/60 transition">
                     <td className="py-3.5 px-4">
                       <div className="font-semibold text-slate-900 dark:text-white">{slip.employeeName}</div>
-                      <div className="text-xs text-slate-500 dark:text-slate-400 font-mono">PAN: {slip.panNumber} • UAN: {slip.uanNumber}</div>
+                      <div className="text-xs text-slate-500 dark:text-[#adb5d4] font-mono">PAN: {slip.panNumber} • UAN: {slip.uanNumber}</div>
                     </td>
-                    <td className="py-3.5 px-4 text-xs text-slate-700 dark:text-slate-300">
+                    <td className="py-3.5 px-4 text-xs text-slate-700 dark:text-[#c2c8e8]">
                       {slip.roleName}
                     </td>
                     <td className="py-3.5 px-4 text-center font-mono">
-                      <span className="text-slate-900 dark:text-slate-200 font-bold">{slip.daysWorked}</span>
-                      <span className="text-slate-500 dark:text-slate-400 text-xs"> / {slip.totalWorkingDays}</span>
+                      <span className="text-slate-900 dark:text-[#d4d8f5] font-bold">{slip.daysWorked}</span>
+                      <span className="text-slate-500 dark:text-[#adb5d4] text-xs"> / {slip.totalWorkingDays}</span>
                     </td>
-                    <td className="py-3.5 px-4 font-semibold text-slate-800 dark:text-slate-200">
+                    <td className="py-3.5 px-4 font-semibold text-slate-800 dark:text-[#d4d8f5]">
                       ₹{slip.grossEarnings.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                     </td>
                     <td className="py-3.5 px-4 text-rose-600 dark:text-rose-400 font-mono text-xs font-semibold">
@@ -303,7 +303,7 @@ export default function PayrollView() {
                         {slip.paymentStatus}
                       </span>
                       {slip.paymentReference && (
-                        <div className="text-[10px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">{slip.paymentReference}</div>
+                        <div className="text-[10px] text-slate-500 dark:text-[#adb5d4] font-mono mt-0.5">{slip.paymentReference}</div>
                       )}
                     </td>
                     <td className="py-3.5 px-4 text-right">
@@ -318,7 +318,7 @@ export default function PayrollView() {
                         )}
                         <button
                           onClick={() => setActiveSlip(slip)}
-                          className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer"
+                          className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-[#111535] dark:hover:bg-[#1a1f4a] text-slate-700 dark:text-[#d4d8f5] border border-slate-300 dark:border-white/11 text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer"
                         >
                           <FileText className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
                           View Payslip
@@ -336,11 +336,11 @@ export default function PayrollView() {
       {/* Modal: Statutory A4 Salary Slip */}
       {activeSlip && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] animate-in zoom-in-95">
-            <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-950">
+          <div className="bg-white dark:bg-[#0d1130] border border-slate-200 dark:border-white/8 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] animate-in zoom-in-95">
+            <div className="p-4 border-b border-slate-200 dark:border-white/8 flex items-center justify-between bg-slate-50 dark:bg-[#070a1e]">
               <div className="flex items-center gap-2">
                 <IndianRupee className="w-5 h-5 text-teal-600 dark:text-teal-400" />
-                <h3 className="font-bold text-slate-900 dark:text-slate-100 text-sm">
+                <h3 className="font-bold text-slate-900 dark:text-[#e8eaff] text-sm">
                   Salary Certificate • {activeSlip.employeeName} ({activeSlip.monthYear})
                 </h3>
               </div>
@@ -351,41 +351,41 @@ export default function PayrollView() {
                 >
                   <Printer className="w-3.5 h-3.5" /> Print / PDF
                 </button>
-                <button onClick={() => setActiveSlip(null)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 cursor-pointer">
+                <button onClick={() => setActiveSlip(null)} className="text-slate-400 hover:text-slate-600 dark:hover:text-[#d4d8f5] p-1 cursor-pointer">
                   <X className="w-5 h-5" />
                 </button>
               </div>
             </div>
 
             {/* Printable A4 Slip Content */}
-            <div className="p-6 overflow-y-auto space-y-4 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs">
+            <div className="p-6 overflow-y-auto space-y-4 bg-white dark:bg-[#0d1130] text-slate-800 dark:text-[#d4d8f5] text-xs">
               {/* Company Header */}
-              <div className="text-center pb-3 border-b border-slate-200 dark:border-slate-800">
+              <div className="text-center pb-3 border-b border-slate-200 dark:border-white/8">
                 <div className="text-lg font-bold text-slate-900 dark:text-white tracking-wide">PHARMAGRID LOGISTICS & HEALTHCARE PVT LTD</div>
-                <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Plot 42, SIDCO Pharmaceutical Complex, Guindy Industrial Estate, Chennai 600032</div>
-                <div className="text-[11px] text-slate-600 dark:text-slate-400">CDSCO Wholesale Lic: Form 20B/21B-TN-CHN-2024-9982 | GSTIN: 33AAAAA0000A1Z5</div>
-                <div className="mt-2 inline-block px-3 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-teal-800 dark:text-teal-400 font-bold uppercase tracking-wider text-[11px] border border-slate-200 dark:border-slate-700">
+                <div className="text-[11px] text-slate-600 dark:text-[#adb5d4] mt-0.5">Plot 42, SIDCO Pharmaceutical Complex, Guindy Industrial Estate, Chennai 600032</div>
+                <div className="text-[11px] text-slate-600 dark:text-[#adb5d4]">CDSCO Wholesale Lic: Form 20B/21B-TN-CHN-2024-9982 | GSTIN: 33AAAAA0000A1Z5</div>
+                <div className="mt-2 inline-block px-3 py-0.5 rounded-full bg-slate-100 dark:bg-[#111535] text-teal-800 dark:text-teal-400 font-bold uppercase tracking-wider text-[11px] border border-slate-200 dark:border-white/11">
                   PAYSLIP FOR THE MONTH OF {activeSlip.monthYear.toUpperCase()}
                 </div>
               </div>
 
               {/* Employee Particulars Grid */}
-              <div className="grid grid-cols-2 gap-x-6 gap-y-2 p-3 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800">
-                <div><span className="text-slate-500 dark:text-slate-400">Employee Name: </span><span className="font-semibold text-slate-900 dark:text-white">{activeSlip.employeeName}</span></div>
-                <div><span className="text-slate-500 dark:text-slate-400">Designation: </span><span className="font-semibold text-slate-900 dark:text-white">{activeSlip.roleName}</span></div>
-                <div><span className="text-slate-500 dark:text-slate-400">PAN Number: </span><span className="font-mono text-slate-700 dark:text-slate-300 font-semibold">{activeSlip.panNumber}</span></div>
-                <div><span className="text-slate-500 dark:text-slate-400">PF UAN: </span><span className="font-mono text-slate-700 dark:text-slate-300 font-semibold">{activeSlip.uanNumber}</span></div>
-                <div><span className="text-slate-500 dark:text-slate-400">Total Working Days: </span><span className="font-semibold text-slate-900 dark:text-slate-100">{activeSlip.totalWorkingDays}</span></div>
-                <div><span className="text-slate-500 dark:text-slate-400">Payable Days: </span><span className="font-bold text-emerald-700 dark:text-emerald-400">{activeSlip.daysWorked}</span></div>
-                <div><span className="text-slate-500 dark:text-slate-400">Payment Status: </span><span className="font-bold text-emerald-700 dark:text-emerald-400">{activeSlip.paymentStatus}</span></div>
-                <div><span className="text-slate-500 dark:text-slate-400">Bank Reference: </span><span className="font-mono text-slate-700 dark:text-slate-300 font-semibold">{activeSlip.paymentReference || 'N/A'}</span></div>
+              <div className="grid grid-cols-2 gap-x-6 gap-y-2 p-3 bg-slate-50 dark:bg-[#070a1e] rounded-xl border border-slate-200 dark:border-white/8">
+                <div><span className="text-slate-500 dark:text-[#adb5d4]">Employee Name: </span><span className="font-semibold text-slate-900 dark:text-white">{activeSlip.employeeName}</span></div>
+                <div><span className="text-slate-500 dark:text-[#adb5d4]">Designation: </span><span className="font-semibold text-slate-900 dark:text-white">{activeSlip.roleName}</span></div>
+                <div><span className="text-slate-500 dark:text-[#adb5d4]">PAN Number: </span><span className="font-mono text-slate-700 dark:text-[#c2c8e8] font-semibold">{activeSlip.panNumber}</span></div>
+                <div><span className="text-slate-500 dark:text-[#adb5d4]">PF UAN: </span><span className="font-mono text-slate-700 dark:text-[#c2c8e8] font-semibold">{activeSlip.uanNumber}</span></div>
+                <div><span className="text-slate-500 dark:text-[#adb5d4]">Total Working Days: </span><span className="font-semibold text-slate-900 dark:text-[#e8eaff]">{activeSlip.totalWorkingDays}</span></div>
+                <div><span className="text-slate-500 dark:text-[#adb5d4]">Payable Days: </span><span className="font-bold text-emerald-700 dark:text-emerald-400">{activeSlip.daysWorked}</span></div>
+                <div><span className="text-slate-500 dark:text-[#adb5d4]">Payment Status: </span><span className="font-bold text-emerald-700 dark:text-emerald-400">{activeSlip.paymentStatus}</span></div>
+                <div><span className="text-slate-500 dark:text-[#adb5d4]">Bank Reference: </span><span className="font-mono text-slate-700 dark:text-[#c2c8e8] font-semibold">{activeSlip.paymentReference || 'N/A'}</span></div>
               </div>
 
               {/* Earnings & Deductions Dual Table */}
               <div className="grid grid-cols-2 gap-4">
                 {/* Earnings */}
-                <div className="border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden bg-slate-50/50 dark:bg-slate-950/30">
-                  <div className="bg-slate-100 dark:bg-slate-950 p-2 font-bold text-slate-800 dark:text-slate-300 border-b border-slate-200 dark:border-slate-800">
+                <div className="border border-slate-200 dark:border-white/8 rounded-xl overflow-hidden bg-slate-50/50 dark:bg-[#070a1e]/30">
+                  <div className="bg-slate-100 dark:bg-[#070a1e] p-2 font-bold text-slate-800 dark:text-[#c2c8e8] border-b border-slate-200 dark:border-white/8">
                     EARNINGS (₹)
                   </div>
                   <div className="p-3 space-y-1.5">
@@ -394,7 +394,7 @@ export default function PayrollView() {
                     <div className="flex justify-between"><span>Conveyance Allowance:</span><span className="font-mono font-medium">₹{activeSlip.conveyanceAllowance.toFixed(2)}</span></div>
                     <div className="flex justify-between"><span>Medical Allowance:</span><span className="font-mono font-medium">₹{activeSlip.medicalAllowance.toFixed(2)}</span></div>
                     <div className="flex justify-between"><span>Special Allowance:</span><span className="font-mono font-medium">₹{activeSlip.specialAllowance.toFixed(2)}</span></div>
-                    <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex justify-between font-bold text-slate-900 dark:text-white">
+                    <div className="pt-2 border-t border-slate-200 dark:border-white/8 flex justify-between font-bold text-slate-900 dark:text-white">
                       <span>GROSS EARNINGS:</span>
                       <span className="text-teal-700 dark:text-teal-400">₹{activeSlip.grossEarnings.toFixed(2)}</span>
                     </div>
@@ -402,8 +402,8 @@ export default function PayrollView() {
                 </div>
 
                 {/* Deductions */}
-                <div className="border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden bg-slate-50/50 dark:bg-slate-950/30">
-                  <div className="bg-slate-100 dark:bg-slate-950 p-2 font-bold text-slate-800 dark:text-slate-300 border-b border-slate-200 dark:border-slate-800">
+                <div className="border border-slate-200 dark:border-white/8 rounded-xl overflow-hidden bg-slate-50/50 dark:bg-[#070a1e]/30">
+                  <div className="bg-slate-100 dark:bg-[#070a1e] p-2 font-bold text-slate-800 dark:text-[#c2c8e8] border-b border-slate-200 dark:border-white/8">
                     DEDUCTIONS (₹)
                   </div>
                   <div className="p-3 space-y-1.5">
@@ -412,7 +412,7 @@ export default function PayrollView() {
                     <div className="flex justify-between"><span>Professional Tax (PT):</span><span className="font-mono font-medium">₹{activeSlip.professionalTax.toFixed(2)}</span></div>
                     <div className="flex justify-between"><span>TDS / Income Tax:</span><span className="font-mono font-medium">₹{activeSlip.tdsDeduction.toFixed(2)}</span></div>
                     <div className="flex justify-between text-slate-500"><span>Other Recovery:</span><span className="font-mono">₹0.00</span></div>
-                    <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex justify-between font-bold text-slate-900 dark:text-white">
+                    <div className="pt-2 border-t border-slate-200 dark:border-white/8 flex justify-between font-bold text-slate-900 dark:text-white">
                       <span>TOTAL DEDUCTIONS:</span>
                       <span className="text-rose-700 dark:text-rose-400">₹{activeSlip.totalDeductions.toFixed(2)}</span>
                     </div>
@@ -424,7 +424,7 @@ export default function PayrollView() {
               <div className="p-4 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-500/40 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-xs">
                 <div>
                   <div className="text-xs text-emerald-800 dark:text-emerald-300 font-bold uppercase tracking-wider">NET DISBURSED SALARY</div>
-                  <div className="text-[11px] text-slate-600 dark:text-slate-400 italic mt-0.5">{activeSlip.netSalaryInWords}</div>
+                  <div className="text-[11px] text-slate-600 dark:text-[#adb5d4] italic mt-0.5">{activeSlip.netSalaryInWords}</div>
                 </div>
                 <div className="text-2xl font-black text-emerald-700 dark:text-emerald-400 font-mono">
                   ₹{activeSlip.netSalary.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
@@ -432,13 +432,13 @@ export default function PayrollView() {
               </div>
 
               {/* Signatures */}
-              <div className="pt-6 flex justify-between items-end text-[11px] text-slate-500 dark:text-slate-400">
+              <div className="pt-6 flex justify-between items-end text-[11px] text-slate-500 dark:text-[#adb5d4]">
                 <div className="text-center">
-                  <div className="w-36 border-b border-slate-300 dark:border-slate-700 pb-1 font-mono text-slate-500">System Generated</div>
+                  <div className="w-36 border-b border-slate-300 dark:border-white/11 pb-1 font-mono text-slate-500">System Generated</div>
                   <div className="mt-1 font-medium">Employee Signature</div>
                 </div>
                 <div className="text-center">
-                  <div className="w-44 border-b border-slate-300 dark:border-slate-700 pb-1 font-bold text-slate-800 dark:text-slate-300">Selva Kumaran</div>
+                  <div className="w-44 border-b border-slate-300 dark:border-white/11 pb-1 font-bold text-slate-800 dark:text-[#c2c8e8]">Selva Kumaran</div>
                   <div className="mt-1 font-medium">Authorized Signatory (HR / Director)</div>
                 </div>
               </div>
@@ -450,20 +450,20 @@ export default function PayrollView() {
       {/* MODAL: ADD SALARY RECORD */}
       {isAddSalaryModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] animate-in zoom-in-95">
-            <div className="p-4 bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+          <div className="bg-white dark:bg-[#0d1130] border border-slate-200 dark:border-white/8 rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] animate-in zoom-in-95">
+            <div className="p-4 bg-slate-50 dark:bg-[#070a1e] border-b border-slate-200 dark:border-white/8 flex justify-between items-center">
               <div>
                 <h3 className="font-bold text-slate-900 dark:text-white text-base flex items-center gap-2">
                   <IndianRupee className="w-5 h-5 text-teal-600 dark:text-teal-400" />
                   Add Employee Salary Record ({selectedMonth})
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-slate-500 dark:text-[#adb5d4]">
                   Calculate gross earnings, statutory EPF/ESI/TDS deductions, and net bank disbursement.
                 </p>
               </div>
               <button
                 onClick={() => setIsAddSalaryModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-lg transition"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-[#d4d8f5] p-1 rounded-lg transition"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -472,7 +472,7 @@ export default function PayrollView() {
             <form onSubmit={handleCreateSalarySlip} className="p-5 overflow-y-auto space-y-4 text-xs">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div className="md:col-span-2">
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                     Staff Member Full Name *
                   </label>
                   <input
@@ -481,18 +481,18 @@ export default function PayrollView() {
                     placeholder="e.g. Ramesh V"
                     value={salaryForm.employeeName}
                     onChange={e => setSalaryForm({ ...salaryForm, employeeName: e.target.value })}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-teal-500 outline-none"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-teal-500 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                     Designation / Role
                   </label>
                   <select
                     value={salaryForm.roleName}
                     onChange={e => setSalaryForm({ ...salaryForm, roleName: e.target.value })}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-teal-500 outline-none"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-teal-500 outline-none"
                   >
                     <option value="Warehouse Executive">Warehouse Executive</option>
                     <option value="Billing Cashier">Billing Cashier</option>
@@ -503,19 +503,19 @@ export default function PayrollView() {
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                     Permanent Account Number (PAN)
                   </label>
                   <input
                     type="text"
                     value={salaryForm.panNumber}
                     onChange={e => setSalaryForm({ ...salaryForm, panNumber: e.target.value })}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-teal-500 outline-none"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-teal-500 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                     Basic Salary (₹) *
                   </label>
                   <input
@@ -524,12 +524,12 @@ export default function PayrollView() {
                     required
                     value={salaryForm.basicSalary}
                     onChange={e => setSalaryForm({ ...salaryForm, basicSalary: Number(e.target.value) })}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono font-bold focus:border-teal-500 outline-none"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono font-bold focus:border-teal-500 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                     House Rent Allowance (HRA) (₹)
                   </label>
                   <input
@@ -537,12 +537,12 @@ export default function PayrollView() {
                     step="500"
                     value={salaryForm.hra}
                     onChange={e => setSalaryForm({ ...salaryForm, hra: Number(e.target.value) })}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono font-bold focus:border-teal-500 outline-none"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono font-bold focus:border-teal-500 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                     Special / Skill Allowance (₹)
                   </label>
                   <input
@@ -550,12 +550,12 @@ export default function PayrollView() {
                     step="500"
                     value={salaryForm.specialAllowance}
                     onChange={e => setSalaryForm({ ...salaryForm, specialAllowance: Number(e.target.value) })}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono font-bold focus:border-teal-500 outline-none"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono font-bold focus:border-teal-500 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                     EPF Statutory Deduction (12% Basic) (₹)
                   </label>
                   <input
@@ -563,12 +563,12 @@ export default function PayrollView() {
                     step="100"
                     value={salaryForm.pfDeduction}
                     onChange={e => setSalaryForm({ ...salaryForm, pfDeduction: Number(e.target.value) })}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-rose-700 dark:text-rose-400 font-mono font-bold focus:border-teal-500 outline-none"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-rose-700 dark:text-rose-400 font-mono font-bold focus:border-teal-500 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                     Income Tax (TDS) (₹)
                   </label>
                   <input
@@ -576,27 +576,27 @@ export default function PayrollView() {
                     step="100"
                     value={salaryForm.tdsDeduction}
                     onChange={e => setSalaryForm({ ...salaryForm, tdsDeduction: Number(e.target.value) })}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-rose-700 dark:text-rose-400 font-mono font-bold focus:border-teal-500 outline-none"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-rose-700 dark:text-rose-400 font-mono font-bold focus:border-teal-500 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                     Professional Tax (PT) (₹)
                   </label>
                   <input
                     type="number"
                     value={salaryForm.ptTax}
                     onChange={e => setSalaryForm({ ...salaryForm, ptTax: Number(e.target.value) })}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-teal-500 outline-none"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-teal-500 outline-none"
                   />
                 </div>
               </div>
 
               {/* Net Estimated Calculation */}
-              <div className="p-3 bg-teal-50/50 dark:bg-slate-950/60 rounded-xl border border-teal-200 dark:border-slate-800 flex justify-between items-center text-xs">
+              <div className="p-3 bg-teal-50/50 dark:bg-[#070a1e]/60 rounded-xl border border-teal-200 dark:border-white/8 flex justify-between items-center text-xs">
                 <div>
-                  <span className="text-slate-600 dark:text-slate-400">Estimated Net Bank Disbursement:</span>
+                  <span className="text-slate-600 dark:text-[#adb5d4]">Estimated Net Bank Disbursement:</span>
                   <div className="font-mono text-slate-500 text-[10px]">
                     Gross: ₹{(salaryForm.basicSalary + salaryForm.hra + salaryForm.specialAllowance).toLocaleString('en-IN')} - Deductions: ₹{(salaryForm.pfDeduction + salaryForm.ptTax + salaryForm.tdsDeduction).toLocaleString('en-IN')}
                   </div>
@@ -606,11 +606,11 @@ export default function PayrollView() {
                 </span>
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-200 dark:border-slate-800">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-200 dark:border-white/8">
                 <button
                   type="button"
                   onClick={() => setIsAddSalaryModalOpen(false)}
-                  className="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold transition"
+                  className="px-4 py-2 rounded-xl border border-slate-300 dark:border-white/11 text-slate-700 dark:text-[#c2c8e8] hover:bg-slate-100 dark:hover:bg-[#161940] font-semibold transition"
                 >
                   Cancel
                 </button>
@@ -629,3 +629,4 @@ export default function PayrollView() {
     </div>
   );
 }
+

@@ -155,8 +155,15 @@ using (var scope = app.Services.CreateScope())
         {
             try
             {
-                await creator.CreateTablesAsync();
-                Console.WriteLine("✅ Database schema synchronized successfully.");
+                if (!await creator.HasTablesAsync())
+                {
+                    await creator.CreateTablesAsync();
+                    Console.WriteLine("✅ Database schema synchronized successfully.");
+                }
+                else
+                {
+                    Console.WriteLine("ℹ️ Tables already present in database.");
+                }
             }
             catch (PostgresException pex) when (pex.SqlState == "42P07")
             {

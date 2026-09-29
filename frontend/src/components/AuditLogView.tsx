@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React from 'react';
 import {
@@ -65,7 +65,7 @@ export default function AuditLogView() {
             <Shield className="w-5 h-5 text-blue-600 dark:text-cyan-400" />
             Immutable Regulatory Audit Trail (CDSCO Compliance)
           </h2>
-          <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-600 dark:text-[#adb5d4] mt-0.5">
             Cryptographically sealed, append-only transaction ledger enforced by PostgreSQL trigger policy.
           </p>
         </div>
@@ -81,7 +81,7 @@ export default function AuditLogView() {
       {/* 2. AUDIT LOG RECORDS */}
       <div className="glass-panel rounded-xl overflow-hidden shadow-xl">
         <table className="w-full text-left text-xs">
-          <thead className="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 uppercase tracking-wider text-[10px] font-bold border-b border-slate-300 dark:border-slate-700">
+          <thead className="bg-slate-100 dark:bg-[#111535] text-slate-800 dark:text-[#e8eaff] uppercase tracking-wider text-[10px] font-bold border-b border-slate-300 dark:border-white/11">
             <tr>
               <th className="py-2.5 px-3 w-16">Log #</th>
               <th className="py-2.5 px-3">Operation Timestamp</th>
@@ -92,13 +92,13 @@ export default function AuditLogView() {
               <th className="py-2.5 px-4">Transactional Changes &amp; State Delta</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-800/70 font-medium text-slate-800 dark:text-slate-200">
+          <tbody className="divide-y divide-slate-100 dark:divide-slate-800/70 font-medium text-slate-800 dark:text-[#d4d8f5]">
             {auditRecords.map(rec => (
-              <tr key={rec.id} className="hover:bg-blue-50/50 dark:hover:bg-slate-800/60 transition-colors">
-                <td className="py-3 px-3 font-mono text-slate-600 dark:text-slate-400 font-semibold">#{rec.id}</td>
-                <td className="py-3 px-3 font-mono text-slate-700 dark:text-slate-300">{rec.timestamp}</td>
+              <tr key={rec.id} className="hover:bg-blue-50/50 dark:hover:bg-[#161940]/60 transition-colors">
+                <td className="py-3 px-3 font-mono text-slate-600 dark:text-[#adb5d4] font-semibold">#{rec.id}</td>
+                <td className="py-3 px-3 font-mono text-slate-700 dark:text-[#c2c8e8]">{rec.timestamp}</td>
                 <td className="py-3 px-3 text-center">
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-blue-50 dark:bg-slate-900 text-blue-700 dark:text-cyan-300 border border-blue-200 dark:border-slate-800">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-blue-50 dark:bg-[#0d1130] text-blue-700 dark:text-cyan-300 border border-blue-200 dark:border-white/8">
                     {rec.action}
                   </span>
                 </td>
@@ -106,9 +106,9 @@ export default function AuditLogView() {
                   <div className="font-mono text-slate-900 dark:text-white text-xs font-semibold">{rec.entity}</div>
                   <div className="font-mono text-[10px] text-blue-700 dark:text-cyan-400">{rec.recordId}</div>
                 </td>
-                <td className="py-3 px-3 text-slate-800 dark:text-slate-200">{rec.user}</td>
-                <td className="py-3 px-3 font-mono text-slate-600 dark:text-slate-400 text-[11px]">{rec.ipAddress}</td>
-                <td className="py-3 px-4 text-xs text-slate-700 dark:text-slate-300">{rec.details}</td>
+                <td className="py-3 px-3 text-slate-800 dark:text-[#d4d8f5]">{rec.user}</td>
+                <td className="py-3 px-3 font-mono text-slate-600 dark:text-[#adb5d4] text-[11px]">{rec.ipAddress}</td>
+                <td className="py-3 px-4 text-xs text-slate-700 dark:text-[#c2c8e8]">{rec.details}</td>
               </tr>
             ))}
           </tbody>
@@ -117,3 +117,4 @@ export default function AuditLogView() {
     </div>
   );
 }
+

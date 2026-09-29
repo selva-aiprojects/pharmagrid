@@ -130,7 +130,7 @@ export default function TaxInvoiceModal({
       <div className="fixed top-3 right-3 sm:top-5 sm:right-5 z-60 flex items-center gap-2 print:hidden bg-slate-900/90 border border-slate-700/80 p-1.5 rounded-xl shadow-2xl backdrop-blur-md">
         <button
           onClick={handlePrint}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-semibold text-xs transition shadow-md"
+          className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-semibold text-xs transition shadow-md"
         >
           <Printer className="w-4 h-4" /> Print / Save PDF
         </button>

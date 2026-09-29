@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import {
@@ -88,7 +88,7 @@ export default function SchemesView() {
   const handleCreateScheme = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.title.trim() || !formData.medicine.trim()) {
-      showToast('⚠️ Please enter Scheme Name and Target Medicine');
+      showToast('⚠️  Please enter Scheme Name and Target Medicine');
       return;
     }
 
@@ -142,7 +142,7 @@ export default function SchemesView() {
             <Tag className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
             Pharmaceutical Scheme Engine &amp; Rebate Claims
           </h2>
-          <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-600 dark:text-[#adb5d4] mt-0.5">
             Volumetric free bonus deals, turnover discounts, and factory-sponsored manufacturer claim ledgers.
           </p>
         </div>
@@ -186,12 +186,12 @@ export default function SchemesView() {
                 )}
               </div>
               <h3 className="font-bold text-slate-900 dark:text-white text-base mt-2">{sch.title}</h3>
-              <p className="text-xs text-slate-700 dark:text-slate-300 mt-0.5 font-medium">{sch.medicine}</p>
-              <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-2">
+              <p className="text-xs text-slate-700 dark:text-[#c2c8e8] mt-0.5 font-medium">{sch.medicine}</p>
+              <p className="text-[11px] text-slate-600 dark:text-[#adb5d4] mt-2">
                 {sch.description}
               </p>
             </div>
-            <div className="border-t border-slate-200 dark:border-slate-800 pt-2.5 flex justify-between text-xs text-slate-600 dark:text-slate-400 font-mono">
+            <div className="border-t border-slate-200 dark:border-white/8 pt-2.5 flex justify-between text-xs text-slate-600 dark:text-[#adb5d4] font-mono">
               <span>Valid Until: {sch.validUntil}</span>
               <span className="text-emerald-700 dark:text-emerald-400 font-semibold">Active</span>
             </div>
@@ -208,24 +208,24 @@ export default function SchemesView() {
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 uppercase tracking-wider text-[10px] font-bold border-b border-slate-300 dark:border-slate-700">
+            <thead className="bg-slate-100 dark:bg-[#111535] text-slate-800 dark:text-[#e8eaff] uppercase tracking-wider text-[10px] font-bold border-b border-slate-300 dark:border-white/11">
               <tr>
                 <th className="py-2.5 px-3">Manufacturer</th>
                 <th className="py-2.5 px-3">Associated Scheme</th>
                 <th className="py-2.5 px-3 text-center">Billed Units</th>
                 <th className="py-2.5 px-3 text-center">Free Units Allocated</th>
                 <th className="py-2.5 px-3 text-right">Reimbursement Rate</th>
-                <th className="py-2.5 px-3 text-right font-bold text-slate-800 dark:text-slate-100">Accrued Claim Amount</th>
+                <th className="py-2.5 px-3 text-right font-bold text-slate-800 dark:text-[#e8eaff]">Accrued Claim Amount</th>
                 <th className="py-2.5 px-3 text-center">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/70 font-medium text-slate-800 dark:text-slate-200">
-              <tr className="hover:bg-blue-50/50 dark:hover:bg-slate-800/60 transition-colors">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/70 font-medium text-slate-800 dark:text-[#d4d8f5]">
+              <tr className="hover:bg-blue-50/50 dark:hover:bg-[#161940]/60 transition-colors">
                 <td className="py-2.5 px-3 font-bold text-slate-900 dark:text-white">Alkem Laboratories</td>
-                <td className="py-2.5 px-3 text-slate-700 dark:text-slate-300">Monsoon 10+1 Promo (Pan 40mg)</td>
-                <td className="py-2.5 px-3 text-center font-mono text-slate-800 dark:text-slate-200">1,200</td>
+                <td className="py-2.5 px-3 text-slate-700 dark:text-[#c2c8e8]">Monsoon 10+1 Promo (Pan 40mg)</td>
+                <td className="py-2.5 px-3 text-center font-mono text-slate-800 dark:text-[#d4d8f5]">1,200</td>
                 <td className="py-2.5 px-3 text-center font-mono font-bold text-blue-700 dark:text-cyan-400">120 Vials</td>
-                <td className="py-2.5 px-3 text-right font-mono text-slate-800 dark:text-slate-200">₹42.50</td>
+                <td className="py-2.5 px-3 text-right font-mono text-slate-800 dark:text-[#d4d8f5]">₹42.50</td>
                 <td className="py-2.5 px-3 text-right font-mono font-bold text-emerald-700 dark:text-emerald-400">₹5,100.00</td>
                 <td className="py-2.5 px-3 text-center">
                   <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200 dark:bg-amber-950 dark:text-amber-300 dark:border-amber-800">
@@ -233,12 +233,12 @@ export default function SchemesView() {
                   </span>
                 </td>
               </tr>
-              <tr className="hover:bg-blue-50/50 dark:hover:bg-slate-800/60 transition-colors">
+              <tr className="hover:bg-blue-50/50 dark:hover:bg-[#161940]/60 transition-colors">
                 <td className="py-2.5 px-3 font-bold text-slate-900 dark:text-white">GlaxoSmithKline India</td>
-                <td className="py-2.5 px-3 text-slate-700 dark:text-slate-300">Seasonal 20+2 Bonus (Augmentin)</td>
-                <td className="py-2.5 px-3 text-center font-mono text-slate-800 dark:text-slate-200">2,800</td>
+                <td className="py-2.5 px-3 text-slate-700 dark:text-[#c2c8e8]">Seasonal 20+2 Bonus (Augmentin)</td>
+                <td className="py-2.5 px-3 text-center font-mono text-slate-800 dark:text-[#d4d8f5]">2,800</td>
                 <td className="py-2.5 px-3 text-center font-mono font-bold text-blue-700 dark:text-cyan-400">280 Strips</td>
-                <td className="py-2.5 px-3 text-right font-mono text-slate-800 dark:text-slate-200">₹139.50</td>
+                <td className="py-2.5 px-3 text-right font-mono text-slate-800 dark:text-[#d4d8f5]">₹139.50</td>
                 <td className="py-2.5 px-3 text-right font-mono font-bold text-emerald-700 dark:text-emerald-400">₹39,060.00</td>
                 <td className="py-2.5 px-3 text-center">
                   <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200 dark:bg-amber-950 dark:text-amber-300 dark:border-amber-800">
@@ -254,20 +254,20 @@ export default function SchemesView() {
       {/* 4. MODAL: CONFIGURE NEW SCHEME */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] animate-in zoom-in-95">
-            <div className="p-4 bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+          <div className="bg-white dark:bg-[#0d1130] border border-slate-200 dark:border-white/8 rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] animate-in zoom-in-95">
+            <div className="p-4 bg-slate-50 dark:bg-[#070a1e] border-b border-slate-200 dark:border-white/8 flex justify-between items-center">
               <div>
                 <h3 className="font-bold text-slate-900 dark:text-white text-base flex items-center gap-2">
                   <Tag className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
                   Configure Trade Promotion &amp; Bonus Scheme
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-slate-500 dark:text-[#adb5d4]">
                   Volumetric free bonus item rules and manufacturer sponsored turnover discount ledgers.
                 </p>
               </div>
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-lg transition"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-[#d4d8f5] p-1 rounded-lg transition"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -275,7 +275,7 @@ export default function SchemesView() {
 
             <form onSubmit={handleCreateScheme} className="p-5 overflow-y-auto space-y-4 text-xs">
               <div>
-                <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                   Scheme Campaign Title *
                 </label>
                 <input
@@ -284,19 +284,19 @@ export default function SchemesView() {
                   placeholder="e.g. Monsoon Buy 10 Get 1 Free Promo"
                   value={formData.title}
                   onChange={e => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
+                  className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                     Scheme Type
                   </label>
                   <select
                     value={formData.schemeType}
                     onChange={e => setFormData({ ...formData, schemeType: e.target.value as any })}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
                   >
                     <option value="volumetric">Volumetric Bonus (e.g. 10 + 1)</option>
                     <option value="discount">Turnover Percentage (%) Off</option>
@@ -304,13 +304,13 @@ export default function SchemesView() {
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                     Sponsoring Manufacturer
                   </label>
                   <select
                     value={formData.manufacturer}
                     onChange={e => setFormData({ ...formData, manufacturer: e.target.value })}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
                   >
                     <option value="Sun Pharmaceutical Industries">Sun Pharma</option>
                     <option value="GlaxoSmithKline India">GSK India</option>
@@ -323,7 +323,7 @@ export default function SchemesView() {
               </div>
 
               <div>
-                <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                   Target Medicine / Product Brand *
                 </label>
                 <input
@@ -332,14 +332,14 @@ export default function SchemesView() {
                   placeholder="e.g. Pan 40mg Injection or Augmentin 625mg"
                   value={formData.medicine}
                   onChange={e => setFormData({ ...formData, medicine: e.target.value })}
-                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
+                  className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
                 />
               </div>
 
               {formData.schemeType === 'volumetric' ? (
-                <div className="p-3 bg-cyan-50/50 dark:bg-slate-950/60 rounded-xl border border-cyan-200 dark:border-slate-800 grid grid-cols-2 gap-3">
+                <div className="p-3 bg-cyan-50/50 dark:bg-[#070a1e]/60 rounded-xl border border-cyan-200 dark:border-white/8 grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                       Buy Quantity (Paid) *
                     </label>
                     <input
@@ -348,11 +348,11 @@ export default function SchemesView() {
                       min="1"
                       value={formData.buyQty}
                       onChange={e => setFormData({ ...formData, buyQty: Number(e.target.value) })}
-                      className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-bold font-mono focus:border-cyan-500 outline-none"
+                      className="w-full bg-white dark:bg-[#0d1130] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-bold font-mono focus:border-cyan-500 outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                       Bonus Quantity (Free Units) *
                     </label>
                     <input
@@ -361,13 +361,13 @@ export default function SchemesView() {
                       min="1"
                       value={formData.freeQty}
                       onChange={e => setFormData({ ...formData, freeQty: Number(e.target.value) })}
-                      className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-cyan-700 dark:text-cyan-400 font-bold font-mono focus:border-cyan-500 outline-none"
+                      className="w-full bg-white dark:bg-[#0d1130] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-cyan-700 dark:text-cyan-400 font-bold font-mono focus:border-cyan-500 outline-none"
                     />
                   </div>
                 </div>
               ) : (
-                <div className="p-3 bg-emerald-50/50 dark:bg-slate-950/60 rounded-xl border border-emerald-200 dark:border-slate-800">
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                <div className="p-3 bg-emerald-50/50 dark:bg-[#070a1e]/60 rounded-xl border border-emerald-200 dark:border-white/8">
+                  <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                     Invoice Discount Percentage (%) *
                   </label>
                   <input
@@ -378,14 +378,14 @@ export default function SchemesView() {
                     step="0.5"
                     value={formData.discountPct}
                     onChange={e => setFormData({ ...formData, discountPct: Number(e.target.value) })}
-                    className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-emerald-700 dark:text-emerald-400 font-bold font-mono focus:border-emerald-500 outline-none"
+                    className="w-full bg-white dark:bg-[#0d1130] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-emerald-700 dark:text-emerald-400 font-bold font-mono focus:border-emerald-500 outline-none"
                   />
                 </div>
               )}
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                     Validity Expiry Date *
                   </label>
                   <input
@@ -393,11 +393,11 @@ export default function SchemesView() {
                     required
                     value={formData.validUntil}
                     onChange={e => setFormData({ ...formData, validUntil: e.target.value })}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-cyan-500 outline-none"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-cyan-500 outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                     Scheme Terms / Rule Note
                   </label>
                   <input
@@ -405,16 +405,16 @@ export default function SchemesView() {
                     placeholder="e.g. Applicable on cash & credit"
                     value={formData.description}
                     onChange={e => setFormData({ ...formData, description: e.target.value })}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-cyan-500 outline-none"
                   />
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-200 dark:border-slate-800">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-200 dark:border-white/8">
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold transition"
+                  className="px-4 py-2 rounded-xl border border-slate-300 dark:border-white/11 text-slate-700 dark:text-[#c2c8e8] hover:bg-slate-100 dark:hover:bg-[#161940] font-semibold transition"
                 >
                   Cancel
                 </button>
@@ -433,3 +433,4 @@ export default function SchemesView() {
     </div>
   );
 }
+

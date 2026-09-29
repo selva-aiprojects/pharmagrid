@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect } from 'react';
 import {
@@ -106,7 +106,7 @@ export default function MastersManagementView() {
     e.preventDefault();
     if (activeTab === 'manufacturers') {
       if (!mfgForm.name.trim()) {
-        showToast('⚠️ Manufacturer name is required');
+        showToast('⚠️  Manufacturer name is required');
         return;
       }
       const newMfg: ApiManufacturerMaster = {
@@ -125,7 +125,7 @@ export default function MastersManagementView() {
       showToast(`✅ Manufacturer "${newMfg.name}" added to master database!`);
     } else if (activeTab === 'categories') {
       if (!catForm.name.trim()) {
-        showToast('⚠️ Category name is required');
+        showToast('⚠️  Category name is required');
         return;
       }
       const newCat: ApiCategoryMaster = {
@@ -142,7 +142,7 @@ export default function MastersManagementView() {
       showToast(`✅ Category "${newCat.name}" added successfully!`);
     } else if (activeTab === 'racks') {
       if (!rackForm.rackCode.trim()) {
-        showToast('⚠️ Rack location code is required');
+        showToast('⚠️  Rack location code is required');
         return;
       }
       const newRack: ApiWarehouseRack = {
@@ -162,7 +162,7 @@ export default function MastersManagementView() {
       showToast(`✅ Rack location "${newRack.binCode}" registered!`);
     } else if (activeTab === 'hsn') {
       if (!hsnForm.hsnCode.trim()) {
-        showToast('⚠️ HSN code is required');
+        showToast('⚠️  HSN code is required');
         return;
       }
       const newHsn: ApiHsnTaxMaster = {
@@ -181,7 +181,7 @@ export default function MastersManagementView() {
       showToast(`✅ HSN code "${newHsn.hsnCode}" tax slab configured!`);
     } else if (activeTab === 'routes') {
       if (!routeForm.routeName.trim()) {
-        showToast('⚠️ Route name is required');
+        showToast('⚠️  Route name is required');
         return;
       }
       const newRoute: ApiDeliveryRoute = {
@@ -241,7 +241,7 @@ export default function MastersManagementView() {
       )}
 
       {/* Header and Controls */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-slate-900/90 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-[#0d1130] p-6 rounded-2xl border border-slate-200 dark:border-white/8 shadow-sm">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800 dark:bg-blue-950/80 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
@@ -249,11 +249,11 @@ export default function MastersManagementView() {
             </span>
             <span className="text-slate-500 text-xs">CDSCO Statutory Master Registry</span>
           </div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
             <Database className="w-7 h-7 text-blue-600 dark:text-blue-400" />
             Central Masters Management
           </h1>
-          <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">
+          <p className="text-sm text-slate-600 dark:text-[#c2c8e8] mt-1">
             Configure pharmaceutical manufacturers, therapeutic groups, warehouse bin racks, GST HSN slabs, van delivery routes, and depot statutory profiles.
           </p>
         </div>
@@ -262,7 +262,7 @@ export default function MastersManagementView() {
           <button
             onClick={loadData}
             disabled={loading}
-            className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 text-sm font-semibold flex items-center gap-2 transition cursor-pointer"
+            className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-[#111535] dark:hover:bg-[#1a1f4a] text-slate-700 dark:text-[#d4d8f5] border border-slate-200 dark:border-white/11 text-sm font-semibold flex items-center gap-2 transition cursor-pointer"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-blue-500' : ''}`} />
             Refresh Masters
@@ -270,12 +270,12 @@ export default function MastersManagementView() {
           <button
             onClick={() => {
               if (activeTab === 'depot') {
-                showToast('💡 Depot statutory profile is verified with CDSCO licensing authority.');
+                showToast('ðŸ’¡ Depot statutory profile is verified with CDSCO licensing authority.');
               } else {
                 setIsAddModalOpen(true);
               }
             }}
-            className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm flex items-center gap-2 shadow-sm transition cursor-pointer"
+            className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm flex items-center gap-2 shadow-sm transition cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             Add {activeTab === 'manufacturers' ? 'Manufacturer' : activeTab === 'categories' ? 'Category' : activeTab === 'racks' ? 'Rack Location' : activeTab === 'hsn' ? 'GST / HSN Slab' : activeTab === 'routes' ? 'Delivery Route' : 'Master Entry'}
@@ -290,10 +290,10 @@ export default function MastersManagementView() {
           className={`p-4 rounded-xl border cursor-pointer transition ${
             activeTab === 'manufacturers'
               ? 'bg-blue-50 border-blue-400 dark:bg-blue-950/40 dark:border-blue-500/60 shadow-xs'
-              : 'bg-white dark:bg-slate-900/80 border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40'
+              : 'bg-white dark:bg-[#0d1130]/90 border-slate-200 dark:border-white/8 hover:bg-slate-50 dark:hover:bg-[#161940]/40'
           }`}
         >
-          <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Manufacturers</div>
+          <div className="text-slate-500 dark:text-[#adb5d4] text-xs font-bold uppercase tracking-wider">Manufacturers</div>
           <div className="text-2xl font-black text-slate-900 dark:text-white mt-1">{summary.totalManufacturers}</div>
           <div className="text-xs text-blue-600 dark:text-blue-400 mt-1 flex items-center gap-1 font-medium">
             <Building className="w-3.5 h-3.5" /> Pharma Companies
@@ -305,10 +305,10 @@ export default function MastersManagementView() {
           className={`p-4 rounded-xl border cursor-pointer transition ${
             activeTab === 'categories'
               ? 'bg-purple-50 border-purple-400 dark:bg-purple-950/40 dark:border-purple-500/60 shadow-xs'
-              : 'bg-white dark:bg-slate-900/80 border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40'
+              : 'bg-white dark:bg-[#0d1130]/90 border-slate-200 dark:border-white/8 hover:bg-slate-50 dark:hover:bg-[#161940]/40'
           }`}
         >
-          <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Therapeutic Groups</div>
+          <div className="text-slate-500 dark:text-[#adb5d4] text-xs font-bold uppercase tracking-wider">Therapeutic Groups</div>
           <div className="text-2xl font-black text-slate-900 dark:text-white mt-1">{summary.totalCategories}</div>
           <div className="text-xs text-purple-600 dark:text-purple-400 mt-1 flex items-center gap-1 font-medium">
             <Layers className="w-3.5 h-3.5" /> CDSCO Schedules
@@ -320,10 +320,10 @@ export default function MastersManagementView() {
           className={`p-4 rounded-xl border cursor-pointer transition ${
             activeTab === 'racks'
               ? 'bg-cyan-50 border-cyan-400 dark:bg-cyan-950/40 dark:border-cyan-500/60 shadow-xs'
-              : 'bg-white dark:bg-slate-900/80 border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40'
+              : 'bg-white dark:bg-[#0d1130]/90 border-slate-200 dark:border-white/8 hover:bg-slate-50 dark:hover:bg-[#161940]/40'
           }`}
         >
-          <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Warehouse Bins</div>
+          <div className="text-slate-500 dark:text-[#adb5d4] text-xs font-bold uppercase tracking-wider">Warehouse Bins</div>
           <div className="text-2xl font-black text-slate-900 dark:text-white mt-1">{summary.totalRacks}</div>
           <div className="text-xs text-cyan-600 dark:text-cyan-400 mt-1 flex items-center gap-1 font-medium">
             <Boxes className="w-3.5 h-3.5" /> Put-Away Racks
@@ -335,10 +335,10 @@ export default function MastersManagementView() {
           className={`p-4 rounded-xl border cursor-pointer transition ${
             activeTab === 'hsn'
               ? 'bg-emerald-50 border-emerald-400 dark:bg-emerald-950/40 dark:border-emerald-500/60 shadow-xs'
-              : 'bg-white dark:bg-slate-900/80 border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40'
+              : 'bg-white dark:bg-[#0d1130]/90 border-slate-200 dark:border-white/8 hover:bg-slate-50 dark:hover:bg-[#161940]/40'
           }`}
         >
-          <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Tax & HSN Codes</div>
+          <div className="text-slate-500 dark:text-[#adb5d4] text-xs font-bold uppercase tracking-wider">Tax & HSN Codes</div>
           <div className="text-2xl font-black text-slate-900 dark:text-white mt-1">{summary.totalHsnCodes}</div>
           <div className="text-xs text-emerald-600 dark:text-emerald-400 mt-1 flex items-center gap-1 font-medium">
             <Percent className="w-3.5 h-3.5" /> Dual GST Slabs
@@ -350,10 +350,10 @@ export default function MastersManagementView() {
           className={`p-4 rounded-xl border cursor-pointer transition ${
             activeTab === 'routes'
               ? 'bg-amber-50 border-amber-400 dark:bg-amber-950/40 dark:border-amber-500/60 shadow-xs'
-              : 'bg-white dark:bg-slate-900/80 border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40'
+              : 'bg-white dark:bg-[#0d1130]/90 border-slate-200 dark:border-white/8 hover:bg-slate-50 dark:hover:bg-[#161940]/40'
           }`}
         >
-          <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Delivery Routes</div>
+          <div className="text-slate-500 dark:text-[#adb5d4] text-xs font-bold uppercase tracking-wider">Delivery Routes</div>
           <div className="text-2xl font-black text-slate-900 dark:text-white mt-1">{summary.totalRoutes}</div>
           <div className="text-xs text-amber-600 dark:text-amber-400 mt-1 flex items-center gap-1 font-medium">
             <Truck className="w-3.5 h-3.5" /> Van Trip Loops
@@ -362,13 +362,13 @@ export default function MastersManagementView() {
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-slate-200 dark:border-slate-800 gap-2 sm:gap-6 overflow-x-auto text-xs sm:text-sm font-semibold">
+      <div className="flex border-b border-slate-200 dark:border-white/8 gap-2 sm:gap-6 overflow-x-auto text-xs sm:text-sm font-semibold">
         <button
           onClick={() => setActiveTab('manufacturers')}
           className={`pb-3 px-2 border-b-2 flex items-center gap-2 transition cursor-pointer whitespace-nowrap ${
             activeTab === 'manufacturers'
               ? 'border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400'
-              : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              : 'border-transparent text-slate-600 dark:text-[#adb5d4] hover:text-slate-900 dark:hover:text-white'
           }`}
         >
           <Building className="w-4 h-4" />
@@ -379,7 +379,7 @@ export default function MastersManagementView() {
           className={`pb-3 px-2 border-b-2 flex items-center gap-2 transition cursor-pointer whitespace-nowrap ${
             activeTab === 'categories'
               ? 'border-purple-600 text-purple-600 dark:border-purple-400 dark:text-purple-400'
-              : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              : 'border-transparent text-slate-600 dark:text-[#adb5d4] hover:text-slate-900 dark:hover:text-white'
           }`}
         >
           <Layers className="w-4 h-4" />
@@ -390,7 +390,7 @@ export default function MastersManagementView() {
           className={`pb-3 px-2 border-b-2 flex items-center gap-2 transition cursor-pointer whitespace-nowrap ${
             activeTab === 'racks'
               ? 'border-cyan-600 text-cyan-600 dark:border-cyan-400 dark:text-cyan-400'
-              : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              : 'border-transparent text-slate-600 dark:text-[#adb5d4] hover:text-slate-900 dark:hover:text-white'
           }`}
         >
           <Boxes className="w-4 h-4" />
@@ -401,7 +401,7 @@ export default function MastersManagementView() {
           className={`pb-3 px-2 border-b-2 flex items-center gap-2 transition cursor-pointer whitespace-nowrap ${
             activeTab === 'hsn'
               ? 'border-emerald-600 text-emerald-600 dark:border-emerald-400 dark:text-emerald-400'
-              : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              : 'border-transparent text-slate-600 dark:text-[#adb5d4] hover:text-slate-900 dark:hover:text-white'
           }`}
         >
           <Percent className="w-4 h-4" />
@@ -412,7 +412,7 @@ export default function MastersManagementView() {
           className={`pb-3 px-2 border-b-2 flex items-center gap-2 transition cursor-pointer whitespace-nowrap ${
             activeTab === 'routes'
               ? 'border-amber-600 text-amber-600 dark:border-amber-400 dark:text-amber-400'
-              : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              : 'border-transparent text-slate-600 dark:text-[#adb5d4] hover:text-slate-900 dark:hover:text-white'
           }`}
         >
           <Truck className="w-4 h-4" />
@@ -423,7 +423,7 @@ export default function MastersManagementView() {
           className={`pb-3 px-2 border-b-2 flex items-center gap-2 transition cursor-pointer whitespace-nowrap ${
             activeTab === 'depot'
               ? 'border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400'
-              : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              : 'border-transparent text-slate-600 dark:text-[#adb5d4] hover:text-slate-900 dark:hover:text-white'
           }`}
         >
           <ShieldCheck className="w-4 h-4" />
@@ -433,14 +433,14 @@ export default function MastersManagementView() {
 
       {/* Tab 1: Manufacturers Master */}
       {activeTab === 'manufacturers' && (
-        <div className="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-          <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <div className="bg-white dark:bg-[#0d1130] rounded-2xl border border-slate-200 dark:border-white/8 shadow-sm overflow-hidden">
+          <div className="p-4 border-b border-slate-200 dark:border-white/8 flex items-center justify-between">
             <div className="text-sm font-bold text-slate-900 dark:text-white">Registered Pharmaceutical Manufacturers</div>
             <div className="text-xs text-slate-500">Defines returns, credit notes &amp; brand divisions</div>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-700 dark:text-slate-300">
-              <thead className="bg-slate-50 dark:bg-slate-950 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
+            <table className="w-full text-left text-sm text-slate-700 dark:text-[#c2c8e8]">
+              <thead className="bg-slate-50 dark:bg-[#070a1e] text-xs font-bold text-slate-600 dark:text-[#adb5d4] uppercase tracking-wider border-b border-slate-200 dark:border-white/8">
                 <tr>
                   <th className="py-3 px-4">Company Code</th>
                   <th className="py-3 px-4">Manufacturer Name</th>
@@ -453,22 +453,22 @@ export default function MastersManagementView() {
               </thead>
               <tbody className="divide-y divide-slate-200 dark:divide-slate-800/80">
                 {manufacturers.map(m => (
-                  <tr key={m.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                  <tr key={m.id} className="hover:bg-slate-50 dark:hover:bg-[#161940]/50 transition">
                     <td className="py-3 px-4 font-mono font-bold text-blue-700 dark:text-blue-400 text-xs">
                       {m.code}
                     </td>
                     <td className="py-3 px-4 font-bold text-slate-900 dark:text-white">
                       {m.name}
                     </td>
-                    <td className="py-3 px-4 text-xs text-slate-600 dark:text-slate-300">
+                    <td className="py-3 px-4 text-xs text-slate-600 dark:text-[#c2c8e8]">
                       {m.divisions}
                     </td>
-                    <td className="py-3 px-4 text-xs text-slate-500 dark:text-slate-400">
+                    <td className="py-3 px-4 text-xs text-slate-500 dark:text-[#adb5d4]">
                       {m.returnPolicy}
                     </td>
                     <td className="py-3 px-4 text-xs">
-                      <div className="text-slate-900 dark:text-slate-200 font-medium">{m.phone}</div>
-                      <div className="text-slate-500 dark:text-slate-400">{m.email}</div>
+                      <div className="text-slate-900 dark:text-[#d4d8f5] font-medium">{m.phone}</div>
+                      <div className="text-slate-500 dark:text-[#adb5d4]">{m.email}</div>
                     </td>
                     <td className="py-3 px-4 text-center font-bold text-blue-700 dark:text-cyan-400">
                       {m.skuCount}
@@ -488,14 +488,14 @@ export default function MastersManagementView() {
 
       {/* Tab 2: Categories Master */}
       {activeTab === 'categories' && (
-        <div className="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-          <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <div className="bg-white dark:bg-[#0d1130] rounded-2xl border border-slate-200 dark:border-white/8 shadow-sm overflow-hidden">
+          <div className="p-4 border-b border-slate-200 dark:border-white/8 flex items-center justify-between">
             <div className="text-sm font-bold text-slate-900 dark:text-white">Therapeutic Categories &amp; CDSCO Schedule Classes</div>
             <div className="text-xs text-slate-500">Regulates prescription requirements and storage controls</div>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-700 dark:text-slate-300">
-              <thead className="bg-slate-50 dark:bg-slate-950 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
+            <table className="w-full text-left text-sm text-slate-700 dark:text-[#c2c8e8]">
+              <thead className="bg-slate-50 dark:bg-[#070a1e] text-xs font-bold text-slate-600 dark:text-[#adb5d4] uppercase tracking-wider border-b border-slate-200 dark:border-white/8">
                 <tr>
                   <th className="py-3 px-4">Category Name</th>
                   <th className="py-3 px-4">Therapeutic Scope</th>
@@ -507,11 +507,11 @@ export default function MastersManagementView() {
               </thead>
               <tbody className="divide-y divide-slate-200 dark:divide-slate-800/80">
                 {categories.map(c => (
-                  <tr key={c.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                  <tr key={c.id} className="hover:bg-slate-50 dark:hover:bg-[#161940]/50 transition">
                     <td className="py-3 px-4 font-bold text-slate-900 dark:text-white">
                       {c.name}
                     </td>
-                    <td className="py-3 px-4 text-xs text-slate-600 dark:text-slate-300">
+                    <td className="py-3 px-4 text-xs text-slate-600 dark:text-[#c2c8e8]">
                       {c.description}
                     </td>
                     <td className="py-3 px-4">
@@ -527,7 +527,7 @@ export default function MastersManagementView() {
                         {c.scheduleClass}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-xs font-medium text-slate-700 dark:text-slate-300">
+                    <td className="py-3 px-4 text-xs font-medium text-slate-700 dark:text-[#c2c8e8]">
                       {c.storageCondition}
                     </td>
                     <td className="py-3 px-4 text-center font-bold text-purple-700 dark:text-purple-400">
@@ -548,14 +548,14 @@ export default function MastersManagementView() {
 
       {/* Tab 3: Racks Master */}
       {activeTab === 'racks' && (
-        <div className="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-          <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <div className="bg-white dark:bg-[#0d1130] rounded-2xl border border-slate-200 dark:border-white/8 shadow-sm overflow-hidden">
+          <div className="p-4 border-b border-slate-200 dark:border-white/8 flex items-center justify-between">
             <div className="text-sm font-bold text-slate-900 dark:text-white">Warehouse Zone, Rack &amp; Bin Hierarchy</div>
             <div className="text-xs text-slate-500">Accurate physical put-away locations for rapid picker routing</div>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-700 dark:text-slate-300">
-              <thead className="bg-slate-50 dark:bg-slate-950 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
+            <table className="w-full text-left text-sm text-slate-700 dark:text-[#c2c8e8]">
+              <thead className="bg-slate-50 dark:bg-[#070a1e] text-xs font-bold text-slate-600 dark:text-[#adb5d4] uppercase tracking-wider border-b border-slate-200 dark:border-white/8">
                 <tr>
                   <th className="py-3 px-4">Bin Location Code</th>
                   <th className="py-3 px-4">Warehouse Zone</th>
@@ -568,20 +568,20 @@ export default function MastersManagementView() {
               </thead>
               <tbody className="divide-y divide-slate-200 dark:divide-slate-800/80">
                 {racks.map(r => (
-                  <tr key={r.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                  <tr key={r.id} className="hover:bg-slate-50 dark:hover:bg-[#161940]/50 transition">
                     <td className="py-3 px-4 font-mono font-bold text-cyan-700 dark:text-cyan-400 text-xs">
                       {r.binCode}
                     </td>
                     <td className="py-3 px-4 font-bold text-slate-900 dark:text-white">
                       {r.zone}
                     </td>
-                    <td className="py-3 px-4 text-xs text-slate-600 dark:text-slate-300 font-mono">
+                    <td className="py-3 px-4 text-xs text-slate-600 dark:text-[#c2c8e8] font-mono">
                       {r.rack} &bull; {r.shelf} &bull; {r.bin}
                     </td>
-                    <td className="py-3 px-4 text-xs font-medium text-slate-700 dark:text-slate-300">
+                    <td className="py-3 px-4 text-xs font-medium text-slate-700 dark:text-[#c2c8e8]">
                       {r.storageType}
                     </td>
-                    <td className="py-3 px-4 text-center font-semibold text-slate-700 dark:text-slate-300">
+                    <td className="py-3 px-4 text-center font-semibold text-slate-700 dark:text-[#c2c8e8]">
                       {r.capacity}
                     </td>
                     <td className="py-3 px-4 text-center font-bold text-cyan-700 dark:text-cyan-400">
@@ -606,14 +606,14 @@ export default function MastersManagementView() {
 
       {/* Tab 4: HSN & Tax Master */}
       {activeTab === 'hsn' && (
-        <div className="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-          <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <div className="bg-white dark:bg-[#0d1130] rounded-2xl border border-slate-200 dark:border-white/8 shadow-sm overflow-hidden">
+          <div className="p-4 border-b border-slate-200 dark:border-white/8 flex items-center justify-between">
             <div className="text-sm font-bold text-slate-900 dark:text-white">Indian Dual GST &amp; HSN Directory Master</div>
             <div className="text-xs text-slate-500">Statutory CGST/SGST/IGST apportionments for pharmaceutical invoicing</div>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-700 dark:text-slate-300">
-              <thead className="bg-slate-50 dark:bg-slate-950 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
+            <table className="w-full text-left text-sm text-slate-700 dark:text-[#c2c8e8]">
+              <thead className="bg-slate-50 dark:bg-[#070a1e] text-xs font-bold text-slate-600 dark:text-[#adb5d4] uppercase tracking-wider border-b border-slate-200 dark:border-white/8">
                 <tr>
                   <th className="py-3 px-4">HSN Code</th>
                   <th className="py-3 px-4">Therapeutic / Commodity Description</th>
@@ -627,26 +627,26 @@ export default function MastersManagementView() {
               </thead>
               <tbody className="divide-y divide-slate-200 dark:divide-slate-800/80">
                 {hsnTax.map(h => (
-                  <tr key={h.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                  <tr key={h.id} className="hover:bg-slate-50 dark:hover:bg-[#161940]/50 transition">
                     <td className="py-3 px-4 font-mono font-bold text-emerald-700 dark:text-emerald-400 text-xs">
                       {h.hsnCode}
                     </td>
-                    <td className="py-3 px-4 text-xs font-semibold text-slate-900 dark:text-slate-200 max-w-md">
+                    <td className="py-3 px-4 text-xs font-semibold text-slate-900 dark:text-[#d4d8f5] max-w-md">
                       {h.description}
                     </td>
                     <td className="py-3 px-4 text-center font-bold text-slate-900 dark:text-white">
                       {h.gstRate}%
                     </td>
-                    <td className="py-3 px-4 text-center text-xs text-slate-600 dark:text-slate-300 font-mono">
+                    <td className="py-3 px-4 text-center text-xs text-slate-600 dark:text-[#c2c8e8] font-mono">
                       {h.cgstRate}%
                     </td>
-                    <td className="py-3 px-4 text-center text-xs text-slate-600 dark:text-slate-300 font-mono">
+                    <td className="py-3 px-4 text-center text-xs text-slate-600 dark:text-[#c2c8e8] font-mono">
                       {h.sgstRate}%
                     </td>
-                    <td className="py-3 px-4 text-center text-xs text-slate-600 dark:text-slate-300 font-mono">
+                    <td className="py-3 px-4 text-center text-xs text-slate-600 dark:text-[#c2c8e8] font-mono">
                       {h.igstRate}%
                     </td>
-                    <td className="py-3 px-4 text-xs text-slate-500 dark:text-slate-400">
+                    <td className="py-3 px-4 text-xs text-slate-500 dark:text-[#adb5d4]">
                       {h.slabName}
                     </td>
                     <td className="py-3 px-4 text-right">
@@ -664,14 +664,14 @@ export default function MastersManagementView() {
 
       {/* Tab 5: Delivery Routes Master */}
       {activeTab === 'routes' && (
-        <div className="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-          <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <div className="bg-white dark:bg-[#0d1130] rounded-2xl border border-slate-200 dark:border-white/8 shadow-sm overflow-hidden">
+          <div className="p-4 border-b border-slate-200 dark:border-white/8 flex items-center justify-between">
             <div className="text-sm font-bold text-slate-900 dark:text-white">Territory &amp; Van Route Master</div>
             <div className="text-xs text-slate-500">Daily logistics trip scheduling &amp; driver COD allocations</div>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-700 dark:text-slate-300">
-              <thead className="bg-slate-50 dark:bg-slate-950 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
+            <table className="w-full text-left text-sm text-slate-700 dark:text-[#c2c8e8]">
+              <thead className="bg-slate-50 dark:bg-[#070a1e] text-xs font-bold text-slate-600 dark:text-[#adb5d4] uppercase tracking-wider border-b border-slate-200 dark:border-white/8">
                 <tr>
                   <th className="py-3 px-4">Route Name</th>
                   <th className="py-3 px-4">Area Coverage</th>
@@ -684,24 +684,24 @@ export default function MastersManagementView() {
               </thead>
               <tbody className="divide-y divide-slate-200 dark:divide-slate-800/80">
                 {routes.map(r => (
-                  <tr key={r.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                  <tr key={r.id} className="hover:bg-slate-50 dark:hover:bg-[#161940]/50 transition">
                     <td className="py-3 px-4 font-bold text-slate-900 dark:text-white">
                       {r.routeName}
                     </td>
-                    <td className="py-3 px-4 text-xs text-slate-600 dark:text-slate-300">
+                    <td className="py-3 px-4 text-xs text-slate-600 dark:text-[#c2c8e8]">
                       {r.areaCoverage}
                     </td>
-                    <td className="py-3 px-4 text-xs font-mono text-slate-700 dark:text-slate-300">
+                    <td className="py-3 px-4 text-xs font-mono text-slate-700 dark:text-[#c2c8e8]">
                       {r.vehicleAssigned}
                     </td>
                     <td className="py-3 px-4 text-xs">
                       <div className="font-bold text-slate-900 dark:text-white">{r.driverName}</div>
-                      <div className="text-slate-500 dark:text-slate-400">{r.driverPhone}</div>
+                      <div className="text-slate-500 dark:text-[#adb5d4]">{r.driverPhone}</div>
                     </td>
                     <td className="py-3 px-4 text-center font-bold text-amber-700 dark:text-amber-400">
                       {r.chemistCount}
                     </td>
-                    <td className="py-3 px-4 text-xs text-slate-500 dark:text-slate-400">
+                    <td className="py-3 px-4 text-xs text-slate-500 dark:text-[#adb5d4]">
                       {r.frequency}
                     </td>
                     <td className="py-3 px-4 text-right font-bold text-emerald-700 dark:text-emerald-400 font-mono">
@@ -717,51 +717,51 @@ export default function MastersManagementView() {
 
       {/* Tab 6: Depot Regulatory Profile */}
       {activeTab === 'depot' && (
-        <div className="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 space-y-6">
-          <div className="border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div className="bg-white dark:bg-[#0d1130] rounded-2xl border border-slate-200 dark:border-white/8 shadow-sm p-6 space-y-6">
+          <div className="border-b border-slate-200 dark:border-white/8 pb-4">
             <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
               <ShieldCheck className="w-5 h-5 text-blue-600 dark:text-blue-400" />
               Corporate Depot &amp; Statutory Regulatory Credentials
             </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-[#adb5d4] mt-0.5">
               These credentials print on all Rule 46 GST Invoices, Inward GRNs, Delivery Challans, and Form 16 / Salary Certificates.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-1">
-              <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase">Registered Entity Name</div>
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#070a1e] border border-slate-200 dark:border-white/8 space-y-1">
+              <div className="text-xs text-slate-500 dark:text-[#adb5d4] font-semibold uppercase">Registered Entity Name</div>
               <div className="text-sm font-bold text-slate-900 dark:text-white">PharmaGrid Logistics &amp; Healthcare Pvt Ltd</div>
               <div className="text-xs text-slate-500">Wholesale Pharma Stockist Depot</div>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-1">
-              <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase">GSTIN / State Jurisdiction</div>
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#070a1e] border border-slate-200 dark:border-white/8 space-y-1">
+              <div className="text-xs text-slate-500 dark:text-[#adb5d4] font-semibold uppercase">GSTIN / State Jurisdiction</div>
               <div className="text-sm font-mono font-bold text-blue-700 dark:text-blue-400">33AAAAA0000A1Z5</div>
               <div className="text-xs text-slate-500">State Code: 33 (Tamil Nadu)</div>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-1">
-              <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase">CDSCO Drug License (Form 20B/21B)</div>
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#070a1e] border border-slate-200 dark:border-white/8 space-y-1">
+              <div className="text-xs text-slate-500 dark:text-[#adb5d4] font-semibold uppercase">CDSCO Drug License (Form 20B/21B)</div>
               <div className="text-sm font-mono font-bold text-emerald-700 dark:text-emerald-400">TN-CHN-20B-10992 / 21B-10993</div>
               <div className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Valid Thru: 31-Dec-2030 (Active)</div>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-1">
-              <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase">Licensed Reg. Pharmacist In-Charge</div>
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#070a1e] border border-slate-200 dark:border-white/8 space-y-1">
+              <div className="text-xs text-slate-500 dark:text-[#adb5d4] font-semibold uppercase">Licensed Reg. Pharmacist In-Charge</div>
               <div className="text-sm font-bold text-slate-900 dark:text-white">Selva Kumaran (Owner/MD)</div>
               <div className="text-xs text-slate-500 font-mono">Tamil Nadu Pharmacy Council: TN-PC-32104/2012</div>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-1">
-              <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase">FSSAI Central Food License</div>
-              <div className="text-sm font-mono font-bold text-slate-900 dark:text-slate-100">10019042004811</div>
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#070a1e] border border-slate-200 dark:border-white/8 space-y-1">
+              <div className="text-xs text-slate-500 dark:text-[#adb5d4] font-semibold uppercase">FSSAI Central Food License</div>
+              <div className="text-sm font-mono font-bold text-slate-900 dark:text-[#e8eaff]">10019042004811</div>
               <div className="text-xs text-slate-500">Nutraceuticals &amp; Health Supplements</div>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-1">
-              <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase">Corporate Bank Account (NEFT/RTGS)</div>
-              <div className="text-sm font-mono font-bold text-slate-900 dark:text-slate-100">HDFC Bank: 50200012345678</div>
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#070a1e] border border-slate-200 dark:border-white/8 space-y-1">
+              <div className="text-xs text-slate-500 dark:text-[#adb5d4] font-semibold uppercase">Corporate Bank Account (NEFT/RTGS)</div>
+              <div className="text-sm font-mono font-bold text-slate-900 dark:text-[#e8eaff]">HDFC Bank: 50200012345678</div>
               <div className="text-xs text-slate-500 font-mono">IFSC: HDFC0000024 (Guindy Branch)</div>
             </div>
           </div>
@@ -769,7 +769,7 @@ export default function MastersManagementView() {
           <div className="pt-2 flex justify-end">
             <button
               onClick={() => showToast('✅ Depot statutory profile verified with CDSCO licensing portal.')}
-              className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow transition cursor-pointer"
+              className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow transition cursor-pointer"
             >
               Verify License with CDSCO Portal
             </button>
@@ -780,20 +780,20 @@ export default function MastersManagementView() {
       {/* 7. MODAL: ADD MASTER ENTRY */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] animate-in zoom-in-95">
-            <div className="p-4 bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+          <div className="bg-white dark:bg-[#0d1130] border border-slate-200 dark:border-white/8 rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] animate-in zoom-in-95">
+            <div className="p-4 bg-slate-50 dark:bg-[#070a1e] border-b border-slate-200 dark:border-white/8 flex justify-between items-center">
               <div>
                 <h3 className="font-bold text-slate-900 dark:text-white text-base flex items-center gap-2">
                   <Database className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                   Add Master: {activeTab === 'manufacturers' ? 'Pharma Manufacturer' : activeTab === 'categories' ? 'Therapeutic Category' : activeTab === 'racks' ? 'Warehouse Rack Location' : activeTab === 'hsn' ? 'GST / HSN Tax Slab' : 'Van Delivery Route'}
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-slate-500 dark:text-[#adb5d4]">
                   Central master entity registry for system-wide ERP operations.
                 </p>
               </div>
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-lg transition"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-[#d4d8f5] p-1 rounded-lg transition"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -804,7 +804,7 @@ export default function MastersManagementView() {
               {activeTab === 'manufacturers' && (
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                       Manufacturer / Principal Company Name *
                     </label>
                     <input
@@ -813,71 +813,71 @@ export default function MastersManagementView() {
                       placeholder="e.g. Torrent Pharmaceuticals Ltd"
                       value={mfgForm.name}
                       onChange={e => setMfgForm({ ...mfgForm, name: e.target.value })}
-                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-blue-500 outline-none"
+                      className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-blue-500 outline-none"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Company Code</label>
+                      <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">Company Code</label>
                       <input
                         type="text"
                         placeholder="e.g. TORRENT"
                         value={mfgForm.code}
                         onChange={e => setMfgForm({ ...mfgForm, code: e.target.value })}
-                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-blue-500 outline-none"
+                        className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-blue-500 outline-none"
                       />
                     </div>
                     <div>
-                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Credit Days</label>
+                      <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">Credit Days</label>
                       <input
                         type="number"
                         value={mfgForm.creditDays}
                         onChange={e => setMfgForm({ ...mfgForm, creditDays: Number(e.target.value) })}
-                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-blue-500 outline-none"
+                        className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-blue-500 outline-none"
                       />
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Contact Officer</label>
+                      <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">Contact Officer</label>
                       <input
                         type="text"
                         placeholder="e.g. Rajesh Kumar"
                         value={mfgForm.contactPerson}
                         onChange={e => setMfgForm({ ...mfgForm, contactPerson: e.target.value })}
-                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
+                        className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
                       />
                     </div>
                     <div>
-                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Phone Number</label>
+                      <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">Phone Number</label>
                       <input
                         type="text"
                         placeholder="e.g. +91 22 2495 8000"
                         value={mfgForm.phone}
                         onChange={e => setMfgForm({ ...mfgForm, phone: e.target.value })}
-                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none font-mono"
+                        className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none font-mono"
                       />
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Drug License (MFG)</label>
+                      <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">Drug License (MFG)</label>
                       <input
                         type="text"
                         placeholder="e.g. 25-KD-3200"
                         value={mfgForm.drugLicenseNo}
                         onChange={e => setMfgForm({ ...mfgForm, drugLicenseNo: e.target.value })}
-                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-blue-500 outline-none"
+                        className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-blue-500 outline-none"
                       />
                     </div>
                     <div>
-                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">GSTIN Number</label>
+                      <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">GSTIN Number</label>
                       <input
                         type="text"
                         placeholder="e.g. 24AAACT1234F1Z9"
                         value={mfgForm.gstin}
                         onChange={e => setMfgForm({ ...mfgForm, gstin: e.target.value })}
-                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-blue-500 outline-none"
+                        className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-blue-500 outline-none"
                       />
                     </div>
                   </div>
@@ -888,7 +888,7 @@ export default function MastersManagementView() {
               {activeTab === 'categories' && (
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                       Category / Therapeutic Group Name *
                     </label>
                     <input
@@ -897,26 +897,26 @@ export default function MastersManagementView() {
                       placeholder="e.g. Antihypertensives & Beta Blockers"
                       value={catForm.name}
                       onChange={e => setCatForm({ ...catForm, name: e.target.value })}
-                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-blue-500 outline-none"
+                      className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-blue-500 outline-none"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Category Code</label>
+                      <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">Category Code</label>
                       <input
                         type="text"
                         placeholder="e.g. CAT-CARDIO"
                         value={catForm.code}
                         onChange={e => setCatForm({ ...catForm, code: e.target.value })}
-                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-blue-500 outline-none"
+                        className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-blue-500 outline-none"
                       />
                     </div>
                     <div>
-                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">CDSCO Schedule Class</label>
+                      <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">CDSCO Schedule Class</label>
                       <select
                         value={catForm.scheduleClass}
                         onChange={e => setCatForm({ ...catForm, scheduleClass: e.target.value as any })}
-                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
+                        className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
                       >
                         <option value="Regular">Regular (OTC / Non-Prescription)</option>
                         <option value="H">Schedule H (Prescription)</option>
@@ -926,7 +926,7 @@ export default function MastersManagementView() {
                       </select>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 p-3 bg-blue-50/50 dark:bg-slate-950/60 rounded-xl border border-blue-200 dark:border-slate-800">
+                  <div className="flex items-center gap-2 p-3 bg-blue-50/50 dark:bg-[#070a1e]/60 rounded-xl border border-blue-200 dark:border-white/8">
                     <input
                       type="checkbox"
                       id="coldChainToggle"
@@ -934,17 +934,17 @@ export default function MastersManagementView() {
                       onChange={e => setCatForm({ ...catForm, isColdChain: e.target.checked, recommendedTemp: e.target.checked ? '2°C to 8°C (Refrigerated)' : 'Store below 25°C' })}
                       className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500"
                     />
-                    <label htmlFor="coldChainToggle" className="text-slate-800 dark:text-slate-200 font-semibold cursor-pointer">
+                    <label htmlFor="coldChainToggle" className="text-slate-800 dark:text-[#d4d8f5] font-semibold cursor-pointer">
                       Mandatory Cold Chain Category (Requires Refrigerated Cold Storage)
                     </label>
                   </div>
                   <div>
-                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Recommended Storage</label>
+                    <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">Recommended Storage</label>
                     <input
                       type="text"
                       value={catForm.recommendedTemp}
                       onChange={e => setCatForm({ ...catForm, recommendedTemp: e.target.value })}
-                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
+                      className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
                     />
                   </div>
                 </div>
@@ -954,7 +954,7 @@ export default function MastersManagementView() {
               {activeTab === 'racks' && (
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                       Rack Location Identifier Code *
                     </label>
                     <input
@@ -963,15 +963,15 @@ export default function MastersManagementView() {
                       placeholder="e.g. Z1-R04"
                       value={rackForm.rackCode}
                       onChange={e => setRackForm({ ...rackForm, rackCode: e.target.value })}
-                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase font-bold focus:border-blue-500 outline-none"
+                      className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase font-bold focus:border-blue-500 outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Warehouse Zone</label>
+                    <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">Warehouse Zone</label>
                     <select
                       value={rackForm.zone}
                       onChange={e => setRackForm({ ...rackForm, zone: e.target.value })}
-                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
+                      className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
                     >
                       <option value="Zone A - Fast Moving Tablets">Zone A - Fast Moving Tablets</option>
                       <option value="Zone B - Syrups & Liquids">Zone B - Syrups &amp; Liquids</option>
@@ -982,34 +982,34 @@ export default function MastersManagementView() {
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Shelf Count</label>
+                      <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">Shelf Count</label>
                       <input
                         type="number"
                         min="1"
                         max="10"
                         value={rackForm.shelfCount}
                         onChange={e => setRackForm({ ...rackForm, shelfCount: Number(e.target.value) })}
-                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-blue-500 outline-none"
+                        className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-blue-500 outline-none"
                       />
                     </div>
                     <div>
-                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Box Capacity</label>
+                      <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">Box Capacity</label>
                       <input
                         type="number"
                         min="50"
                         step="50"
                         value={rackForm.capacityBoxes}
                         onChange={e => setRackForm({ ...rackForm, capacityBoxes: Number(e.target.value) })}
-                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-blue-500 outline-none"
+                        className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-blue-500 outline-none"
                       />
                     </div>
                   </div>
                   <div>
-                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Storage Condition</label>
+                    <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">Storage Condition</label>
                     <select
                       value={rackForm.temperatureType}
                       onChange={e => setRackForm({ ...rackForm, temperatureType: e.target.value })}
-                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
+                      className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
                     >
                       <option value="Ambient (15-25°C)">Ambient (15-25°C)</option>
                       <option value="Refrigerated (2-8°C)">Refrigerated Cold Room (2-8°C)</option>
@@ -1023,7 +1023,7 @@ export default function MastersManagementView() {
               {activeTab === 'hsn' && (
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                       HSN Code (Chapter 30 Indian Customs Tariff) *
                     </label>
                     <input
@@ -1032,11 +1032,11 @@ export default function MastersManagementView() {
                       placeholder="e.g. 30049099"
                       value={hsnForm.hsnCode}
                       onChange={e => setHsnForm({ ...hsnForm, hsnCode: e.target.value })}
-                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono font-bold focus:border-blue-500 outline-none"
+                      className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono font-bold focus:border-blue-500 outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                       Statutory Description *
                     </label>
                     <input
@@ -1045,12 +1045,12 @@ export default function MastersManagementView() {
                       placeholder="e.g. Other medicaments consisting of mixed or unmixed products"
                       value={hsnForm.description}
                       onChange={e => setHsnForm({ ...hsnForm, description: e.target.value })}
-                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
+                      className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
                     />
                   </div>
                   <div className="grid grid-cols-3 gap-3">
                     <div>
-                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">CGST Rate (%)</label>
+                      <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">CGST Rate (%)</label>
                       <input
                         type="number"
                         step="0.5"
@@ -1059,27 +1059,27 @@ export default function MastersManagementView() {
                           const val = Number(e.target.value);
                           setHsnForm({ ...hsnForm, cgst: val, sgst: val, igst: val * 2 });
                         }}
-                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-blue-500 outline-none font-bold"
+                        className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-blue-500 outline-none font-bold"
                       />
                     </div>
                     <div>
-                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">SGST Rate (%)</label>
+                      <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">SGST Rate (%)</label>
                       <input
                         type="number"
                         step="0.5"
                         value={hsnForm.sgst}
                         readOnly
-                        className="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-700 dark:text-slate-300 font-mono outline-none font-bold"
+                        className="w-full bg-slate-100 dark:bg-[#111535] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-700 dark:text-[#c2c8e8] font-mono outline-none font-bold"
                       />
                     </div>
                     <div>
-                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">IGST Rate (%)</label>
+                      <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">IGST Rate (%)</label>
                       <input
                         type="number"
                         step="1"
                         value={hsnForm.igst}
                         readOnly
-                        className="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-blue-700 dark:text-blue-400 font-mono outline-none font-bold"
+                        className="w-full bg-slate-100 dark:bg-[#111535] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-blue-700 dark:text-blue-400 font-mono outline-none font-bold"
                       />
                     </div>
                   </div>
@@ -1090,7 +1090,7 @@ export default function MastersManagementView() {
               {activeTab === 'routes' && (
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">
                       Route Name / Territory Corridor *
                     </label>
                     <input
@@ -1099,87 +1099,87 @@ export default function MastersManagementView() {
                       placeholder="e.g. Route 05 - Tambaram & Chromepet Loop"
                       value={routeForm.routeName}
                       onChange={e => setRouteForm({ ...routeForm, routeName: e.target.value })}
-                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-blue-500 outline-none"
+                      className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-blue-500 outline-none"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Route Code</label>
+                      <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">Route Code</label>
                       <input
                         type="text"
                         placeholder="e.g. RT-TAMB"
                         value={routeForm.routeCode}
                         onChange={e => setRouteForm({ ...routeForm, routeCode: e.target.value })}
-                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-blue-500 outline-none"
+                        className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-blue-500 outline-none"
                       />
                     </div>
                     <div>
-                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Assigned Vehicle No</label>
+                      <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">Assigned Vehicle No</label>
                       <input
                         type="text"
                         placeholder="e.g. TN-09-CB-1044"
                         value={routeForm.assignedVehicle}
                         onChange={e => setRouteForm({ ...routeForm, assignedVehicle: e.target.value })}
-                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-blue-500 outline-none"
+                        className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-blue-500 outline-none"
                       />
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Driver Name</label>
+                      <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">Driver Name</label>
                       <input
                         type="text"
                         placeholder="e.g. V. Murugan"
                         value={routeForm.driverName}
                         onChange={e => setRouteForm({ ...routeForm, driverName: e.target.value })}
-                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
+                        className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
                       />
                     </div>
                     <div>
-                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Driver Phone</label>
+                      <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">Driver Phone</label>
                       <input
                         type="text"
                         value={routeForm.driverPhone}
                         onChange={e => setRouteForm({ ...routeForm, driverPhone: e.target.value })}
-                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-blue-500 outline-none"
+                        className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-blue-500 outline-none"
                       />
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Estimated Retail Stops</label>
+                      <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">Estimated Retail Stops</label>
                       <input
                         type="number"
                         value={routeForm.totalCustomersCount}
                         onChange={e => setRouteForm({ ...routeForm, totalCustomersCount: Number(e.target.value) })}
-                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-blue-500 outline-none"
+                        className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-blue-500 outline-none"
                       />
                     </div>
                     <div>
-                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Target COD (₹)</label>
+                      <label className="block text-slate-700 dark:text-[#c2c8e8] font-semibold mb-1">Target COD (₹)</label>
                       <input
                         type="number"
                         step="5000"
                         value={routeForm.targetCodCollection}
                         onChange={e => setRouteForm({ ...routeForm, targetCodCollection: Number(e.target.value) })}
-                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono font-bold focus:border-blue-500 outline-none"
+                        className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-lg p-2 text-slate-900 dark:text-white font-mono font-bold focus:border-blue-500 outline-none"
                       />
                     </div>
                   </div>
                 </div>
               )}
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-200 dark:border-slate-800">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-200 dark:border-white/8">
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold transition"
+                  className="px-4 py-2 rounded-xl border border-slate-300 dark:border-white/11 text-slate-700 dark:text-[#c2c8e8] hover:bg-slate-100 dark:hover:bg-[#161940] font-semibold transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold shadow-md transition flex items-center gap-1.5"
+                  className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold shadow-md transition flex items-center gap-1.5"
                 >
                   <Plus className="w-4 h-4" />
                   Save Master Entry
@@ -1192,3 +1192,4 @@ export default function MastersManagementView() {
     </div>
   );
 }
+

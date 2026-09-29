@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import {
@@ -532,7 +532,7 @@ export default function RapidBillingWorkspace() {
             </div>
             <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
               Main Chennai Depot
-              <span className="text-xs font-normal text-slate-600 dark:text-slate-400">| DL: TN/CHE/20B/1004</span>
+              <span className="text-xs font-normal text-slate-600 dark:text-[#adb5d4]">| DL: TN/CHE/20B/1004</span>
             </h2>
           </div>
         </div>
@@ -540,10 +540,10 @@ export default function RapidBillingWorkspace() {
         {/* Selected Customer Status Card (F1) */}
         <div
           onClick={() => setIsCustomerModalOpen(true)}
-          className="cursor-pointer group flex-1 max-w-xl bg-white dark:bg-slate-900/90 hover:bg-blue-50/30 dark:hover:bg-slate-850 border border-slate-200 dark:border-slate-800 hover:border-blue-400 rounded-xl p-3 transition-all shadow-xs"
+          className="cursor-pointer group flex-1 max-w-xl bg-white dark:bg-[#0d1130] hover:bg-blue-50/30 dark:hover:bg-[#0f1238] border border-slate-200 dark:border-white/8 hover:border-blue-400 rounded-xl p-3 transition-all shadow-xs"
         >
           <div className="flex items-center justify-between text-xs mb-1.5">
-            <div className="flex items-center gap-1.5 text-slate-700 dark:text-slate-300 font-medium">
+            <div className="flex items-center gap-1.5 text-slate-700 dark:text-[#c2c8e8] font-medium">
               <UserCheck className="w-4 h-4 text-blue-600 dark:text-blue-400" />
               <span>Customer [F1]:</span>
               <span className="text-slate-900 dark:text-white font-bold group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors">
@@ -564,7 +564,7 @@ export default function RapidBillingWorkspace() {
               )}
 
               {/* State Tax Mode Pill */}
-              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-700 border border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700">
+              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-700 border border-slate-200 dark:bg-[#111535] dark:text-[#c2c8e8] dark:border-white/11">
                 {isIntraState ? 'Intra-State (CGST+SGST)' : 'Inter-State (IGST)'}
               </span>
             </div>
@@ -572,7 +572,7 @@ export default function RapidBillingWorkspace() {
 
           {/* Credit Health Meter */}
           <div className="flex items-center gap-3">
-            <div className="flex-1 bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden border border-slate-200 dark:border-slate-700">
+            <div className="flex-1 bg-slate-100 dark:bg-[#111535] rounded-full h-2 overflow-hidden border border-slate-200 dark:border-white/11">
               <div
                 className={`h-full transition-all duration-500 ${
                   creditUsagePct > 90 ? 'bg-rose-500' : creditUsagePct > 70 ? 'bg-amber-500' : 'bg-blue-600 dark:bg-blue-400'
@@ -580,9 +580,9 @@ export default function RapidBillingWorkspace() {
                 style={{ width: `${creditUsagePct}%` }}
               />
             </div>
-            <div className="text-[11px] font-mono text-slate-700 dark:text-slate-300 whitespace-nowrap" suppressHydrationWarning>
-              <span suppressHydrationWarning className="font-semibold text-slate-900 dark:text-slate-100">Bal: ₹{formatInr(currentOutstanding)}</span>
-              <span className="text-slate-500 dark:text-slate-400" suppressHydrationWarning> / ₹{formatInr(creditLimit)}</span>
+            <div className="text-[11px] font-mono text-slate-700 dark:text-[#c2c8e8] whitespace-nowrap" suppressHydrationWarning>
+              <span suppressHydrationWarning className="font-semibold text-slate-900 dark:text-[#e8eaff]">Bal: ₹{formatInr(currentOutstanding)}</span>
+              <span className="text-slate-500 dark:text-[#adb5d4]" suppressHydrationWarning> / ₹{formatInr(creditLimit)}</span>
               <span className="text-blue-700 dark:text-blue-300 font-bold ml-1">({creditUsagePct}%)</span>
             </div>
           </div>
@@ -590,13 +590,13 @@ export default function RapidBillingWorkspace() {
 
         {/* Invoice Mode & Quick Action */}
         <div className="flex items-center gap-2">
-          <div className="bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-1 flex">
+          <div className="bg-slate-100 dark:bg-[#111535] border border-slate-200 dark:border-white/11 rounded-lg p-1 flex">
             <button
               onClick={() => setInvoiceMode('CREDIT')}
               className={`px-3 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${
                 invoiceMode === 'CREDIT'
-                  ? 'bg-blue-600 text-white shadow-sm'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                  ? 'bg-indigo-600 text-white shadow-sm'
+                  : 'text-slate-600 dark:text-[#adb5d4] hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               CREDIT
@@ -606,7 +606,7 @@ export default function RapidBillingWorkspace() {
               className={`px-3 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${
                 invoiceMode === 'CASH'
                   ? 'bg-emerald-600 text-white shadow-sm'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                  : 'text-slate-600 dark:text-[#adb5d4] hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               CASH
@@ -615,7 +615,7 @@ export default function RapidBillingWorkspace() {
 
           <button
             onClick={() => setIsPrintModalOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-semibold transition-all cursor-pointer shadow-xs"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-[#111535] dark:hover:bg-[#1a1f4a] text-slate-700 dark:text-[#d4d8f5] border border-slate-300 dark:border-white/11 text-xs font-semibold transition-all cursor-pointer shadow-xs"
             title="Preview standard statutory A4 Tax Invoice"
           >
             <FileText className="w-4 h-4 text-blue-600 dark:text-blue-400" /> A4 Invoice Preview
@@ -634,7 +634,7 @@ export default function RapidBillingWorkspace() {
       <div className="glass-panel rounded-xl overflow-hidden shadow-2xl">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 uppercase tracking-wider text-[11px] font-bold border-b border-slate-300 dark:border-slate-700 select-none">
+            <thead className="bg-slate-100 dark:bg-[#111535] text-slate-800 dark:text-[#e8eaff] uppercase tracking-wider text-[11px] font-bold border-b border-slate-300 dark:border-white/11 select-none">
               <tr>
                 <th className="py-3 px-3 w-10 text-center">#</th>
                 <th className="py-3 px-3 min-w-[220px]">Product / Molecule</th>
@@ -666,11 +666,11 @@ export default function RapidBillingWorkspace() {
                     className={`transition-all duration-150 group cursor-pointer ${
                       isRowSelected
                         ? 'bg-blue-50/90 dark:bg-blue-900/30 border-l-4 border-l-blue-600 dark:border-l-blue-400 text-slate-900 dark:text-white shadow-xs'
-                        : 'hover:bg-blue-50/50 dark:hover:bg-slate-800/60 text-slate-800 dark:text-slate-200 border-l-4 border-l-transparent'
+                        : 'hover:bg-blue-50/50 dark:hover:bg-[#161940]/60 text-slate-800 dark:text-[#d4d8f5] border-l-4 border-l-transparent'
                     }`}
                   >
                     {/* Index */}
-                    <td className="py-3 px-3 text-center text-slate-600 dark:text-slate-400 font-mono font-bold">
+                    <td className="py-3 px-3 text-center text-slate-600 dark:text-[#adb5d4] font-mono font-bold">
                       {String(idx + 1).padStart(2, '0')}
                     </td>
 
@@ -696,11 +696,11 @@ export default function RapidBillingWorkspace() {
                         )}
                         {line.storageCondition.includes('Cold Chain') && (
                           <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950 dark:text-blue-300 dark:border-blue-800">
-                            ❄ 2-8°C
+                            ❄️ 2-8°C
                           </span>
                         )}
                       </div>
-                      <div className="text-[11px] text-slate-600 dark:text-slate-300 font-normal">
+                      <div className="text-[11px] text-slate-600 dark:text-[#c2c8e8] font-normal">
                         {line.genericName} | HSN: <span className="font-mono font-semibold">{line.hsnCode}</span>
                       </div>
                     </td>
@@ -714,18 +714,18 @@ export default function RapidBillingWorkspace() {
                         }}
                         className={`w-full text-left rounded-lg p-2 transition-all flex items-center justify-between border cursor-pointer ${
                           isRowSelected
-                            ? 'bg-white dark:bg-slate-800 border-blue-400 dark:border-blue-500 shadow-xs'
-                            : 'bg-white dark:bg-slate-850 hover:bg-blue-50/50 dark:hover:bg-slate-800 border-slate-300 dark:border-slate-700 hover:border-blue-400'
+                            ? 'bg-white dark:bg-[#111535] border-blue-400 dark:border-blue-500 shadow-xs'
+                            : 'bg-white dark:bg-[#0f1238] hover:bg-blue-50/50 dark:hover:bg-[#161940] border-slate-300 dark:border-white/11 hover:border-blue-400'
                         }`}
                       >
                         <div>
                           <div className="font-mono text-[11px] text-blue-700 dark:text-blue-300 font-bold flex items-center gap-1">
                             {line.batchNumber}
-                            <span className="text-[10px] text-slate-600 dark:text-slate-300 font-medium">
+                            <span className="text-[10px] text-slate-600 dark:text-[#c2c8e8] font-medium">
                               (Exp: {line.expiryDate})
                             </span>
                           </div>
-                          <div className="text-[10px] text-slate-600 dark:text-slate-400 font-mono">
+                          <div className="text-[10px] text-slate-600 dark:text-[#adb5d4] font-mono">
                             Loc: {line.rackLocation}
                           </div>
                         </div>
@@ -745,7 +745,7 @@ export default function RapidBillingWorkspace() {
                             </span>
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-700 border border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-700 border border-slate-200 dark:bg-[#111535] dark:text-[#c2c8e8] dark:border-white/11">
                             Single Batch Match
                           </span>
                         )}
@@ -767,34 +767,34 @@ export default function RapidBillingWorkspace() {
                         value={line.quantity}
                         onChange={e => handleQuantityChange(line.id, parseInt(e.target.value) || 1)}
                         onClick={e => e.stopPropagation()}
-                        className="w-16 text-center font-mono font-bold bg-white dark:bg-slate-800 border-2 border-blue-400 dark:border-blue-500 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 rounded-lg py-1 px-1 text-slate-900 dark:text-white outline-none shadow-xs"
+                        className="w-16 text-center font-mono font-bold bg-white dark:bg-[#111535] border-2 border-blue-400 dark:border-blue-500 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 rounded-lg py-1 px-1 text-slate-900 dark:text-white outline-none shadow-xs"
                       />
                     </td>
 
                     {/* Free Quantity (Auto Calculated from Scheme) */}
                     <td className="py-3 px-3 text-center font-mono font-bold text-emerald-600 dark:text-emerald-400">
-                      {line.freeQuantity > 0 ? `+${line.freeQuantity}` : '—'}
+                      {line.freeQuantity > 0 ? `+${line.freeQuantity}` : '–'}
                     </td>
 
                     {/* PTR Rate */}
-                    <td className="py-3 px-3 text-right font-mono text-slate-900 dark:text-slate-100 font-semibold">
+                    <td className="py-3 px-3 text-right font-mono text-slate-900 dark:text-[#e8eaff] font-semibold">
                       ₹{line.ptr.toFixed(2)}
                     </td>
 
                     {/* Discount % */}
-                    <td className="py-3 px-3 text-center font-mono text-slate-900 dark:text-slate-100 font-semibold">
+                    <td className="py-3 px-3 text-center font-mono text-slate-900 dark:text-[#e8eaff] font-semibold">
                       {line.discountPct > 0 ? `${line.discountPct}%` : '0%'}
                     </td>
 
                     {/* Taxable Value */}
-                    <td className="py-3 px-3 text-right font-mono text-slate-900 dark:text-slate-100 font-bold">
+                    <td className="py-3 px-3 text-right font-mono text-slate-900 dark:text-[#e8eaff] font-bold">
                       ₹{lineTaxable.toFixed(2)}
                     </td>
 
                     {/* GST Component */}
-                    <td className="py-3 px-3 text-right font-mono text-slate-800 dark:text-slate-200 text-[11px]">
+                    <td className="py-3 px-3 text-right font-mono text-slate-800 dark:text-[#d4d8f5] text-[11px]">
                       <div className="font-semibold">₹{gstAmount.toFixed(2)}</div>
-                      <div className="text-[9px] text-slate-600 dark:text-slate-400">
+                      <div className="text-[9px] text-slate-600 dark:text-[#adb5d4]">
                         {isIntraState
                           ? `CGST+SGST (${line.gstPercentage}%)`
                           : `IGST (${line.gstPercentage}%)`}
@@ -835,25 +835,25 @@ export default function RapidBillingWorkspace() {
         )}
 
         {/* 3. INVOICE SUMMARY CALCULATION DOCK */}
-        <div className="bg-slate-50 dark:bg-slate-900 p-4 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-6">
+        <div className="bg-slate-50 dark:bg-[#0d1130] p-4 border-t border-slate-200 dark:border-white/8 flex flex-wrap items-center justify-between gap-6">
           {/* Left: Summary Metrics Breakdown */}
           <div className="flex items-center gap-6 divide-x divide-slate-200 dark:divide-slate-800 text-xs">
             <div>
-              <div className="text-slate-500 dark:text-slate-400 uppercase text-[10px] font-semibold tracking-wider">Gross Value</div>
-              <div className="text-base font-bold font-mono text-slate-900 dark:text-slate-100">
+              <div className="text-slate-500 dark:text-[#adb5d4] uppercase text-[10px] font-semibold tracking-wider">Gross Value</div>
+              <div className="text-base font-bold font-mono text-slate-900 dark:text-[#e8eaff]">
                 ₹{grossTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
               </div>
             </div>
 
             <div className="pl-6">
-              <div className="text-slate-500 dark:text-slate-400 uppercase text-[10px] font-semibold tracking-wider">Discounts</div>
+              <div className="text-slate-500 dark:text-[#adb5d4] uppercase text-[10px] font-semibold tracking-wider">Discounts</div>
               <div className="text-base font-bold font-mono text-emerald-600 dark:text-emerald-400">
                 -₹{tradeDiscountTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
               </div>
             </div>
 
             <div className="pl-6">
-              <div className="text-slate-500 dark:text-slate-400 uppercase text-[10px] font-semibold tracking-wider">
+              <div className="text-slate-500 dark:text-[#adb5d4] uppercase text-[10px] font-semibold tracking-wider">
                 {isIntraState ? 'CGST / SGST Total' : 'IGST Total'}
               </div>
               <div className="text-base font-bold font-mono text-blue-700 dark:text-cyan-300">
@@ -864,8 +864,8 @@ export default function RapidBillingWorkspace() {
             </div>
 
             <div className="pl-6">
-              <div className="text-slate-500 dark:text-slate-400 uppercase text-[10px] font-semibold tracking-wider">Round-off</div>
-              <div className="text-xs font-mono text-slate-600 dark:text-slate-400">
+              <div className="text-slate-500 dark:text-[#adb5d4] uppercase text-[10px] font-semibold tracking-wider">Round-off</div>
+              <div className="text-xs font-mono text-slate-600 dark:text-[#adb5d4]">
                 {roundOff >= 0 ? `+₹${roundOff}` : `-₹${Math.abs(roundOff)}`}
               </div>
             </div>
@@ -874,7 +874,7 @@ export default function RapidBillingWorkspace() {
           {/* Right: Net Payable Total & Commit Action */}
           <div className="flex items-center gap-4">
             <div className="text-right">
-              <div className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
+              <div className="text-xs uppercase tracking-wider text-slate-500 dark:text-[#adb5d4] font-semibold">
                 Net Payable Amount
               </div>
               <div className="text-2xl font-black font-mono text-slate-900 dark:text-white tracking-tight flex items-baseline justify-end gap-1">
@@ -905,24 +905,24 @@ export default function RapidBillingWorkspace() {
       </div>
 
       {/* 4. KEYBOARD SHORTCUTS HINT DOCK */}
-      <div className="flex flex-wrap items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-2">
+      <div className="flex flex-wrap items-center justify-between text-xs text-slate-500 dark:text-[#adb5d4] px-2">
         <div className="flex items-center gap-2">
           <Keyboard className="w-4 h-4 text-blue-600 dark:text-cyan-400" />
-          <span className="font-semibold text-slate-700 dark:text-slate-300">Keyboard Accelerators:</span>
+          <span className="font-semibold text-slate-700 dark:text-[#c2c8e8]">Keyboard Accelerators:</span>
           <span className="flex items-center gap-1 font-mono text-[11px]">
-            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-blue-700 dark:text-cyan-300 border border-slate-200 dark:border-slate-700">F1</kbd> Customer
+            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-[#111535] text-blue-700 dark:text-cyan-300 border border-slate-200 dark:border-white/11">F1</kbd> Customer
           </span>
           <span className="flex items-center gap-1 font-mono text-[11px]">
-            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-blue-700 dark:text-cyan-300 border border-slate-200 dark:border-slate-700">F2</kbd> Add Item
+            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-[#111535] text-blue-700 dark:text-cyan-300 border border-slate-200 dark:border-white/11">F2</kbd> Add Item
           </span>
           <span className="flex items-center gap-1 font-mono text-[11px]">
-            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-blue-700 dark:text-cyan-300 border border-slate-200 dark:border-slate-700">F3</kbd> Batches
+            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-[#111535] text-blue-700 dark:text-cyan-300 border border-slate-200 dark:border-white/11">F3</kbd> Batches
           </span>
           <span className="flex items-center gap-1 font-mono text-[11px]">
-            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-blue-700 dark:text-cyan-300 border border-slate-200 dark:border-slate-700">F8</kbd> Commit Invoice
+            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-[#111535] text-blue-700 dark:text-cyan-300 border border-slate-200 dark:border-white/11">F8</kbd> Commit Invoice
           </span>
           <span className="flex items-center gap-1 font-mono text-[11px]">
-            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-blue-700 dark:text-cyan-300 border border-slate-200 dark:border-slate-700">Esc</kbd> Dismiss
+            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-[#111535] text-blue-700 dark:text-cyan-300 border border-slate-200 dark:border-white/11">Esc</kbd> Dismiss
           </span>
         </div>
 
@@ -935,8 +935,8 @@ export default function RapidBillingWorkspace() {
       {/* MODAL 1: CUSTOMER SELECTION [F1] */}
       {isCustomerModalOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl max-w-2xl w-full p-5 shadow-2xl flex flex-col gap-4">
-            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+          <div className="bg-white dark:bg-[#0d1130] border border-slate-200 dark:border-white/11 rounded-xl max-w-2xl w-full p-5 shadow-2xl flex flex-col gap-4">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-white/8 pb-3">
               <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold text-base">
                 <UserCheck className="w-5 h-5 text-blue-600 dark:text-cyan-400" />
                 Select Customer Pharmacy / Hospital [F1]
@@ -945,7 +945,7 @@ export default function RapidBillingWorkspace() {
                 <button
                   type="button"
                   onClick={() => setIsAddCustomerModalOpen(true)}
-                  className="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center gap-1 cursor-pointer shadow-xs"
+                  className="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs flex items-center gap-1 cursor-pointer shadow-xs"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   + New Customer
@@ -967,7 +967,7 @@ export default function RapidBillingWorkspace() {
                 placeholder="Search by Pharmacy Name, GSTIN, Drug License or Code..."
                 value={customerSearchQuery}
                 onChange={e => setCustomerSearchQuery(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 focus:border-blue-500 rounded-lg pl-9 pr-4 py-2 text-sm text-slate-900 dark:text-white outline-none"
+                className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-200 dark:border-white/11 focus:border-blue-500 rounded-lg pl-9 pr-4 py-2 text-sm text-slate-900 dark:text-white outline-none"
               />
             </div>
 
@@ -986,7 +986,7 @@ export default function RapidBillingWorkspace() {
                   className={`p-3 rounded-lg border cursor-pointer transition-all flex items-center justify-between ${
                     selectedCustomer.customerId === cust.customerId
                       ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-500 shadow-xs'
-                      : 'bg-white dark:bg-slate-950 hover:bg-blue-50/40 dark:hover:bg-slate-850 border-slate-200 dark:border-slate-800'
+                      : 'bg-white dark:bg-[#070a1e] hover:bg-blue-50/40 dark:hover:bg-[#0f1238] border-slate-200 dark:border-white/8'
                   }`}
                 >
                   <div>
@@ -994,7 +994,7 @@ export default function RapidBillingWorkspace() {
                       {cust.name}
                       <span className="text-xs font-mono text-blue-700 dark:text-cyan-400 font-semibold">({cust.code})</span>
                     </div>
-                    <div className="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
+                    <div className="text-xs text-slate-600 dark:text-[#c2c8e8] mt-0.5">
                       {cust.customerType} | DL 20B: <span className="font-mono font-medium">{cust.drugLicense20B}</span>
                     </div>
                     <div className="text-[11px] text-slate-500 mt-1">
@@ -1003,7 +1003,7 @@ export default function RapidBillingWorkspace() {
                   </div>
 
                   <div className="text-right">
-                    <div className="text-xs text-slate-500 dark:text-slate-400">Current Outstanding</div>
+                    <div className="text-xs text-slate-500 dark:text-[#adb5d4]">Current Outstanding</div>
                     <div className="text-sm font-mono font-bold text-slate-900 dark:text-white" suppressHydrationWarning>
                       ₹{formatInr(cust.currentOutstanding)}
                     </div>
@@ -1021,14 +1021,14 @@ export default function RapidBillingWorkspace() {
       {/* MODAL 2: FEFO BATCH SELECTOR [F3] */}
       {activeBatchModalLine && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl max-w-xl w-full p-5 shadow-2xl flex flex-col gap-4">
-            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+          <div className="bg-white dark:bg-[#0d1130] border border-slate-200 dark:border-white/11 rounded-xl max-w-xl w-full p-5 shadow-2xl flex flex-col gap-4">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-white/8 pb-3">
               <div>
                 <div className="text-slate-900 dark:text-white font-bold text-base flex items-center gap-2">
                   <Layers className="w-5 h-5 text-blue-600 dark:text-cyan-400" />
                   FEFO Batch Selection Drawer [F3]
                 </div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">{activeBatchModalLine.productName}</div>
+                <div className="text-xs text-slate-500 dark:text-[#adb5d4] font-medium">{activeBatchModalLine.productName}</div>
               </div>
               <button
                 onClick={() => setActiveBatchModalLine(null)}
@@ -1046,7 +1046,7 @@ export default function RapidBillingWorkspace() {
                   className={`p-3 rounded-lg border cursor-pointer transition-all flex items-center justify-between ${
                     activeBatchModalLine.selectedBatchId === batch.batchId
                       ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-500 shadow-xs'
-                      : 'bg-white dark:bg-slate-950 hover:bg-blue-50/40 dark:hover:bg-slate-850 border-slate-200 dark:border-slate-800'
+                      : 'bg-white dark:bg-[#070a1e] hover:bg-blue-50/40 dark:hover:bg-[#0f1238] border-slate-200 dark:border-white/8'
                   }`}
                 >
                   <div>
@@ -1058,16 +1058,16 @@ export default function RapidBillingWorkspace() {
                         </span>
                       )}
                     </div>
-                    <div className="text-xs text-slate-600 dark:text-slate-300 mt-1">
+                    <div className="text-xs text-slate-600 dark:text-[#c2c8e8] mt-1">
                       MFG: <span className="font-mono">{batch.manufacturingDate}</span> | EXP: <span className="font-mono font-bold text-slate-900 dark:text-white">{batch.expiryDate}</span>
                     </div>
                     <div className="text-[11px] text-slate-500 mt-0.5">
-                      Rack Location: <span className="font-mono text-slate-700 dark:text-slate-300">{batch.rackLocation}</span>
+                      Rack Location: <span className="font-mono text-slate-700 dark:text-[#c2c8e8]">{batch.rackLocation}</span>
                     </div>
                   </div>
 
                   <div className="text-right">
-                    <div className="text-xs text-slate-500 dark:text-slate-400">Available Balance</div>
+                    <div className="text-xs text-slate-500 dark:text-[#adb5d4]">Available Balance</div>
                     <div className="text-base font-mono font-bold text-emerald-600 dark:text-emerald-400">
                       {batch.availableQty} Units
                     </div>
@@ -1129,7 +1129,7 @@ export default function RapidBillingWorkspace() {
               </button>
               <button
                 onClick={() => setIsPrintModalOpen(true)}
-                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-md transition-colors cursor-pointer"
+                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs shadow-md transition-colors cursor-pointer"
               >
                 <FileText className="w-4 h-4" /> Print A4 Tax Invoice
               </button>
@@ -1148,20 +1148,20 @@ export default function RapidBillingWorkspace() {
       {/* MODAL 5: QUICK CUSTOMER REGISTRATION */}
       {isAddCustomerModalOpen && (
         <div className="fixed inset-0 z-60 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl flex flex-col animate-in zoom-in-95">
-            <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+          <div className="bg-white dark:bg-[#0d1130] border border-slate-200 dark:border-white/8 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl flex flex-col animate-in zoom-in-95">
+            <div className="p-5 border-b border-slate-200 dark:border-white/8 flex items-center justify-between">
               <div>
                 <h3 className="font-bold text-slate-900 dark:text-white text-base flex items-center gap-2">
                   <UserCheck className="w-5 h-5 text-blue-600 dark:text-cyan-400" />
                   Quick Chemist / Pharmacy Registration
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                <p className="text-xs text-slate-500 dark:text-[#adb5d4] mt-0.5">
                   Instant customer enrollment with Drug License Form 20B/21B and GST verification
                 </p>
               </div>
               <button
                 onClick={() => setIsAddCustomerModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-[#d4d8f5] cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -1169,7 +1169,7 @@ export default function RapidBillingWorkspace() {
 
             <div className="p-5 space-y-4 text-xs">
               <div>
-                <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                <label className="block text-[11px] font-semibold text-slate-700 dark:text-[#c2c8e8] uppercase tracking-wider mb-1">
                   Chemist / Pharmacy Trade Name *
                 </label>
                 <input
@@ -1177,19 +1177,19 @@ export default function RapidBillingWorkspace() {
                   value={newCustomerForm.name}
                   onChange={e => setNewCustomerForm({ ...newCustomerForm, name: e.target.value })}
                   placeholder="e.g. Balaji Medicals & General Stores"
-                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:border-blue-500"
+                  className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-[#e8eaff] focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-[#c2c8e8] uppercase tracking-wider mb-1">
                     Customer Type
                   </label>
                   <select
                     value={newCustomerForm.customerType}
                     onChange={e => setNewCustomerForm({ ...newCustomerForm, customerType: e.target.value })}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-[#e8eaff]"
                   >
                     <option value="Retail Pharmacy">Retail Pharmacy (Chemist)</option>
                     <option value="Hospital Pharmacy">Hospital Pharmacy</option>
@@ -1198,7 +1198,7 @@ export default function RapidBillingWorkspace() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-[#c2c8e8] uppercase tracking-wider mb-1">
                     Credit Limit (₹)
                   </label>
                   <input
@@ -1207,14 +1207,14 @@ export default function RapidBillingWorkspace() {
                     step={10000}
                     value={newCustomerForm.creditLimit}
                     onChange={e => setNewCustomerForm({ ...newCustomerForm, creditLimit: Number(e.target.value) })}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-slate-900 dark:text-slate-100"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-xl px-3 py-2 text-xs font-mono text-slate-900 dark:text-[#e8eaff]"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-[#c2c8e8] uppercase tracking-wider mb-1">
                     GSTIN Number
                   </label>
                   <input
@@ -1222,11 +1222,11 @@ export default function RapidBillingWorkspace() {
                     value={newCustomerForm.gstin}
                     onChange={e => setNewCustomerForm({ ...newCustomerForm, gstin: e.target.value })}
                     placeholder="e.g. 33AAACA9921E1Z0"
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-mono uppercase text-slate-900 dark:text-slate-100"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-xl px-3 py-2 text-xs font-mono uppercase text-slate-900 dark:text-[#e8eaff]"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-[#c2c8e8] uppercase tracking-wider mb-1">
                     Drug License 20B (Allopathic)
                   </label>
                   <input
@@ -1234,13 +1234,13 @@ export default function RapidBillingWorkspace() {
                     value={newCustomerForm.dl20B}
                     onChange={e => setNewCustomerForm({ ...newCustomerForm, dl20B: e.target.value })}
                     placeholder="e.g. TN/CHE/20B/0411"
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-slate-900 dark:text-slate-100"
+                    className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-xl px-3 py-2 text-xs font-mono text-slate-900 dark:text-[#e8eaff]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                <label className="block text-[11px] font-semibold text-slate-700 dark:text-[#c2c8e8] uppercase tracking-wider mb-1">
                   Delivery Address / Route
                 </label>
                 <input
@@ -1248,23 +1248,23 @@ export default function RapidBillingWorkspace() {
                   value={newCustomerForm.address}
                   onChange={e => setNewCustomerForm({ ...newCustomerForm, address: e.target.value })}
                   placeholder="e.g. 42 Bazaar Road, Mylapore, Chennai 600004"
-                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100"
+                  className="w-full bg-slate-50 dark:bg-[#070a1e] border border-slate-300 dark:border-white/11 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-[#e8eaff]"
                 />
               </div>
             </div>
 
-            <div className="p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex justify-end gap-2">
+            <div className="p-4 bg-slate-50 dark:bg-[#070a1e] border-t border-slate-200 dark:border-white/8 flex justify-end gap-2">
               <button
                 type="button"
                 onClick={() => setIsAddCustomerModalOpen(false)}
-                className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-300 text-xs font-semibold cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-[#111535] dark:hover:bg-[#1a1f4a] text-slate-800 dark:text-[#c2c8e8] text-xs font-semibold cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={handleQuickRegisterCustomer}
-                className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-sm flex items-center gap-1.5 cursor-pointer"
+                className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-sm flex items-center gap-1.5 cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
                 Enroll Chemist &amp; Select
@@ -1276,3 +1276,4 @@ export default function RapidBillingWorkspace() {
     </div>
   );
 }
+
