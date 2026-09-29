@@ -46,10 +46,160 @@ export default function MastersManagementView() {
 
   // Toast
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  // Form states for adding entries
+  const [mfgForm, setMfgForm] = useState({
+    name: '',
+    code: '',
+    contactPerson: '',
+    phone: '',
+    email: '',
+    drugLicenseNo: '',
+    gstin: '',
+    creditDays: 30,
+    city: 'Mumbai',
+    state: 'Maharashtra',
+  });
+
+  const [catForm, setCatForm] = useState({
+    name: '',
+    code: '',
+    scheduleClass: 'H' as 'Regular' | 'H' | 'H1' | 'G' | 'X',
+    isColdChain: false,
+    recommendedTemp: 'Store below 25°C',
+  });
+
+  const [rackForm, setRackForm] = useState({
+    rackCode: '',
+    zone: 'Zone A - Fast Moving Tablets',
+    shelfCount: 4,
+    capacityBoxes: 400,
+    temperatureType: 'Ambient (15-25°C)',
+  });
+
+  const [hsnForm, setHsnForm] = useState({
+    hsnCode: '',
+    description: '',
+    cgst: 6,
+    sgst: 6,
+    igst: 12,
+  });
+
+  const [routeForm, setRouteForm] = useState({
+    routeCode: '',
+    routeName: '',
+    assignedVehicle: 'TN-09-CB-1044',
+    driverName: '',
+    driverPhone: '+91 98401 23456',
+    estimatedDuration: '4.5 Hours',
+    totalCustomersCount: 15,
+    targetCodCollection: 125000,
+  });
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 4000);
+  };
+
+  const handleAddMaster = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (activeTab === 'manufacturers') {
+      if (!mfgForm.name.trim()) {
+        showToast('⚠️ Manufacturer name is required');
+        return;
+      }
+      const newMfg: ApiManufacturerMaster = {
+        id: 'mfg-' + Date.now(),
+        code: mfgForm.code.trim().toUpperCase() || 'MFG-' + (manufacturers.length + 101),
+        name: mfgForm.name.trim(),
+        divisions: 'All Divisions',
+        returnPolicy: '100% Expiry Breakage Replacement within 60 days',
+        phone: mfgForm.phone || '+91 98401 00000',
+        email: mfgForm.email || 'orders@pharma.com',
+        isActive: true,
+        skuCount: 0,
+      };
+      setManufacturers(prev => [newMfg, ...prev]);
+      setSummary((s: any) => ({ ...s, totalManufacturers: (s.totalManufacturers || 0) + 1 }));
+      showToast(`✅ Manufacturer "${newMfg.name}" added to master database!`);
+    } else if (activeTab === 'categories') {
+      if (!catForm.name.trim()) {
+        showToast('⚠️ Category name is required');
+        return;
+      }
+      const newCat: ApiCategoryMaster = {
+        id: 'cat-' + Date.now(),
+        name: catForm.name.trim(),
+        description: catForm.scheduleClass ? `Schedule ${catForm.scheduleClass} Formulation` : 'Therapeutic Formulation',
+        scheduleClass: catForm.scheduleClass,
+        storageCondition: catForm.isColdChain ? 'Cold Chain (2°C - 8°C)' : catForm.recommendedTemp || 'Ambient',
+        isActive: true,
+        skuCount: 0,
+      };
+      setCategories(prev => [newCat, ...prev]);
+      setSummary((s: any) => ({ ...s, totalCategories: (s.totalCategories || 0) + 1 }));
+      showToast(`✅ Category "${newCat.name}" added successfully!`);
+    } else if (activeTab === 'racks') {
+      if (!rackForm.rackCode.trim()) {
+        showToast('⚠️ Rack location code is required');
+        return;
+      }
+      const newRack: ApiWarehouseRack = {
+        id: 'rck-' + Date.now(),
+        binCode: rackForm.rackCode.trim().toUpperCase(),
+        zone: rackForm.zone,
+        rack: rackForm.rackCode.split('-')[1] || 'R01',
+        shelf: 'S01',
+        bin: 'B01',
+        storageType: rackForm.temperatureType,
+        capacity: Number(rackForm.capacityBoxes) || 400,
+        occupied: 0,
+        status: 'Available',
+      };
+      setRacks(prev => [newRack, ...prev]);
+      setSummary((s: any) => ({ ...s, totalRacks: (s.totalRacks || 0) + 1 }));
+      showToast(`✅ Rack location "${newRack.binCode}" registered!`);
+    } else if (activeTab === 'hsn') {
+      if (!hsnForm.hsnCode.trim()) {
+        showToast('⚠️ HSN code is required');
+        return;
+      }
+      const newHsn: ApiHsnTaxMaster = {
+        id: 'hsn-' + Date.now(),
+        hsnCode: hsnForm.hsnCode.trim(),
+        description: hsnForm.description || 'Pharmaceutical formulation',
+        gstRate: Number(hsnForm.igst) || 12,
+        cgstRate: Number(hsnForm.cgst) || 6,
+        sgstRate: Number(hsnForm.sgst) || 6,
+        igstRate: Number(hsnForm.igst) || 12,
+        slabName: `GST ${hsnForm.igst}% Standard Pharma Slab`,
+        isActive: true,
+      };
+      setHsnTax(prev => [newHsn, ...prev]);
+      setSummary((s: any) => ({ ...s, totalHsnCodes: (s.totalHsnCodes || 0) + 1 }));
+      showToast(`✅ HSN code "${newHsn.hsnCode}" tax slab configured!`);
+    } else if (activeTab === 'routes') {
+      if (!routeForm.routeName.trim()) {
+        showToast('⚠️ Route name is required');
+        return;
+      }
+      const newRoute: ApiDeliveryRoute = {
+        id: 'rt-' + Date.now(),
+        routeName: routeForm.routeName.trim(),
+        areaCoverage: 'Chennai Metro & Peripheral Zones',
+        vehicleAssigned: routeForm.assignedVehicle || 'TN-09-CB-1044',
+        driverName: routeForm.driverName || 'Designated Driver',
+        driverPhone: routeForm.driverPhone || '+91 98401 23456',
+        chemistCount: Number(routeForm.totalCustomersCount) || 15,
+        frequency: 'Daily (2 Dispatch Runs)',
+        targetCodCollection: Number(routeForm.targetCodCollection) || 50000,
+      };
+      setRoutes(prev => [newRoute, ...prev]);
+      setSummary((s: any) => ({ ...s, totalRoutes: (s.totalRoutes || 0) + 1 }));
+      showToast(`✅ Delivery route "${newRoute.routeName}" created!`);
+    }
+    setIsAddModalOpen(false);
   };
 
   const loadData = async () => {
@@ -118,11 +268,17 @@ export default function MastersManagementView() {
             Refresh Masters
           </button>
           <button
-            onClick={() => showToast('💡 Click any master row to edit attributes, or click Add New below.')}
+            onClick={() => {
+              if (activeTab === 'depot') {
+                showToast('💡 Depot statutory profile is verified with CDSCO licensing authority.');
+              } else {
+                setIsAddModalOpen(true);
+              }
+            }}
             className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm flex items-center gap-2 shadow-sm transition cursor-pointer"
           >
             <Plus className="w-4 h-4" />
-            Add Master Entry
+            Add {activeTab === 'manufacturers' ? 'Manufacturer' : activeTab === 'categories' ? 'Category' : activeTab === 'racks' ? 'Rack Location' : activeTab === 'hsn' ? 'GST / HSN Slab' : activeTab === 'routes' ? 'Delivery Route' : 'Master Entry'}
           </button>
         </div>
       </div>
@@ -617,6 +773,419 @@ export default function MastersManagementView() {
             >
               Verify License with CDSCO Portal
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* 7. MODAL: ADD MASTER ENTRY */}
+      {isAddModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] animate-in zoom-in-95">
+            <div className="p-4 bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+              <div>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base flex items-center gap-2">
+                  <Database className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                  Add Master: {activeTab === 'manufacturers' ? 'Pharma Manufacturer' : activeTab === 'categories' ? 'Therapeutic Category' : activeTab === 'racks' ? 'Warehouse Rack Location' : activeTab === 'hsn' ? 'GST / HSN Tax Slab' : 'Van Delivery Route'}
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Central master entity registry for system-wide ERP operations.
+                </p>
+              </div>
+              <button
+                onClick={() => setIsAddModalOpen(false)}
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-lg transition"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleAddMaster} className="p-5 overflow-y-auto space-y-4 text-xs">
+              {/* Manufacturer Form */}
+              {activeTab === 'manufacturers' && (
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                      Manufacturer / Principal Company Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Torrent Pharmaceuticals Ltd"
+                      value={mfgForm.name}
+                      onChange={e => setMfgForm({ ...mfgForm, name: e.target.value })}
+                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-blue-500 outline-none"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Company Code</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. TORRENT"
+                        value={mfgForm.code}
+                        onChange={e => setMfgForm({ ...mfgForm, code: e.target.value })}
+                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-blue-500 outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Credit Days</label>
+                      <input
+                        type="number"
+                        value={mfgForm.creditDays}
+                        onChange={e => setMfgForm({ ...mfgForm, creditDays: Number(e.target.value) })}
+                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-blue-500 outline-none"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Contact Officer</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Rajesh Kumar"
+                        value={mfgForm.contactPerson}
+                        onChange={e => setMfgForm({ ...mfgForm, contactPerson: e.target.value })}
+                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Phone Number</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. +91 22 2495 8000"
+                        value={mfgForm.phone}
+                        onChange={e => setMfgForm({ ...mfgForm, phone: e.target.value })}
+                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none font-mono"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Drug License (MFG)</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. 25-KD-3200"
+                        value={mfgForm.drugLicenseNo}
+                        onChange={e => setMfgForm({ ...mfgForm, drugLicenseNo: e.target.value })}
+                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-blue-500 outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">GSTIN Number</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. 24AAACT1234F1Z9"
+                        value={mfgForm.gstin}
+                        onChange={e => setMfgForm({ ...mfgForm, gstin: e.target.value })}
+                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-blue-500 outline-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Category Form */}
+              {activeTab === 'categories' && (
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                      Category / Therapeutic Group Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Antihypertensives & Beta Blockers"
+                      value={catForm.name}
+                      onChange={e => setCatForm({ ...catForm, name: e.target.value })}
+                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-blue-500 outline-none"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Category Code</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. CAT-CARDIO"
+                        value={catForm.code}
+                        onChange={e => setCatForm({ ...catForm, code: e.target.value })}
+                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-blue-500 outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">CDSCO Schedule Class</label>
+                      <select
+                        value={catForm.scheduleClass}
+                        onChange={e => setCatForm({ ...catForm, scheduleClass: e.target.value as any })}
+                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
+                      >
+                        <option value="Regular">Regular (OTC / Non-Prescription)</option>
+                        <option value="H">Schedule H (Prescription)</option>
+                        <option value="H1">Schedule H1 (High Risk / Antibiotic / Narcotic)</option>
+                        <option value="G">Schedule G</option>
+                        <option value="X">Schedule X (Psychotropic Substance)</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 p-3 bg-blue-50/50 dark:bg-slate-950/60 rounded-xl border border-blue-200 dark:border-slate-800">
+                    <input
+                      type="checkbox"
+                      id="coldChainToggle"
+                      checked={catForm.isColdChain}
+                      onChange={e => setCatForm({ ...catForm, isColdChain: e.target.checked, recommendedTemp: e.target.checked ? '2°C to 8°C (Refrigerated)' : 'Store below 25°C' })}
+                      className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500"
+                    />
+                    <label htmlFor="coldChainToggle" className="text-slate-800 dark:text-slate-200 font-semibold cursor-pointer">
+                      Mandatory Cold Chain Category (Requires Refrigerated Cold Storage)
+                    </label>
+                  </div>
+                  <div>
+                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Recommended Storage</label>
+                    <input
+                      type="text"
+                      value={catForm.recommendedTemp}
+                      onChange={e => setCatForm({ ...catForm, recommendedTemp: e.target.value })}
+                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Rack Form */}
+              {activeTab === 'racks' && (
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                      Rack Location Identifier Code *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Z1-R04"
+                      value={rackForm.rackCode}
+                      onChange={e => setRackForm({ ...rackForm, rackCode: e.target.value })}
+                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase font-bold focus:border-blue-500 outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Warehouse Zone</label>
+                    <select
+                      value={rackForm.zone}
+                      onChange={e => setRackForm({ ...rackForm, zone: e.target.value })}
+                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
+                    >
+                      <option value="Zone A - Fast Moving Tablets">Zone A - Fast Moving Tablets</option>
+                      <option value="Zone B - Syrups & Liquids">Zone B - Syrups &amp; Liquids</option>
+                      <option value="Zone C - Schedule H1 Secure Vault">Zone C - Schedule H1 Secure Vault</option>
+                      <option value="Zone D - Cold Chain Storage">Zone D - Cold Chain Storage</option>
+                      <option value="Zone E - General Bulk Storage">Zone E - General Bulk Storage</option>
+                    </select>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Shelf Count</label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="10"
+                        value={rackForm.shelfCount}
+                        onChange={e => setRackForm({ ...rackForm, shelfCount: Number(e.target.value) })}
+                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-blue-500 outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Box Capacity</label>
+                      <input
+                        type="number"
+                        min="50"
+                        step="50"
+                        value={rackForm.capacityBoxes}
+                        onChange={e => setRackForm({ ...rackForm, capacityBoxes: Number(e.target.value) })}
+                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-blue-500 outline-none"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Storage Condition</label>
+                    <select
+                      value={rackForm.temperatureType}
+                      onChange={e => setRackForm({ ...rackForm, temperatureType: e.target.value })}
+                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
+                    >
+                      <option value="Ambient (15-25°C)">Ambient (15-25°C)</option>
+                      <option value="Refrigerated (2-8°C)">Refrigerated Cold Room (2-8°C)</option>
+                      <option value="Controlled Low Humidity">Controlled Low Humidity</option>
+                    </select>
+                  </div>
+                </div>
+              )}
+
+              {/* HSN Form */}
+              {activeTab === 'hsn' && (
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                      HSN Code (Chapter 30 Indian Customs Tariff) *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. 30049099"
+                      value={hsnForm.hsnCode}
+                      onChange={e => setHsnForm({ ...hsnForm, hsnCode: e.target.value })}
+                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono font-bold focus:border-blue-500 outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                      Statutory Description *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Other medicaments consisting of mixed or unmixed products"
+                      value={hsnForm.description}
+                      onChange={e => setHsnForm({ ...hsnForm, description: e.target.value })}
+                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
+                    />
+                  </div>
+                  <div className="grid grid-cols-3 gap-3">
+                    <div>
+                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">CGST Rate (%)</label>
+                      <input
+                        type="number"
+                        step="0.5"
+                        value={hsnForm.cgst}
+                        onChange={e => {
+                          const val = Number(e.target.value);
+                          setHsnForm({ ...hsnForm, cgst: val, sgst: val, igst: val * 2 });
+                        }}
+                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-blue-500 outline-none font-bold"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">SGST Rate (%)</label>
+                      <input
+                        type="number"
+                        step="0.5"
+                        value={hsnForm.sgst}
+                        readOnly
+                        className="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-700 dark:text-slate-300 font-mono outline-none font-bold"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">IGST Rate (%)</label>
+                      <input
+                        type="number"
+                        step="1"
+                        value={hsnForm.igst}
+                        readOnly
+                        className="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-blue-700 dark:text-blue-400 font-mono outline-none font-bold"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Delivery Route Form */}
+              {activeTab === 'routes' && (
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                      Route Name / Territory Corridor *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Route 05 - Tambaram & Chromepet Loop"
+                      value={routeForm.routeName}
+                      onChange={e => setRouteForm({ ...routeForm, routeName: e.target.value })}
+                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-blue-500 outline-none"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Route Code</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. RT-TAMB"
+                        value={routeForm.routeCode}
+                        onChange={e => setRouteForm({ ...routeForm, routeCode: e.target.value })}
+                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-blue-500 outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Assigned Vehicle No</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. TN-09-CB-1044"
+                        value={routeForm.assignedVehicle}
+                        onChange={e => setRouteForm({ ...routeForm, assignedVehicle: e.target.value })}
+                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-blue-500 outline-none"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Driver Name</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. V. Murugan"
+                        value={routeForm.driverName}
+                        onChange={e => setRouteForm({ ...routeForm, driverName: e.target.value })}
+                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white focus:border-blue-500 outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Driver Phone</label>
+                      <input
+                        type="text"
+                        value={routeForm.driverPhone}
+                        onChange={e => setRouteForm({ ...routeForm, driverPhone: e.target.value })}
+                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-blue-500 outline-none"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Estimated Retail Stops</label>
+                      <input
+                        type="number"
+                        value={routeForm.totalCustomersCount}
+                        onChange={e => setRouteForm({ ...routeForm, totalCustomersCount: Number(e.target.value) })}
+                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-blue-500 outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Target COD (₹)</label>
+                      <input
+                        type="number"
+                        step="5000"
+                        value={routeForm.targetCodCollection}
+                        onChange={e => setRouteForm({ ...routeForm, targetCodCollection: Number(e.target.value) })}
+                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono font-bold focus:border-blue-500 outline-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-200 dark:border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => setIsAddModalOpen(false)}
+                  className="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold shadow-md transition flex items-center gap-1.5"
+                >
+                  <Plus className="w-4 h-4" />
+                  Save Master Entry
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

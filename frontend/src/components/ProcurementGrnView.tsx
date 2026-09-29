@@ -76,6 +76,47 @@ export default function ProcurementGrnView() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showSlipModal, setShowSlipModal] = useState(false);
 
+  // New Supplier Modal State
+  const [showAddSupplierModal, setShowAddSupplierModal] = useState(false);
+  const [newSupplierForm, setNewSupplierForm] = useState({
+    name: '',
+    code: '',
+    gstin: '',
+    dlNo: '',
+    creditPeriod: 30,
+    city: 'Chennai',
+    state: 'Tamil Nadu (33)'
+  });
+
+  const handleAddSupplier = () => {
+    if (!newSupplierForm.name.trim()) {
+      alert('Please enter supplier/manufacturer name.');
+      return;
+    }
+    const newSup: ApiSupplier = {
+      supplierId: `sup-${Date.now()}`,
+      supplierCode: newSupplierForm.code.trim().toUpperCase() || `SUP-${Math.floor(100 + Math.random() * 900)}`,
+      supplierName: newSupplierForm.name.trim(),
+      gstinNumber: newSupplierForm.gstin.trim().toUpperCase() || '33AAACS9981E1Z9',
+      stateCode: '33',
+      drugLicenseNo: newSupplierForm.dlNo.trim() || 'TN/CHE/20B/0099',
+      currentPayableBalance: 0,
+      creditPeriodDays: Number(newSupplierForm.creditPeriod) || 30
+    };
+    setSuppliers(prev => [newSup, ...prev]);
+    setSelectedSupplierId(newSup.supplierId);
+    setShowAddSupplierModal(false);
+    setNewSupplierForm({
+      name: '',
+      code: '',
+      gstin: '',
+      dlNo: '',
+      creditPeriod: 30,
+      city: 'Chennai',
+      state: 'Tamil Nadu (33)'
+    });
+  };
+
   // Load suppliers and products on mount
   useEffect(() => {
     loadSuppliers();
@@ -377,9 +418,18 @@ export default function ProcurementGrnView() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
             {/* Supplier Selector */}
             <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-xl p-3 shadow-xs">
-              <label className="text-[10px] uppercase tracking-wider font-semibold text-slate-500 dark:text-slate-400 block mb-1">
-                Manufacturer / Supplier
-              </label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-[10px] uppercase tracking-wider font-semibold text-slate-500 dark:text-slate-400 block">
+                  Manufacturer / Supplier
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setShowAddSupplierModal(true)}
+                  className="text-[10px] font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
+                >
+                  <Plus className="w-3 h-3" /> Add Vendor
+                </button>
+              </div>
               <select
                 value={selectedSupplierId}
                 onChange={e => setSelectedSupplierId(e.target.value)}
@@ -876,6 +926,144 @@ export default function ProcurementGrnView() {
                 className="px-4 py-2 rounded-lg bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-white font-semibold text-xs cursor-pointer"
               >
                 Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: Add New Supplier / Vendor */}
+      {showAddSupplierModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl flex flex-col animate-in zoom-in-95">
+            <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+              <div>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base flex items-center gap-2">
+                  <Building className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                  Register Pharmaceutical Supplier / Vendor
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                  Add licensed manufacturer or C&amp;F distributor for inward GRN purchases
+                </p>
+              </div>
+              <button
+                onClick={() => setShowAddSupplierModal(false)}
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-5 space-y-4 text-xs">
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                  Supplier / Company Name *
+                </label>
+                <input
+                  type="text"
+                  value={newSupplierForm.name}
+                  onChange={e => setNewSupplierForm({ ...newSupplierForm, name: e.target.value })}
+                  placeholder="e.g. Cipla Healthcare Ltd / Mankind Pharma"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                    Vendor Code
+                  </label>
+                  <input
+                    type="text"
+                    value={newSupplierForm.code}
+                    onChange={e => setNewSupplierForm({ ...newSupplierForm, code: e.target.value })}
+                    placeholder="e.g. SUP-CIP-01"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-slate-900 dark:text-slate-100 uppercase"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                    Credit Period (Days)
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    max={180}
+                    value={newSupplierForm.creditPeriod}
+                    onChange={e => setNewSupplierForm({ ...newSupplierForm, creditPeriod: Number(e.target.value) })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-slate-900 dark:text-slate-100"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                    GSTIN Number
+                  </label>
+                  <input
+                    type="text"
+                    value={newSupplierForm.gstin}
+                    onChange={e => setNewSupplierForm({ ...newSupplierForm, gstin: e.target.value })}
+                    placeholder="e.g. 33AAACS9981E1Z9"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-slate-900 dark:text-slate-100 uppercase"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                    Drug License (Form 20B/21B)
+                  </label>
+                  <input
+                    type="text"
+                    value={newSupplierForm.dlNo}
+                    onChange={e => setNewSupplierForm({ ...newSupplierForm, dlNo: e.target.value })}
+                    placeholder="e.g. TN/CHE/20B/0099"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-slate-900 dark:text-slate-100"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                    Operating City
+                  </label>
+                  <input
+                    type="text"
+                    value={newSupplierForm.city}
+                    onChange={e => setNewSupplierForm({ ...newSupplierForm, city: e.target.value })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                    State Jurisdiction
+                  </label>
+                  <input
+                    type="text"
+                    value={newSupplierForm.state}
+                    onChange={e => setNewSupplierForm({ ...newSupplierForm, state: e.target.value })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setShowAddSupplierModal(false)}
+                className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-300 text-xs font-semibold cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleAddSupplier}
+                className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-sm flex items-center gap-1.5 cursor-pointer"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                Register Supplier
               </button>
             </div>
           </div>

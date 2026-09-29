@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import {
   pharmaApi,
   ApiStockMasterItem,
+  ApiStockMasterBatch,
   ApiStockAdjustment,
   ApiStockMasterSummary
 } from '@/services/apiClient';
@@ -47,9 +48,84 @@ export default function StockMasterView() {
   // Toast
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
+  // Add SKU / Opening Batch Modal
+  const [showAddSkuModal, setShowAddSkuModal] = useState(false);
+  const [skuFormData, setSkuFormData] = useState({
+    brandName: '',
+    genericName: '',
+    manufacturer: 'Sun Pharmaceutical Industries',
+    dosageForm: 'Tablet',
+    packSize: '10 Tablets/Strip',
+    hsnCode: '30049099',
+    scheduleClass: 'H',
+    batchNumber: 'BAT-' + Math.floor(1000 + Math.random() * 9000),
+    expiryDate: '2028-06-30',
+    openingQty: 300,
+    ptr: 45.0,
+    mrp: 65.0,
+    rackLocation: 'Z1-R02-S3',
+  });
+
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 4000);
+  };
+
+  const handleCreateSku = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!skuFormData.brandName.trim()) {
+      showToast('⚠️ Brand Name is required');
+      return;
+    }
+    const openQty = Number(skuFormData.openingQty) || 100;
+    const ptr = Number(skuFormData.ptr) || 50;
+    const mrp = Number(skuFormData.mrp) || 75;
+    const stockVal = openQty * ptr;
+
+    const newBatch: ApiStockMasterBatch = {
+      batchId: 'b-' + Date.now(),
+      batchNumber: skuFormData.batchNumber || 'BAT-' + Math.floor(1000 + Math.random() * 9000),
+      expiryDate: skuFormData.expiryDate || '2028-12-31',
+      physicalStock: openQty,
+      bookStock: openQty,
+      allocatedStock: 0,
+      quarantineStock: 0,
+      availableStock: openQty,
+      purchasePrice: ptr,
+      mrp: mrp,
+      locationBin: skuFormData.rackLocation || 'Z1-R01-S1',
+    };
+    const newSku: ApiStockMasterItem = {
+      productId: 'prod-' + Date.now(),
+      productCode: 'MED-' + (items.length + 101),
+      brandName: skuFormData.brandName.trim(),
+      genericName: skuFormData.genericName.trim() || skuFormData.brandName.trim(),
+      manufacturer: skuFormData.manufacturer,
+      category: 'Pharmaceutical Formulation',
+      hsnCode: '30049099',
+      gstRate: 12,
+      totalPhysicalStock: openQty,
+      totalBookStock: openQty,
+      totalAllocatedStock: 0,
+      totalQuarantineStock: 0,
+      totalAvailableStock: openQty,
+      batchCount: 1,
+      storageCondition: 'Ambient (Below 25°C)',
+      scheduleClass: 'H',
+      reorderLevel: 50,
+      stockValue: stockVal,
+      batches: [newBatch],
+    };
+    setItems(prev => [newSku, ...prev]);
+    setShowAddSkuModal(false);
+    showToast(`✅ Medicine "${newSku.brandName}" registered with initial batch ${newBatch.batchNumber}!`);
+    setSummary((s: any) => s ? {
+      ...s,
+      totalSkusActive: s.totalSkusActive + 1,
+      totalPhysicalUnits: s.totalPhysicalUnits + newSku.totalPhysicalStock,
+      totalNetAvailableUnits: s.totalNetAvailableUnits + newSku.totalAvailableStock,
+      totalInventoryValuation: s.totalInventoryValuation + newSku.stockValue,
+    } : null);
   };
 
   const loadData = async () => {
@@ -149,6 +225,13 @@ export default function StockMasterView() {
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-blue-500 dark:text-cyan-400' : ''}`} />
             Refresh
+          </button>
+          <button
+            onClick={() => setShowAddSkuModal(true)}
+            className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm flex items-center gap-2 shadow-sm transition cursor-pointer"
+          >
+            <Plus className="w-4 h-4" />
+            Add Medicine SKU
           </button>
           <button
             onClick={() => setShowAdjustModal(true)}
@@ -549,6 +632,200 @@ export default function StockMasterView() {
                 Commit CDSCO Voucher
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: ADD MEDICINE SKU & OPENING BATCH */}
+      {showAddSkuModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] animate-in zoom-in-95">
+            <div className="p-4 bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+              <div>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base flex items-center gap-2">
+                  <Boxes className="w-5 h-5 text-blue-600 dark:text-cyan-400" />
+                  Add New Medicine SKU &amp; Opening Batch
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Register new pharmaceutical product code and allocate initial physical shelf stock.
+                </p>
+              </div>
+              <button
+                onClick={() => setShowAddSkuModal(false)}
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-lg transition"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateSku} className="p-5 overflow-y-auto space-y-4 text-xs">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    Medicine Commercial Brand Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Telma 40mg Tablet"
+                    value={skuFormData.brandName}
+                    onChange={e => setSkuFormData({ ...skuFormData, brandName: e.target.value })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-blue-500 outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    Generic Molecule Composition *
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Telmisartan 40mg IP"
+                    value={skuFormData.genericName}
+                    onChange={e => setSkuFormData({ ...skuFormData, genericName: e.target.value })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-blue-500 outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    Manufacturing Company
+                  </label>
+                  <select
+                    value={skuFormData.manufacturer}
+                    onChange={e => setSkuFormData({ ...skuFormData, manufacturer: e.target.value })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-blue-500 outline-none"
+                  >
+                    <option value="Sun Pharmaceutical Industries">Sun Pharmaceutical Industries</option>
+                    <option value="Cipla Ltd">Cipla Ltd</option>
+                    <option value="Dr. Reddy's Laboratories">Dr. Reddy's Laboratories</option>
+                    <option value="GlaxoSmithKline India">GlaxoSmithKline India</option>
+                    <option value="Alkem Laboratories">Alkem Laboratories</option>
+                    <option value="Glenmark Pharmaceuticals">Glenmark Pharmaceuticals</option>
+                  </select>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">CDSCO Schedule</label>
+                    <select
+                      value={skuFormData.scheduleClass}
+                      onChange={e => setSkuFormData({ ...skuFormData, scheduleClass: e.target.value })}
+                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-blue-500 outline-none"
+                    >
+                      <option value="Regular">Regular</option>
+                      <option value="H">Schedule H</option>
+                      <option value="H1">Schedule H1</option>
+                      <option value="X">Schedule X</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">HSN Code</label>
+                    <input
+                      type="text"
+                      value={skuFormData.hsnCode}
+                      onChange={e => setSkuFormData({ ...skuFormData, hsnCode: e.target.value })}
+                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-blue-500 outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">PTR Rate (₹)</label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      required
+                      value={skuFormData.ptr}
+                      onChange={e => setSkuFormData({ ...skuFormData, ptr: Number(e.target.value) })}
+                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono font-bold focus:border-blue-500 outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">MRP Rate (₹)</label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      required
+                      value={skuFormData.mrp}
+                      onChange={e => setSkuFormData({ ...skuFormData, mrp: Number(e.target.value) })}
+                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono font-bold focus:border-blue-500 outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Batch Information */}
+                <div className="md:col-span-2 p-3 bg-blue-50/50 dark:bg-slate-950/60 rounded-xl border border-blue-200 dark:border-slate-800 grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <div>
+                    <label className="block text-slate-600 dark:text-slate-400 text-[11px] mb-1 font-semibold">
+                      Batch No *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={skuFormData.batchNumber}
+                      onChange={e => setSkuFormData({ ...skuFormData, batchNumber: e.target.value })}
+                      className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded p-1.5 font-mono uppercase text-slate-900 dark:text-white text-xs font-bold"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-slate-600 dark:text-slate-400 text-[11px] mb-1 font-semibold">
+                      Expiry Date *
+                    </label>
+                    <input
+                      type="date"
+                      required
+                      value={skuFormData.expiryDate}
+                      onChange={e => setSkuFormData({ ...skuFormData, expiryDate: e.target.value })}
+                      className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded p-1.5 font-mono text-slate-900 dark:text-white text-xs"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-slate-600 dark:text-slate-400 text-[11px] mb-1 font-semibold">
+                      Opening Units *
+                    </label>
+                    <input
+                      type="number"
+                      required
+                      min="1"
+                      value={skuFormData.openingQty}
+                      onChange={e => setSkuFormData({ ...skuFormData, openingQty: Number(e.target.value) })}
+                      className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded p-1.5 font-mono text-slate-900 dark:text-white text-xs font-bold"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-slate-600 dark:text-slate-400 text-[11px] mb-1 font-semibold">
+                      Rack Location
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={skuFormData.rackLocation}
+                      onChange={e => setSkuFormData({ ...skuFormData, rackLocation: e.target.value })}
+                      className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded p-1.5 font-mono text-slate-900 dark:text-white text-xs"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-200 dark:border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => setShowAddSkuModal(false)}
+                  className="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold shadow-md transition flex items-center gap-1.5"
+                >
+                  <Plus className="w-4 h-4" />
+                  Save &amp; Allocate Stock
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

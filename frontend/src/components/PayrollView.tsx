@@ -22,7 +22,8 @@ import {
   Briefcase,
   X,
   Send,
-  Clock
+  Clock,
+  Plus
 } from 'lucide-react';
 
 export default function PayrollView() {
@@ -30,6 +31,21 @@ export default function PayrollView() {
   const [summary, setSummary] = useState<ApiPayrollRunSummary | null>(null);
   const [selectedMonth, setSelectedMonth] = useState('September 2026');
   const [activeSlip, setActiveSlip] = useState<ApiSalarySlip | null>(null);
+  const [isAddSalaryModalOpen, setIsAddSalaryModalOpen] = useState(false);
+
+  // Form State
+  const [salaryForm, setSalaryForm] = useState({
+    employeeName: '',
+    roleName: 'Warehouse Executive',
+    panNumber: 'ABCDE' + Math.floor(1000 + Math.random() * 9000) + 'F',
+    uanNumber: '1009' + Math.floor(10000000 + Math.random() * 90000000),
+    basicSalary: 28000,
+    hra: 11200,
+    specialAllowance: 5800,
+    pfDeduction: 3360,
+    ptTax: 200,
+    tdsDeduction: 1200,
+  });
 
   // Toast
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -37,6 +53,69 @@ export default function PayrollView() {
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 4000);
+  };
+
+  const handleCreateSalarySlip = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!salaryForm.employeeName.trim()) {
+      showToast('⚠️ Employee Name is required');
+      return;
+    }
+
+    const basic = Number(salaryForm.basicSalary) || 25000;
+    const hra = Number(salaryForm.hra) || 10000;
+    const special = Number(salaryForm.specialAllowance) || 5000;
+    const gross = basic + hra + special;
+
+    const pf = Number(salaryForm.pfDeduction) || 3000;
+    const pt = Number(salaryForm.ptTax) || 200;
+    const tds = Number(salaryForm.tdsDeduction) || 1000;
+    const deductions = pf + pt + tds;
+    const net = gross - deductions;
+
+    const newSlip: ApiSalarySlip = {
+      id: 'slip-' + Date.now(),
+      employeeId: 'emp-' + Date.now(),
+      employeeName: salaryForm.employeeName.trim(),
+      roleName: salaryForm.roleName,
+      panNumber: salaryForm.panNumber,
+      uanNumber: salaryForm.uanNumber,
+      monthYear: selectedMonth,
+      totalWorkingDays: 30,
+      daysWorked: 30,
+      lopDays: 0,
+      basicSalary: basic,
+      hra: hra,
+      conveyanceAllowance: 1600,
+      medicalAllowance: 1250,
+      specialAllowance: special,
+      grossEarnings: gross,
+      pfEmployeeDeduction: pf,
+      esiEmployeeDeduction: 0,
+      professionalTax: pt,
+      tdsDeduction: tds,
+      totalDeductions: deductions,
+      netSalary: net,
+      netSalaryInWords: `Rupees ${net.toLocaleString('en-IN')} Only`,
+      paymentStatus: 'Approved',
+      processedDate: new Date().toISOString().split('T')[0],
+    };
+
+    setSummary(prev => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        totalEmployees: prev.totalEmployees + 1,
+        totalGrossSalary: prev.totalGrossSalary + gross,
+        totalNetDisbursement: prev.totalNetDisbursement + net,
+        totalPfContribution: prev.totalPfContribution + pf,
+        totalEsiContribution: prev.totalEsiContribution,
+        slips: [newSlip, ...prev.slips],
+      };
+    });
+
+    setIsAddSalaryModalOpen(false);
+    showToast(`✅ Salary slip generated for ${newSlip.employeeName} (Net: ₹${net.toLocaleString('en-IN')})!`);
   };
 
   const loadData = async () => {
@@ -115,6 +194,13 @@ export default function PayrollView() {
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-teal-600 dark:text-teal-400' : ''}`} />
             Refresh
+          </button>
+          <button
+            onClick={() => setIsAddSalaryModalOpen(true)}
+            className="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-semibold text-sm flex items-center gap-2 shadow-sm transition cursor-pointer"
+          >
+            <Plus className="w-4 h-4" />
+            Add Salary Record
           </button>
         </div>
       </div>
@@ -357,6 +443,186 @@ export default function PayrollView() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: ADD SALARY RECORD */}
+      {isAddSalaryModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] animate-in zoom-in-95">
+            <div className="p-4 bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+              <div>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base flex items-center gap-2">
+                  <IndianRupee className="w-5 h-5 text-teal-600 dark:text-teal-400" />
+                  Add Employee Salary Record ({selectedMonth})
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Calculate gross earnings, statutory EPF/ESI/TDS deductions, and net bank disbursement.
+                </p>
+              </div>
+              <button
+                onClick={() => setIsAddSalaryModalOpen(false)}
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-lg transition"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateSalarySlip} className="p-5 overflow-y-auto space-y-4 text-xs">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="md:col-span-2">
+                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    Staff Member Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Ramesh V"
+                    value={salaryForm.employeeName}
+                    onChange={e => setSalaryForm({ ...salaryForm, employeeName: e.target.value })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-teal-500 outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    Designation / Role
+                  </label>
+                  <select
+                    value={salaryForm.roleName}
+                    onChange={e => setSalaryForm({ ...salaryForm, roleName: e.target.value })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-teal-500 outline-none"
+                  >
+                    <option value="Warehouse Executive">Warehouse Executive</option>
+                    <option value="Billing Cashier">Billing Cashier</option>
+                    <option value="Delivery Van Driver">Delivery Van Driver</option>
+                    <option value="Accounts Assistant">Accounts Assistant</option>
+                    <option value="Inventory Auditor">Inventory Auditor</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    Permanent Account Number (PAN)
+                  </label>
+                  <input
+                    type="text"
+                    value={salaryForm.panNumber}
+                    onChange={e => setSalaryForm({ ...salaryForm, panNumber: e.target.value })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase focus:border-teal-500 outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    Basic Salary (₹) *
+                  </label>
+                  <input
+                    type="number"
+                    step="500"
+                    required
+                    value={salaryForm.basicSalary}
+                    onChange={e => setSalaryForm({ ...salaryForm, basicSalary: Number(e.target.value) })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono font-bold focus:border-teal-500 outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    House Rent Allowance (HRA) (₹)
+                  </label>
+                  <input
+                    type="number"
+                    step="500"
+                    value={salaryForm.hra}
+                    onChange={e => setSalaryForm({ ...salaryForm, hra: Number(e.target.value) })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono font-bold focus:border-teal-500 outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    Special / Skill Allowance (₹)
+                  </label>
+                  <input
+                    type="number"
+                    step="500"
+                    value={salaryForm.specialAllowance}
+                    onChange={e => setSalaryForm({ ...salaryForm, specialAllowance: Number(e.target.value) })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono font-bold focus:border-teal-500 outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    EPF Statutory Deduction (12% Basic) (₹)
+                  </label>
+                  <input
+                    type="number"
+                    step="100"
+                    value={salaryForm.pfDeduction}
+                    onChange={e => setSalaryForm({ ...salaryForm, pfDeduction: Number(e.target.value) })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-rose-700 dark:text-rose-400 font-mono font-bold focus:border-teal-500 outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    Income Tax (TDS) (₹)
+                  </label>
+                  <input
+                    type="number"
+                    step="100"
+                    value={salaryForm.tdsDeduction}
+                    onChange={e => setSalaryForm({ ...salaryForm, tdsDeduction: Number(e.target.value) })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-rose-700 dark:text-rose-400 font-mono font-bold focus:border-teal-500 outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    Professional Tax (PT) (₹)
+                  </label>
+                  <input
+                    type="number"
+                    value={salaryForm.ptTax}
+                    onChange={e => setSalaryForm({ ...salaryForm, ptTax: Number(e.target.value) })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-teal-500 outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Net Estimated Calculation */}
+              <div className="p-3 bg-teal-50/50 dark:bg-slate-950/60 rounded-xl border border-teal-200 dark:border-slate-800 flex justify-between items-center text-xs">
+                <div>
+                  <span className="text-slate-600 dark:text-slate-400">Estimated Net Bank Disbursement:</span>
+                  <div className="font-mono text-slate-500 text-[10px]">
+                    Gross: ₹{(salaryForm.basicSalary + salaryForm.hra + salaryForm.specialAllowance).toLocaleString('en-IN')} - Deductions: ₹{(salaryForm.pfDeduction + salaryForm.ptTax + salaryForm.tdsDeduction).toLocaleString('en-IN')}
+                  </div>
+                </div>
+                <span className="text-lg font-black text-teal-700 dark:text-teal-400 font-mono">
+                  ₹{Math.max(0, (salaryForm.basicSalary + salaryForm.hra + salaryForm.specialAllowance) - (salaryForm.pfDeduction + salaryForm.ptTax + salaryForm.tdsDeduction)).toLocaleString('en-IN')}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-200 dark:border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => setIsAddSalaryModalOpen(false)}
+                  className="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold shadow-md transition flex items-center gap-1.5"
+                >
+                  <Plus className="w-4 h-4" />
+                  Save &amp; Generate Slip
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

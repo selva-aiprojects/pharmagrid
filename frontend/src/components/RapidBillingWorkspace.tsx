@@ -68,6 +68,57 @@ export default function RapidBillingWorkspace() {
   const [customerSearchQuery, setCustomerSearchQuery] = useState('');
   const [apiError, setApiError] = useState<string | null>(null);
 
+  // Quick Customer Registration Modal in Billing
+  const [isAddCustomerModalOpen, setIsAddCustomerModalOpen] = useState(false);
+  const [newCustomerForm, setNewCustomerForm] = useState({
+    name: '',
+    code: '',
+    customerType: 'Retail Pharmacy',
+    gstin: '',
+    dl20B: '',
+    dl21B: '',
+    creditLimit: 100000,
+    address: ''
+  });
+
+  const handleQuickRegisterCustomer = () => {
+    if (!newCustomerForm.name.trim()) {
+      alert('Please enter pharmacy / chemist name.');
+      return;
+    }
+    const newCust: CustomerItem = {
+      customerId: `cust-${Date.now()}`,
+      name: newCustomerForm.name.trim(),
+      code: newCustomerForm.code.trim().toUpperCase() || `CUST-${Math.floor(100 + Math.random() * 900)}`,
+      customerType: newCustomerForm.customerType as any,
+      gstin: newCustomerForm.gstin.trim().toUpperCase() || '33AAACA0000A1Z5',
+      stateCode: '33',
+      stateName: 'Tamil Nadu (Intra-State)',
+      drugLicense20B: newCustomerForm.dl20B.trim() || 'TN/CHE/20B/0099',
+      drugLicense21B: newCustomerForm.dl21B.trim() || 'TN/CHE/21B/0099',
+      licenseValidUntil: '2029-12-31',
+      isLicenseValid: true,
+      creditLimit: Number(newCustomerForm.creditLimit) || 100000,
+      currentOutstanding: 0,
+      overdueBillsCount: 0,
+      address: newCustomerForm.address || 'Chennai Central',
+    };
+    setCustomerList(prev => [newCust, ...prev]);
+    setSelectedCustomer(newCust);
+    setIsAddCustomerModalOpen(false);
+    setIsCustomerModalOpen(false);
+    setNewCustomerForm({
+      name: '',
+      code: '',
+      customerType: 'Retail Pharmacy',
+      gstin: '',
+      dl20B: '',
+      dl21B: '',
+      creditLimit: 100000,
+      address: ''
+    });
+  };
+
   // Sync live customers from .NET 9 Web API
   useEffect(() => {
     pharmaApi.getCustomers().then(apiCusts => {
@@ -890,12 +941,22 @@ export default function RapidBillingWorkspace() {
                 <UserCheck className="w-5 h-5 text-blue-600 dark:text-cyan-400" />
                 Select Customer Pharmacy / Hospital [F1]
               </div>
-              <button
-                onClick={() => setIsCustomerModalOpen(false)}
-                className="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1 rounded cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsAddCustomerModalOpen(true)}
+                  className="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center gap-1 cursor-pointer shadow-xs"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  + New Customer
+                </button>
+                <button
+                  onClick={() => setIsCustomerModalOpen(false)}
+                  className="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1 rounded cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             <div className="relative">
@@ -1083,6 +1144,135 @@ export default function RapidBillingWorkspace() {
         isOpen={isPrintModalOpen}
         onClose={() => setIsPrintModalOpen(false)}
       />
+
+      {/* MODAL 5: QUICK CUSTOMER REGISTRATION */}
+      {isAddCustomerModalOpen && (
+        <div className="fixed inset-0 z-60 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl flex flex-col animate-in zoom-in-95">
+            <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+              <div>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base flex items-center gap-2">
+                  <UserCheck className="w-5 h-5 text-blue-600 dark:text-cyan-400" />
+                  Quick Chemist / Pharmacy Registration
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                  Instant customer enrollment with Drug License Form 20B/21B and GST verification
+                </p>
+              </div>
+              <button
+                onClick={() => setIsAddCustomerModalOpen(false)}
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-5 space-y-4 text-xs">
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                  Chemist / Pharmacy Trade Name *
+                </label>
+                <input
+                  type="text"
+                  value={newCustomerForm.name}
+                  onChange={e => setNewCustomerForm({ ...newCustomerForm, name: e.target.value })}
+                  placeholder="e.g. Balaji Medicals & General Stores"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                    Customer Type
+                  </label>
+                  <select
+                    value={newCustomerForm.customerType}
+                    onChange={e => setNewCustomerForm({ ...newCustomerForm, customerType: e.target.value })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100"
+                  >
+                    <option value="Retail Pharmacy">Retail Pharmacy (Chemist)</option>
+                    <option value="Hospital Pharmacy">Hospital Pharmacy</option>
+                    <option value="Wholesale Sub-Stockist">Wholesale Sub-Stockist</option>
+                    <option value="Nursing Home / Clinic">Nursing Home / Clinic</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                    Credit Limit (₹)
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    step={10000}
+                    value={newCustomerForm.creditLimit}
+                    onChange={e => setNewCustomerForm({ ...newCustomerForm, creditLimit: Number(e.target.value) })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-slate-900 dark:text-slate-100"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                    GSTIN Number
+                  </label>
+                  <input
+                    type="text"
+                    value={newCustomerForm.gstin}
+                    onChange={e => setNewCustomerForm({ ...newCustomerForm, gstin: e.target.value })}
+                    placeholder="e.g. 33AAACA9921E1Z0"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-mono uppercase text-slate-900 dark:text-slate-100"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                    Drug License 20B (Allopathic)
+                  </label>
+                  <input
+                    type="text"
+                    value={newCustomerForm.dl20B}
+                    onChange={e => setNewCustomerForm({ ...newCustomerForm, dl20B: e.target.value })}
+                    placeholder="e.g. TN/CHE/20B/0411"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-slate-900 dark:text-slate-100"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                  Delivery Address / Route
+                </label>
+                <input
+                  type="text"
+                  value={newCustomerForm.address}
+                  onChange={e => setNewCustomerForm({ ...newCustomerForm, address: e.target.value })}
+                  placeholder="e.g. 42 Bazaar Road, Mylapore, Chennai 600004"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100"
+                />
+              </div>
+            </div>
+
+            <div className="p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setIsAddCustomerModalOpen(false)}
+                className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-300 text-xs font-semibold cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleQuickRegisterCustomer}
+                className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-sm flex items-center gap-1.5 cursor-pointer"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                Enroll Chemist &amp; Select
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

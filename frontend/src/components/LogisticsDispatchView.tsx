@@ -33,6 +33,20 @@ export default function LogisticsDispatchView() {
   const [manifests, setManifests] = useState<ApiDeliveryManifest[]>([]);
   const [selectedManifest, setSelectedManifest] = useState<ApiDeliveryManifest | null>(null);
 
+  // Create Manifest Modal
+  const [isCreateManifestOpen, setIsCreateManifestOpen] = useState(false);
+  const [manifestForm, setManifestForm] = useState({
+    routeName: 'Route 04 - Tambaram & Chromepet Loop',
+    vehicleNumber: 'TN-09-CB-1044',
+    driverName: 'V. Murugan',
+    driverPhone: '+91 98401 23456',
+    customerName: 'Apollo Pharmacy Chromepet',
+    invoiceNumber: 'INV-2026-904',
+    deliveryAddress: 'GST Road, Chromepet, Chennai - 600044',
+    cartonCount: 3,
+    codAmount: 18500,
+  });
+
   // POD Update Modal
   const [podTarget, setPodTarget] = useState<{ manifestId: string; challan: ApiDeliveryChallan } | null>(null);
   const [podStatus, setPodStatus] = useState<'Delivered' | 'AttemptedFailed' | 'Returned'>('Delivered');
@@ -45,6 +59,35 @@ export default function LogisticsDispatchView() {
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 4000);
+  };
+
+  const handleCreateManifest = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const payload = {
+        routeName: manifestForm.routeName,
+        vehicleNumber: manifestForm.vehicleNumber,
+        driverName: manifestForm.driverName,
+        driverPhone: manifestForm.driverPhone,
+        challans: [
+          {
+            invoiceNumber: manifestForm.invoiceNumber,
+            customerName: manifestForm.customerName,
+            deliveryAddress: manifestForm.deliveryAddress,
+            cartonCount: Number(manifestForm.cartonCount) || 1,
+            codAmount: Number(manifestForm.codAmount) || 0,
+          }
+        ]
+      };
+      const newManifest = await pharmaApi.createDeliveryManifest(payload);
+      setManifests(prev => [newManifest, ...prev]);
+      setSelectedManifest(newManifest);
+      setIsCreateManifestOpen(false);
+      showToast(`✅ Dispatch manifest ${newManifest.manifestNumber} created with ${newManifest.vehicleNumber}!`);
+      loadData();
+    } catch (err: any) {
+      showToast('⚠️ Could not create manifest: ' + err.message);
+    }
   };
 
   const loadData = async () => {
@@ -136,7 +179,7 @@ export default function LogisticsDispatchView() {
             Refresh
           </button>
           <button
-            onClick={() => showToast('💡 New delivery manifests are automatically created during invoice batch packing.')}
+            onClick={() => setIsCreateManifestOpen(true)}
             className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm flex items-center gap-2 shadow-sm transition cursor-pointer"
           >
             <Plus className="w-4 h-4" />
@@ -441,6 +484,178 @@ export default function LogisticsDispatchView() {
                 Commit POD Record
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* 6. MODAL: CREATE NEW ROUTE MANIFEST */}
+      {isCreateManifestOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] animate-in zoom-in-95">
+            <div className="p-4 bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+              <div>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base flex items-center gap-2">
+                  <Truck className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                  Create Van Dispatch Route Manifest
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Assign delivery driver, dispatch vehicle, retail chemist stops, and target COD reconciliation.
+                </p>
+              </div>
+              <button
+                onClick={() => setIsCreateManifestOpen(false)}
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-lg transition"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateManifest} className="p-5 overflow-y-auto space-y-4 text-xs">
+              <div>
+                <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                  Delivery Corridor / Route Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={manifestForm.routeName}
+                  onChange={e => setManifestForm({ ...manifestForm, routeName: e.target.value })}
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-medium focus:border-emerald-500 outline-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    Assigned Vehicle Number *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. TN-09-CB-1044"
+                    value={manifestForm.vehicleNumber}
+                    onChange={e => setManifestForm({ ...manifestForm, vehicleNumber: e.target.value })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono uppercase font-bold focus:border-emerald-500 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    Designated Van Driver *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. V. Murugan"
+                    value={manifestForm.driverName}
+                    onChange={e => setManifestForm({ ...manifestForm, driverName: e.target.value })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white focus:border-emerald-500 outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    Driver Mobile Contact *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={manifestForm.driverPhone}
+                    onChange={e => setManifestForm({ ...manifestForm, driverPhone: e.target.value })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono focus:border-emerald-500 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                    Invoice Number Allocated
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={manifestForm.invoiceNumber}
+                    onChange={e => setManifestForm({ ...manifestForm, invoiceNumber: e.target.value })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-slate-900 dark:text-white font-mono font-bold uppercase focus:border-emerald-500 outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Delivery Stop Detail */}
+              <div className="p-3 bg-emerald-50/50 dark:bg-slate-950/60 rounded-xl border border-emerald-200 dark:border-slate-800 space-y-3">
+                <div className="font-bold text-emerald-900 dark:text-emerald-400 flex items-center gap-1.5">
+                  <Package className="w-4 h-4" />
+                  Primary Delivery Parcel &amp; Destination Chemist
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  <div>
+                    <label className="block text-slate-600 dark:text-slate-400 text-[11px] mb-1 font-semibold">
+                      Pharmacy / Hospital Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={manifestForm.customerName}
+                      onChange={e => setManifestForm({ ...manifestForm, customerName: e.target.value })}
+                      className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded p-1.5 text-slate-900 dark:text-white text-xs font-semibold"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-slate-600 dark:text-slate-400 text-[11px] mb-1 font-semibold">
+                      Destination Address *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={manifestForm.deliveryAddress}
+                      onChange={e => setManifestForm({ ...manifestForm, deliveryAddress: e.target.value })}
+                      className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded p-1.5 text-slate-900 dark:text-white text-xs"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-slate-600 dark:text-slate-400 text-[11px] mb-1 font-semibold">
+                      Carton Boxes Loaded
+                    </label>
+                    <input
+                      type="number"
+                      required
+                      min="1"
+                      value={manifestForm.cartonCount}
+                      onChange={e => setManifestForm({ ...manifestForm, cartonCount: Number(e.target.value) })}
+                      className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded p-1.5 text-slate-900 dark:text-white font-mono text-xs font-bold"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-slate-600 dark:text-slate-400 text-[11px] mb-1 font-semibold">
+                      Cash On Delivery (COD) Amount (₹)
+                    </label>
+                    <input
+                      type="number"
+                      step="500"
+                      value={manifestForm.codAmount}
+                      onChange={e => setManifestForm({ ...manifestForm, codAmount: Number(e.target.value) })}
+                      className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded p-1.5 text-emerald-700 dark:text-emerald-400 font-mono text-xs font-bold"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-200 dark:border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => setIsCreateManifestOpen(false)}
+                  className="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-md transition flex items-center gap-1.5"
+                >
+                  <Plus className="w-4 h-4" />
+                  Dispatch Manifest
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

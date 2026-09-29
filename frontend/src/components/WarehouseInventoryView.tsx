@@ -13,12 +13,78 @@ import {
   Layers,
   Filter,
   RefreshCw,
+  Plus,
+  X,
+  CheckCircle2,
 } from 'lucide-react';
 
 export default function WarehouseInventoryView() {
   const [searchQuery, setSearchQuery] = useState('');
   const [liveBatches, setLiveBatches] = useState<any[]>([]);
   const [isLive, setIsLive] = useState(false);
+  const [showAddAllocationModal, setShowAddAllocationModal] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const [allocationForm, setAllocationForm] = useState({
+    productName: 'Augmentin 625mg Duo Tablet',
+    genericName: 'Amoxicillin + Clavulanic Acid 625mg',
+    batchNumber: '',
+    rackLocation: 'Z1-R02-S03-B04',
+    availableQty: 100,
+    uom: 'Strip (10 Tab)',
+    ptr: 142.50,
+    mrp: 204.00,
+    manufacturingDate: new Date().toISOString().split('T')[0],
+    expiryDate: '2028-06-30',
+    storageCondition: 'Ambient (Below 25°C)',
+  });
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 4000);
+  };
+
+  const handleCreateAllocation = () => {
+    if (!allocationForm.batchNumber.trim()) {
+      alert('Please enter a valid pharmaceutical Batch Number.');
+      return;
+    }
+    const newBatch = {
+      batchId: `batch-${Date.now()}`,
+      productId: `prod-${Date.now()}`,
+      productName: allocationForm.productName,
+      genericName: allocationForm.genericName,
+      batchNumber: allocationForm.batchNumber.trim().toUpperCase(),
+      manufacturingDate: allocationForm.manufacturingDate,
+      expiryDate: allocationForm.expiryDate,
+      availableQty: Number(allocationForm.availableQty) || 50,
+      uom: allocationForm.uom,
+      ptr: Number(allocationForm.ptr) || 100,
+      mrp: Number(allocationForm.mrp) || 150,
+      rackLocation: allocationForm.rackLocation.trim().toUpperCase(),
+      isNearExpiry: false,
+      storageCondition: allocationForm.storageCondition,
+      daysToExpiry: 450,
+    };
+
+    setLiveBatches(prev => [newBatch, ...prev]);
+    setIsLive(true);
+    setShowAddAllocationModal(false);
+    showToast(`✅ Batch ${newBatch.batchNumber} assigned to Rack Bin ${newBatch.rackLocation}!`);
+    setAllocationForm({
+      productName: 'Augmentin 625mg Duo Tablet',
+      genericName: 'Amoxicillin + Clavulanic Acid 625mg',
+      batchNumber: '',
+      rackLocation: 'Z1-R02-S03-B04',
+      availableQty: 100,
+      uom: 'Strip (10 Tab)',
+      ptr: 142.50,
+      mrp: 204.00,
+      manufacturingDate: new Date().toISOString().split('T')[0],
+      expiryDate: '2028-06-30',
+      storageCondition: 'Ambient (Below 25°C)',
+    });
+  };
 
   const fetchBatches = () => {
     pharmaApi.getWarehouseBatches().then(batches => {
@@ -72,6 +138,14 @@ export default function WarehouseInventoryView() {
 
   return (
     <div className="flex flex-col gap-5">
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed top-6 right-6 z-50 bg-emerald-950 border border-emerald-500/50 text-emerald-200 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 backdrop-blur-md animate-in fade-in slide-in-from-top-3">
+          <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+          <span className="text-sm font-medium">{toastMessage}</span>
+        </div>
+      )}
+
       {/* 1. HEADER */}
       <div className="glass-panel rounded-xl p-4 flex flex-wrap items-center justify-between gap-4">
         <div>
@@ -88,6 +162,13 @@ export default function WarehouseInventoryView() {
           <span className="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-mono shadow-2xs">
             Total Batches: <strong className="text-blue-700 dark:text-cyan-400">{allBatches.length}</strong>
           </span>
+          <button
+            onClick={() => setShowAddAllocationModal(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition cursor-pointer shadow-xs"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            Allocate Batch to Bin
+          </button>
         </div>
       </div>
 
@@ -175,6 +256,158 @@ export default function WarehouseInventoryView() {
           </tbody>
         </table>
       </div>
+
+      {/* Modal: Allocate Batch to Rack Bin */}
+      {showAddAllocationModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl flex flex-col animate-in zoom-in-95">
+            <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+              <div>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base flex items-center gap-2">
+                  <Boxes className="w-5 h-5 text-blue-600 dark:text-cyan-400" />
+                  Allocate Batch to Warehouse Rack Bin
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                  Assign physical inventory stock to specific zone, rack, and shelf location
+                </p>
+              </div>
+              <button
+                onClick={() => setShowAddAllocationModal(false)}
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-5 space-y-4 text-xs">
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                  Medicine / Product Name *
+                </label>
+                <input
+                  type="text"
+                  value={allocationForm.productName}
+                  onChange={e => setAllocationForm({ ...allocationForm, productName: e.target.value })}
+                  placeholder="e.g. Augmentin 625mg Duo Tablet"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                    Batch Number *
+                  </label>
+                  <input
+                    type="text"
+                    value={allocationForm.batchNumber}
+                    onChange={e => setAllocationForm({ ...allocationForm, batchNumber: e.target.value })}
+                    placeholder="e.g. BAT-2026-X99"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-blue-600 dark:text-cyan-400 uppercase"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                    Target Rack Bin *
+                  </label>
+                  <input
+                    type="text"
+                    value={allocationForm.rackLocation}
+                    onChange={e => setAllocationForm({ ...allocationForm, rackLocation: e.target.value })}
+                    placeholder="e.g. Z1-R02-S03-B04"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-slate-900 dark:text-slate-100 uppercase"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                    Available Units Qty
+                  </label>
+                  <input
+                    type="number"
+                    min={1}
+                    value={allocationForm.availableQty}
+                    onChange={e => setAllocationForm({ ...allocationForm, availableQty: Number(e.target.value) })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-slate-900 dark:text-slate-100"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                    Unit of Measurement (UOM)
+                  </label>
+                  <input
+                    type="text"
+                    value={allocationForm.uom}
+                    onChange={e => setAllocationForm({ ...allocationForm, uom: e.target.value })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                    Manufacturing Date
+                  </label>
+                  <input
+                    type="date"
+                    value={allocationForm.manufacturingDate}
+                    onChange={e => setAllocationForm({ ...allocationForm, manufacturingDate: e.target.value })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                    Expiry Date
+                  </label>
+                  <input
+                    type="date"
+                    value={allocationForm.expiryDate}
+                    onChange={e => setAllocationForm({ ...allocationForm, expiryDate: e.target.value })}
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
+                  Storage Protocol
+                </label>
+                <select
+                  value={allocationForm.storageCondition}
+                  onChange={e => setAllocationForm({ ...allocationForm, storageCondition: e.target.value })}
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100"
+                >
+                  <option value="Ambient (Below 25°C)">Ambient (Below 25°C)</option>
+                  <option value="Cold Chain (2°C - 8°C)">Cold Chain (2°C - 8°C)</option>
+                  <option value="Controlled Room Temperature (20°C - 25°C)">Controlled Room Temperature (20°C - 25°C)</option>
+                  <option value="Cool Place (8°C - 15°C)">Cool Place (8°C - 15°C)</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setShowAddAllocationModal(false)}
+                className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-300 text-xs font-semibold cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleCreateAllocation}
+                className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-sm flex items-center gap-1.5 cursor-pointer"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                Allocate to Rack Bin
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
