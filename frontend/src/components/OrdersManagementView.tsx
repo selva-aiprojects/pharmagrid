@@ -181,19 +181,19 @@ export default function OrdersManagementView() {
       )}
 
       {/* Header and Controls */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900/60 p-6 rounded-2xl border border-slate-800 backdrop-blur-sm">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-slate-900/90 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-400 border border-blue-500/30">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800 dark:bg-blue-500/20 dark:text-blue-300 border border-blue-200 dark:border-blue-500/30">
               SUPPLY CHAIN ENGINE
             </span>
             <span className="text-slate-500 text-xs">CDSCO Form 20B/21B Compliant</span>
           </div>
-          <h1 className="text-2xl font-bold text-slate-100 flex items-center gap-3">
-            <ShoppingCart className="w-7 h-7 text-blue-400" />
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
+            <ShoppingCart className="w-7 h-7 text-blue-600 dark:text-blue-400" />
             Orders & Indent Lifecycle
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">
             Manage manufacturer indents (Vendor POs) and chemist field bookings (Customer Pre-Orders) with 1-click execution.
           </p>
         </div>
@@ -202,17 +202,17 @@ export default function OrdersManagementView() {
           <button
             onClick={loadData}
             disabled={loading}
-            className="px-3.5 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700 text-sm font-medium flex items-center gap-2 transition"
+            className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 text-sm font-semibold flex items-center gap-2 transition cursor-pointer"
             title="Refresh Orders"
           >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-blue-400' : ''}`} />
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-blue-600 dark:text-blue-400' : ''}`} />
             Refresh
           </button>
 
           {activeTab === 'vendor' ? (
             <button
               onClick={() => setShowNewPoModal(true)}
-              className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm flex items-center gap-2 shadow-lg shadow-blue-500/20 transition"
+              className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm flex items-center gap-2 shadow-sm transition cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               New Vendor PO
@@ -220,7 +220,7 @@ export default function OrdersManagementView() {
           ) : (
             <button
               onClick={() => showToast('💡 Chemist bookings arrive directly from field reps or the B2B chemist mobile app.')}
-              className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm flex items-center gap-2 shadow-lg shadow-emerald-500/20 transition"
+              className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm flex items-center gap-2 shadow-sm transition cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               Book Chemist Order
@@ -232,60 +232,60 @@ export default function OrdersManagementView() {
       {/* KPI Cards */}
       {summary && (
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 backdrop-blur-sm">
-            <div className="text-slate-400 text-xs font-medium uppercase tracking-wider">Total Vendor POs</div>
-            <div className="text-2xl font-bold text-slate-100 mt-1">{summary.totalVendorPos}</div>
-            <div className="text-xs text-blue-400 mt-1 flex items-center gap-1">
-              <Building className="w-3 h-3" /> Manufacturer Indents
+          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
+            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Total Vendor POs</div>
+            <div className="text-2xl font-black text-slate-900 dark:text-white mt-1">{summary.totalVendorPos}</div>
+            <div className="text-xs text-blue-600 dark:text-blue-400 mt-1 flex items-center gap-1 font-medium">
+              <Building className="w-3.5 h-3.5" /> Manufacturer Indents
             </div>
           </div>
 
-          <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 backdrop-blur-sm">
-            <div className="text-slate-400 text-xs font-medium uppercase tracking-wider">Vendor PO Value</div>
-            <div className="text-2xl font-bold text-emerald-400 mt-1">₹{summary.totalPoValue.toLocaleString('en-IN')}</div>
-            <div className="text-xs text-slate-500 mt-1">Committed Procurement</div>
+          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
+            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Vendor PO Value</div>
+            <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1">₹{summary.totalPoValue.toLocaleString('en-IN')}</div>
+            <div className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">Committed Procurement</div>
           </div>
 
-          <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 backdrop-blur-sm">
-            <div className="text-slate-400 text-xs font-medium uppercase tracking-wider">In-Transit Indents</div>
-            <div className="text-2xl font-bold text-amber-400 mt-1">{summary.pendingPoDeliveries}</div>
-            <div className="text-xs text-amber-500/80 mt-1 flex items-center gap-1">
-              <Truck className="w-3 h-3" /> Awaiting Inward GRN
+          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
+            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">In-Transit Indents</div>
+            <div className="text-2xl font-black text-amber-600 dark:text-amber-400 mt-1">{summary.pendingPoDeliveries}</div>
+            <div className="text-xs text-amber-700 dark:text-amber-400/90 mt-1 flex items-center gap-1 font-medium">
+              <Truck className="w-3.5 h-3.5" /> Awaiting Inward GRN
             </div>
           </div>
 
-          <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 backdrop-blur-sm">
-            <div className="text-slate-400 text-xs font-medium uppercase tracking-wider">Customer Orders</div>
-            <div className="text-2xl font-bold text-slate-100 mt-1">{summary.totalCustomerOrders}</div>
-            <div className="text-xs text-purple-400 mt-1 flex items-center gap-1">
-              <User className="w-3 h-3" /> Chemist Pre-Bookings
+          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
+            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Customer Orders</div>
+            <div className="text-2xl font-black text-purple-600 dark:text-purple-400 mt-1">{summary.totalCustomerOrders}</div>
+            <div className="text-xs text-purple-700 dark:text-purple-400 mt-1 flex items-center gap-1 font-medium">
+              <User className="w-3.5 h-3.5" /> Chemist Pre-Bookings
             </div>
           </div>
 
-          <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 backdrop-blur-sm">
-            <div className="text-slate-400 text-xs font-medium uppercase tracking-wider">Order Value</div>
-            <div className="text-2xl font-bold text-purple-400 mt-1">₹{summary.totalOrderValue.toLocaleString('en-IN')}</div>
-            <div className="text-xs text-slate-500 mt-1">B2B Sales Pipeline</div>
+          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
+            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Order Value</div>
+            <div className="text-2xl font-black text-purple-600 dark:text-purple-400 mt-1">₹{summary.totalOrderValue.toLocaleString('en-IN')}</div>
+            <div className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">B2B Sales Pipeline</div>
           </div>
 
-          <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 backdrop-blur-sm">
-            <div className="text-slate-400 text-xs font-medium uppercase tracking-wider">Priority / Cold-Chain</div>
-            <div className="text-2xl font-bold text-rose-400 mt-1">{summary.urgentBookings}</div>
-            <div className="text-xs text-rose-500/80 mt-1 flex items-center gap-1">
-              <Clock className="w-3 h-3" /> Expedited Dispatch
+          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
+            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Priority / Cold-Chain</div>
+            <div className="text-2xl font-black text-rose-600 dark:text-rose-400 mt-1">{summary.urgentBookings}</div>
+            <div className="text-xs text-rose-700 dark:text-rose-400/90 mt-1 flex items-center gap-1 font-medium">
+              <Clock className="w-3.5 h-3.5" /> Expedited Dispatch
             </div>
           </div>
         </div>
       )}
 
       {/* Tabs */}
-      <div className="flex border-b border-slate-800 gap-4">
+      <div className="flex border-b border-slate-200 dark:border-slate-800 gap-4">
         <button
           onClick={() => setActiveTab('vendor')}
-          className={`pb-3 px-2 font-medium text-sm flex items-center gap-2 border-b-2 transition ${
+          className={`pb-3 px-2 font-semibold text-sm flex items-center gap-2 border-b-2 transition cursor-pointer ${
             activeTab === 'vendor'
-              ? 'border-blue-500 text-blue-400'
-              : 'border-transparent text-slate-400 hover:text-slate-200'
+              ? 'border-blue-600 text-blue-600 dark:border-blue-500 dark:text-blue-400'
+              : 'border-transparent text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
           }`}
         >
           <Building className="w-4 h-4" />
@@ -293,10 +293,10 @@ export default function OrdersManagementView() {
         </button>
         <button
           onClick={() => setActiveTab('customer')}
-          className={`pb-3 px-2 font-medium text-sm flex items-center gap-2 border-b-2 transition ${
+          className={`pb-3 px-2 font-semibold text-sm flex items-center gap-2 border-b-2 transition cursor-pointer ${
             activeTab === 'customer'
-              ? 'border-purple-500 text-purple-400'
-              : 'border-transparent text-slate-400 hover:text-slate-200'
+              ? 'border-purple-600 text-purple-600 dark:border-purple-500 dark:text-purple-400'
+              : 'border-transparent text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
           }`}
         >
           <ShoppingCart className="w-4 h-4" />
@@ -306,15 +306,15 @@ export default function OrdersManagementView() {
 
       {/* Tab 1: Vendor Purchase Orders */}
       {activeTab === 'vendor' && (
-        <div className="bg-slate-900/60 rounded-2xl border border-slate-800 overflow-hidden backdrop-blur-sm">
-          <div className="p-4 border-b border-slate-800/80 flex items-center justify-between">
-            <div className="text-sm font-semibold text-slate-300">Active Manufacturer Procurement Indents</div>
-            <div className="text-xs text-slate-500">Auto-links to Goods Receipt Notes (GRN) upon arrival</div>
+        <div className="bg-white dark:bg-slate-900/80 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-xs">
+          <div className="p-4 border-b border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
+            <div className="text-sm font-bold text-slate-800 dark:text-slate-200">Active Manufacturer Procurement Indents</div>
+            <div className="text-xs text-slate-500 dark:text-slate-400">Auto-links to Goods Receipt Notes (GRN) upon arrival</div>
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-300">
-              <thead className="bg-slate-950/60 text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-800">
+            <table className="w-full text-left text-sm text-slate-800 dark:text-slate-200">
+              <thead className="bg-slate-50 dark:bg-slate-950/80 text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
                 <tr>
                   <th className="py-3 px-4">PO Number</th>
                   <th className="py-3 px-4">Manufacturer / Supplier</th>
@@ -326,41 +326,41 @@ export default function OrdersManagementView() {
                   <th className="py-3 px-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800/60">
                 {vendorPos.map(po => (
-                  <tr key={po.id} className="hover:bg-slate-800/40 transition">
-                    <td className="py-3.5 px-4 font-mono font-semibold text-blue-400">
+                  <tr key={po.id} className="hover:bg-slate-50 dark:hover:bg-slate-850/60 transition">
+                    <td className="py-3.5 px-4 font-mono font-bold text-blue-600 dark:text-blue-400">
                       {po.poNumber}
                     </td>
                     <td className="py-3.5 px-4">
-                      <div className="font-medium text-slate-200">{po.supplierName}</div>
-                      <div className="text-xs text-slate-500">{po.paymentTerms}</div>
+                      <div className="font-semibold text-slate-900 dark:text-white">{po.supplierName}</div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400">{po.paymentTerms}</div>
                     </td>
-                    <td className="py-3.5 px-4 text-xs text-slate-400">
+                    <td className="py-3.5 px-4 text-xs text-slate-600 dark:text-slate-400">
                       {new Date(po.orderDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
                     </td>
-                    <td className="py-3.5 px-4 text-xs text-slate-400">
+                    <td className="py-3.5 px-4 text-xs text-slate-600 dark:text-slate-400">
                       {new Date(po.expectedDeliveryDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}
                     </td>
                     <td className="py-3.5 px-4">
                       <button
                         onClick={() => setInspectPo(po)}
-                        className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 border border-slate-700 transition"
+                        className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-xs text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition cursor-pointer"
                       >
-                        <Package className="w-3 h-3 text-blue-400" />
+                        <Package className="w-3 h-3 text-blue-600 dark:text-blue-400" />
                         {po.items.length} SKUs
                       </button>
                     </td>
-                    <td className="py-3.5 px-4 font-semibold text-emerald-400">
+                    <td className="py-3.5 px-4 font-bold text-emerald-600 dark:text-emerald-400">
                       ₹{po.totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                     </td>
                     <td className="py-3.5 px-4">
                       <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold ${
                         po.status === 'Fulfilled'
-                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                          ? 'bg-emerald-100 text-emerald-800 border border-emerald-200 dark:bg-emerald-500/20 dark:text-emerald-300 dark:border-emerald-500/30'
                           : po.status === 'PartiallyReceived'
-                          ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-                          : 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                          ? 'bg-amber-100 text-amber-800 border border-amber-200 dark:bg-amber-500/20 dark:text-amber-300 dark:border-amber-500/30'
+                          : 'bg-blue-100 text-blue-800 border border-blue-200 dark:bg-blue-500/20 dark:text-blue-300 dark:border-blue-500/30'
                       }`}>
                         {po.status === 'Fulfilled' && <CheckCircle2 className="w-3 h-3" />}
                         {po.status === 'PartiallyReceived' && <Truck className="w-3 h-3" />}
@@ -372,13 +372,13 @@ export default function OrdersManagementView() {
                       {po.status !== 'Fulfilled' ? (
                         <button
                           onClick={() => handleConvertToGrn(po)}
-                          className="px-3 py-1.5 rounded-lg bg-emerald-600/80 hover:bg-emerald-500 text-white text-xs font-medium inline-flex items-center gap-1.5 shadow transition"
+                          className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold inline-flex items-center gap-1.5 shadow-sm transition cursor-pointer"
                         >
                           <FileCheck className="w-3.5 h-3.5" />
                           Receive to GRN
                         </button>
                       ) : (
-                        <span className="text-xs text-slate-500 font-mono">GRN Ingested</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">GRN Ingested</span>
                       )}
                     </td>
                   </tr>
@@ -391,15 +391,15 @@ export default function OrdersManagementView() {
 
       {/* Tab 2: Customer Sales Orders */}
       {activeTab === 'customer' && (
-        <div className="bg-slate-900/60 rounded-2xl border border-slate-800 overflow-hidden backdrop-blur-sm">
-          <div className="p-4 border-b border-slate-800/80 flex items-center justify-between">
-            <div className="text-sm font-semibold text-slate-300">Chemist Booking Pre-Orders</div>
-            <div className="text-xs text-slate-500">Field sales bookings ready for warehouse picking & invoicing</div>
+        <div className="bg-white dark:bg-slate-900/80 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-xs">
+          <div className="p-4 border-b border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
+            <div className="text-sm font-bold text-slate-800 dark:text-slate-200">Chemist Booking Pre-Orders</div>
+            <div className="text-xs text-slate-500 dark:text-slate-400">Field sales bookings ready for warehouse picking & invoicing</div>
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-300">
-              <thead className="bg-slate-950/60 text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-800">
+            <table className="w-full text-left text-sm text-slate-800 dark:text-slate-200">
+              <thead className="bg-slate-50 dark:bg-slate-950/80 text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
                 <tr>
                   <th className="py-3 px-4">Order #</th>
                   <th className="py-3 px-4">Chemist Pharmacy</th>
@@ -411,26 +411,26 @@ export default function OrdersManagementView() {
                   <th className="py-3 px-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800/60">
                 {customerOrders.map(ord => (
-                  <tr key={ord.id} className="hover:bg-slate-800/40 transition">
-                    <td className="py-3.5 px-4 font-mono font-semibold text-purple-400">
+                  <tr key={ord.id} className="hover:bg-slate-50 dark:hover:bg-slate-850/60 transition">
+                    <td className="py-3.5 px-4 font-mono font-bold text-purple-600 dark:text-purple-400">
                       {ord.orderNumber}
                     </td>
                     <td className="py-3.5 px-4">
-                      <div className="font-medium text-slate-200">{ord.customerName}</div>
-                      <div className="text-xs text-slate-500 truncate max-w-xs">{ord.deliveryAddress}</div>
+                      <div className="font-semibold text-slate-900 dark:text-white">{ord.customerName}</div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400 truncate max-w-xs">{ord.deliveryAddress}</div>
                     </td>
-                    <td className="py-3.5 px-4 text-xs text-slate-400">
+                    <td className="py-3.5 px-4 text-xs text-slate-600 dark:text-slate-400">
                       {ord.salesRepName}
                     </td>
                     <td className="py-3.5 px-4">
                       <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${
                         ord.priority === 'ColdChain'
-                          ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
+                          ? 'bg-blue-100 text-blue-800 border border-blue-200 dark:bg-cyan-500/20 dark:text-cyan-300 dark:border-cyan-500/30'
                           : ord.priority === 'Urgent'
-                          ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
-                          : 'bg-slate-800 text-slate-300'
+                          ? 'bg-rose-100 text-rose-800 border border-rose-200 dark:bg-rose-500/20 dark:text-rose-300 dark:border-rose-500/30'
+                          : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
                       }`}>
                         {ord.priority}
                       </span>
@@ -438,22 +438,22 @@ export default function OrdersManagementView() {
                     <td className="py-3.5 px-4">
                       <button
                         onClick={() => setInspectOrder(ord)}
-                        className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 border border-slate-700 transition"
+                        className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-xs text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition cursor-pointer"
                       >
-                        <Package className="w-3 h-3 text-purple-400" />
+                        <Package className="w-3 h-3 text-purple-600 dark:text-purple-400" />
                         {ord.items.length} SKUs
                       </button>
                     </td>
-                    <td className="py-3.5 px-4 font-semibold text-purple-400">
+                    <td className="py-3.5 px-4 font-bold text-purple-600 dark:text-purple-400">
                       ₹{ord.totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                     </td>
                     <td className="py-3.5 px-4">
                       <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold ${
                         ord.status === 'Invoiced'
-                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                          ? 'bg-emerald-100 text-emerald-800 border border-emerald-200 dark:bg-emerald-500/20 dark:text-emerald-300 dark:border-emerald-500/30'
                           : ord.status === 'Dispatched'
-                          ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-                          : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                          ? 'bg-blue-100 text-blue-800 border border-blue-200 dark:bg-blue-500/20 dark:text-blue-300 dark:border-blue-500/30'
+                          : 'bg-amber-100 text-amber-800 border border-amber-200 dark:bg-amber-500/20 dark:text-amber-300 dark:border-amber-500/30'
                       }`}>
                         {ord.status}
                       </span>
@@ -462,13 +462,13 @@ export default function OrdersManagementView() {
                       {ord.status !== 'Invoiced' ? (
                         <button
                           onClick={() => handleConvertToInvoice(ord)}
-                          className="px-3 py-1.5 rounded-lg bg-purple-600/80 hover:bg-purple-500 text-white text-xs font-medium inline-flex items-center gap-1.5 shadow transition"
+                          className="px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold inline-flex items-center gap-1.5 shadow-sm transition cursor-pointer"
                         >
                           <FileText className="w-3.5 h-3.5" />
                           Generate Invoice
                         </button>
                       ) : (
-                        <span className="text-xs text-slate-500 font-mono">Invoiced</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">Invoiced</span>
                       )}
                     </td>
                   </tr>
@@ -481,23 +481,23 @@ export default function OrdersManagementView() {
 
       {/* Modal: Inspect PO Line Items */}
       {inspectPo && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl animate-in zoom-in-95">
-            <div className="p-5 border-b border-slate-800 flex items-center justify-between">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl animate-in zoom-in-95">
+            <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
               <div>
-                <h3 className="font-bold text-slate-100 text-lg flex items-center gap-2">
-                  <Package className="w-5 h-5 text-blue-400" />
+                <h3 className="font-bold text-slate-900 dark:text-white text-lg flex items-center gap-2">
+                  <Package className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                   Vendor PO Items: {inspectPo.poNumber}
                 </h3>
-                <p className="text-xs text-slate-400 mt-0.5">{inspectPo.supplierName} • {inspectPo.paymentTerms}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{inspectPo.supplierName} • {inspectPo.paymentTerms}</p>
               </div>
-              <button onClick={() => setInspectPo(null)} className="text-slate-400 hover:text-slate-200">
+              <button onClick={() => setInspectPo(null)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>
             <div className="p-5 overflow-y-auto max-h-96">
-              <table className="w-full text-left text-xs text-slate-300">
-                <thead className="bg-slate-950 text-slate-400 uppercase border-b border-slate-800">
+              <table className="w-full text-left text-xs text-slate-800 dark:text-slate-300">
+                <thead className="bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-400 font-bold uppercase border-b border-slate-200 dark:border-slate-800">
                   <tr>
                     <th className="py-2.5 px-3">Product Name</th>
                     <th className="py-2.5 px-3">Item Code</th>
@@ -507,33 +507,33 @@ export default function OrdersManagementView() {
                     <th className="py-2.5 px-3 text-right">Line Total</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800">
+                <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
                   {inspectPo.items.map((it, idx) => (
-                    <tr key={idx} className="hover:bg-slate-800/30">
-                      <td className="py-2.5 px-3 font-medium text-slate-100">{it.productName}</td>
-                      <td className="py-2.5 px-3 font-mono text-slate-400">{it.productCode}</td>
-                      <td className="py-2.5 px-3 font-semibold">{it.quantityOrdered}</td>
+                    <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-slate-800/30">
+                      <td className="py-2.5 px-3 font-semibold text-slate-900 dark:text-slate-100">{it.productName}</td>
+                      <td className="py-2.5 px-3 font-mono text-slate-600 dark:text-slate-400">{it.productCode}</td>
+                      <td className="py-2.5 px-3 font-bold text-slate-900 dark:text-slate-100">{it.quantityOrdered}</td>
                       <td className="py-2.5 px-3">₹{it.unitPrice.toFixed(2)}</td>
                       <td className="py-2.5 px-3">{it.gstRate}%</td>
-                      <td className="py-2.5 px-3 text-right font-semibold text-emerald-400">₹{it.lineTotal.toFixed(2)}</td>
+                      <td className="py-2.5 px-3 text-right font-bold text-emerald-700 dark:text-emerald-400">₹{it.lineTotal.toFixed(2)}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
               {inspectPo.notes && (
-                <div className="mt-4 p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs text-slate-400">
-                  <span className="font-semibold text-slate-300">PO Notes: </span>
+                <div className="mt-4 p-3 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400">
+                  <span className="font-semibold text-slate-800 dark:text-slate-300">PO Notes: </span>
                   {inspectPo.notes}
                 </div>
               )}
             </div>
-            <div className="p-4 bg-slate-950 border-t border-slate-800 flex justify-between items-center">
-              <div className="text-sm font-semibold text-slate-300">
-                Total PO Value: <span className="text-emerald-400">₹{inspectPo.totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
+            <div className="p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center">
+              <div className="text-sm font-bold text-slate-800 dark:text-slate-300">
+                Total PO Value: <span className="text-emerald-700 dark:text-emerald-400">₹{inspectPo.totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
               </div>
               <button
                 onClick={() => setInspectPo(null)}
-                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold"
+                className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-300 text-xs font-semibold cursor-pointer"
               >
                 Close
               </button>
@@ -544,23 +544,23 @@ export default function OrdersManagementView() {
 
       {/* Modal: Inspect Customer Order Line Items */}
       {inspectOrder && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl animate-in zoom-in-95">
-            <div className="p-5 border-b border-slate-800 flex items-center justify-between">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl animate-in zoom-in-95">
+            <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
               <div>
-                <h3 className="font-bold text-slate-100 text-lg flex items-center gap-2">
-                  <ShoppingCart className="w-5 h-5 text-purple-400" />
+                <h3 className="font-bold text-slate-900 dark:text-white text-lg flex items-center gap-2">
+                  <ShoppingCart className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                   Chemist Pre-Order: {inspectOrder.orderNumber}
                 </h3>
-                <p className="text-xs text-slate-400 mt-0.5">{inspectOrder.customerName} • Rep: {inspectOrder.salesRepName}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{inspectOrder.customerName} • Rep: {inspectOrder.salesRepName}</p>
               </div>
-              <button onClick={() => setInspectOrder(null)} className="text-slate-400 hover:text-slate-200">
+              <button onClick={() => setInspectOrder(null)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>
             <div className="p-5 overflow-y-auto max-h-96">
-              <table className="w-full text-left text-xs text-slate-300">
-                <thead className="bg-slate-950 text-slate-400 uppercase border-b border-slate-800">
+              <table className="w-full text-left text-xs text-slate-800 dark:text-slate-300">
+                <thead className="bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-400 font-bold uppercase border-b border-slate-200 dark:border-slate-800">
                   <tr>
                     <th className="py-2.5 px-3">Product Name</th>
                     <th className="py-2.5 px-3">Quantity</th>
@@ -569,30 +569,30 @@ export default function OrdersManagementView() {
                     <th className="py-2.5 px-3 text-right">Total</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800">
+                <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
                   {inspectOrder.items.map((it, idx) => (
-                    <tr key={idx} className="hover:bg-slate-800/30">
-                      <td className="py-2.5 px-3 font-medium text-slate-100">{it.productName}</td>
-                      <td className="py-2.5 px-3 font-semibold">{it.quantityOrdered}</td>
+                    <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-slate-800/30">
+                      <td className="py-2.5 px-3 font-semibold text-slate-900 dark:text-slate-100">{it.productName}</td>
+                      <td className="py-2.5 px-3 font-bold text-slate-900 dark:text-slate-100">{it.quantityOrdered}</td>
                       <td className="py-2.5 px-3">₹{it.unitPrice.toFixed(2)}</td>
                       <td className="py-2.5 px-3">{it.gstRate}%</td>
-                      <td className="py-2.5 px-3 text-right font-semibold text-purple-400">₹{it.lineTotal.toFixed(2)}</td>
+                      <td className="py-2.5 px-3 text-right font-bold text-purple-700 dark:text-purple-400">₹{it.lineTotal.toFixed(2)}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-              <div className="mt-4 p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs text-slate-400 space-y-1">
-                <div><span className="font-semibold text-slate-300">Delivery Address: </span>{inspectOrder.deliveryAddress}</div>
-                {inspectOrder.notes && <div><span className="font-semibold text-slate-300">Instructions: </span>{inspectOrder.notes}</div>}
+              <div className="mt-4 p-3 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 space-y-1">
+                <div><span className="font-semibold text-slate-800 dark:text-slate-300">Delivery Address: </span>{inspectOrder.deliveryAddress}</div>
+                {inspectOrder.notes && <div><span className="font-semibold text-slate-800 dark:text-slate-300">Instructions: </span>{inspectOrder.notes}</div>}
               </div>
             </div>
-            <div className="p-4 bg-slate-950 border-t border-slate-800 flex justify-between items-center">
-              <div className="text-sm font-semibold text-slate-300">
-                Order Value: <span className="text-purple-400">₹{inspectOrder.totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
+            <div className="p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center">
+              <div className="text-sm font-bold text-slate-800 dark:text-slate-300">
+                Order Value: <span className="text-purple-700 dark:text-purple-400">₹{inspectOrder.totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
               </div>
               <button
                 onClick={() => setInspectOrder(null)}
-                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold"
+                className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-300 text-xs font-semibold cursor-pointer"
               >
                 Close
               </button>
@@ -603,17 +603,17 @@ export default function OrdersManagementView() {
 
       {/* Modal: Create New Vendor PO */}
       {showNewPoModal && (
-        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh] animate-in zoom-in-95">
-            <div className="p-5 border-b border-slate-800 flex items-center justify-between">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh] animate-in zoom-in-95">
+            <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
               <div>
-                <h3 className="font-bold text-slate-100 text-lg flex items-center gap-2">
-                  <Plus className="w-5 h-5 text-blue-400" />
+                <h3 className="font-bold text-slate-900 dark:text-white text-lg flex items-center gap-2">
+                  <Plus className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                   Generate Manufacturer Purchase Order
                 </h3>
-                <p className="text-xs text-slate-400 mt-0.5">Formal statutory indent dispatch to pharmaceutical supplier</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Formal statutory indent dispatch to pharmaceutical supplier</p>
               </div>
-              <button onClick={() => setShowNewPoModal(false)} className="text-slate-400 hover:text-slate-200">
+              <button onClick={() => setShowNewPoModal(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -621,13 +621,13 @@ export default function OrdersManagementView() {
             <div className="p-6 space-y-5 overflow-y-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
                     Select Manufacturer / Supplier
                   </label>
                   <select
                     value={selectedSupplierId}
                     onChange={e => setSelectedSupplierId(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-blue-500"
                   >
                     {suppliers.map(s => (
                       <option key={s.supplierId} value={s.supplierId}>
@@ -637,20 +637,20 @@ export default function OrdersManagementView() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
                     Payment Terms
                   </label>
                   <input
                     type="text"
                     defaultValue="30 Days Net"
-                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-200"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100"
                   />
                 </div>
               </div>
 
               {/* Add SKUs to PO */}
               <div>
-                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
                   Quick Add Catalog SKUs
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -658,9 +658,9 @@ export default function OrdersManagementView() {
                     <button
                       key={prod.productId}
                       onClick={() => addPoLine(prod)}
-                      className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-blue-600/30 text-xs text-slate-300 border border-slate-700 hover:border-blue-500/50 flex items-center gap-1.5 transition"
+                      className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 dark:bg-slate-800 dark:hover:bg-blue-600/30 text-xs text-slate-700 hover:text-blue-900 dark:text-slate-300 border border-slate-200 hover:border-blue-400 dark:border-slate-700 dark:hover:border-blue-500/50 flex items-center gap-1.5 transition cursor-pointer"
                     >
-                      <Plus className="w-3 h-3 text-blue-400" />
+                      <Plus className="w-3 h-3 text-blue-600 dark:text-blue-400" />
                       {prod.productName}
                     </button>
                   ))}
@@ -669,12 +669,12 @@ export default function OrdersManagementView() {
 
               {/* PO Line Items Table */}
               <div>
-                <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                <div className="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
                   Indent Line Items ({poLines.length})
                 </div>
-                <div className="border border-slate-800 rounded-xl overflow-hidden">
-                  <table className="w-full text-left text-xs text-slate-300">
-                    <thead className="bg-slate-950 text-slate-400 uppercase border-b border-slate-800">
+                <div className="border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs">
+                  <table className="w-full text-left text-xs text-slate-800 dark:text-slate-300">
+                    <thead className="bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-400 font-bold uppercase border-b border-slate-200 dark:border-slate-800">
                       <tr>
                         <th className="py-2.5 px-3">Product Name</th>
                         <th className="py-2.5 px-3">Qty</th>
@@ -683,17 +683,17 @@ export default function OrdersManagementView() {
                         <th className="py-2.5 px-3 text-center">Action</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-800">
+                    <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
                       {poLines.length === 0 ? (
                         <tr>
-                          <td colSpan={5} className="py-6 text-center text-slate-500">
+                          <td colSpan={5} className="py-6 text-center text-slate-500 dark:text-slate-400">
                             No items added yet. Click items above to add to this indent.
                           </td>
                         </tr>
                       ) : (
                         poLines.map((line, idx) => (
-                          <tr key={idx} className="hover:bg-slate-800/30">
-                            <td className="py-2 px-3 font-medium text-slate-200">{line.productName}</td>
+                          <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-slate-800/30">
+                            <td className="py-2 px-3 font-semibold text-slate-900 dark:text-slate-200">{line.productName}</td>
                             <td className="py-2 px-3">
                               <input
                                 type="number"
@@ -702,17 +702,17 @@ export default function OrdersManagementView() {
                                   const val = parseInt(e.target.value) || 0;
                                   setPoLines(poLines.map((l, i) => i === idx ? { ...l, qty: val } : l));
                                 }}
-                                className="w-20 bg-slate-950 border border-slate-700 rounded px-2 py-1 text-slate-200 text-xs"
+                                className="w-20 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-900 dark:text-slate-200 text-xs"
                               />
                             </td>
                             <td className="py-2 px-3">₹{line.price.toFixed(2)}</td>
-                            <td className="py-2 px-3 text-right font-semibold text-emerald-400">
+                            <td className="py-2 px-3 text-right font-bold text-emerald-700 dark:text-emerald-400">
                               ₹{(line.qty * line.price * (1 + line.gstRate / 100)).toFixed(2)}
                             </td>
                             <td className="py-2 px-3 text-center">
                               <button
                                 onClick={() => setPoLines(poLines.filter((_, i) => i !== idx))}
-                                className="text-rose-400 hover:text-rose-300"
+                                className="text-rose-600 hover:text-rose-700 dark:text-rose-400 dark:hover:text-rose-300 cursor-pointer"
                               >
                                 <X className="w-4 h-4" />
                               </button>
@@ -735,23 +735,23 @@ export default function OrdersManagementView() {
               />
             </div>
 
-            <div className="p-4 bg-slate-950 border-t border-slate-800 flex justify-between items-center">
-              <div className="text-sm font-semibold text-slate-300">
-                Total Est. Indent: <span className="text-emerald-400 font-bold">
+            <div className="p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center">
+              <div className="text-sm font-bold text-slate-800 dark:text-slate-300">
+                Total Est. Indent: <span className="text-emerald-700 dark:text-emerald-400 font-bold">
                   ₹{poLines.reduce((acc, l) => acc + (l.qty * l.price * (1 + l.gstRate / 100)), 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                 </span>
               </div>
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setShowNewPoModal(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold"
+                  className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-300 text-xs font-semibold cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleCreateVendorPo}
                   disabled={poLines.length === 0}
-                  className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white text-xs font-semibold shadow-lg shadow-blue-500/20 flex items-center gap-2"
+                  className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white text-xs font-semibold shadow-sm flex items-center gap-2 cursor-pointer"
                 >
                   <Send className="w-3.5 h-3.5" />
                   Commit & Dispatch Indent

@@ -109,19 +109,19 @@ export default function LogisticsDispatchView() {
       )}
 
       {/* Header and Controls */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900/60 p-6 rounded-2xl border border-slate-800 backdrop-blur-sm">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-slate-900/90 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30">
               DISPATCH & FLEET
             </span>
             <span className="text-slate-500 text-xs">Van Routes • COD Reconciliation • Proof of Delivery</span>
           </div>
-          <h1 className="text-2xl font-bold text-slate-100 flex items-center gap-3">
-            <Truck className="w-7 h-7 text-emerald-400" />
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
+            <Truck className="w-7 h-7 text-emerald-600 dark:text-emerald-400" />
             Shipment, Logistics & Delivery Challans
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">
             Generate van loading sheets, manage delivery challans, track driver Cash on Delivery (COD), and record electronic POD.
           </p>
         </div>
@@ -130,14 +130,14 @@ export default function LogisticsDispatchView() {
           <button
             onClick={loadData}
             disabled={loading}
-            className="px-3.5 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700 text-sm font-medium flex items-center gap-2 transition"
+            className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 text-sm font-semibold flex items-center gap-2 transition cursor-pointer"
           >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-emerald-400' : ''}`} />
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-emerald-600 dark:text-emerald-400' : ''}`} />
             Refresh
           </button>
           <button
             onClick={() => showToast('💡 New delivery manifests are automatically created during invoice batch packing.')}
-            className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm flex items-center gap-2 shadow-lg shadow-emerald-500/20 transition"
+            className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm flex items-center gap-2 shadow-sm transition cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             New Route Manifest
@@ -148,38 +148,38 @@ export default function LogisticsDispatchView() {
       {/* KPI Cards */}
       {summary && (
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 backdrop-blur-sm">
-            <div className="text-slate-400 text-xs font-medium uppercase tracking-wider">Active Van Routes</div>
-            <div className="text-2xl font-bold text-slate-100 mt-1">{summary.activeManifests}</div>
-            <div className="text-xs text-blue-400 mt-1 flex items-center gap-1">
-              <MapPin className="w-3 h-3" /> Scheduled & In-Transit
+          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
+            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Active Van Routes</div>
+            <div className="text-2xl font-black text-slate-900 dark:text-white mt-1">{summary.activeManifests}</div>
+            <div className="text-xs text-blue-600 dark:text-blue-400 mt-1 flex items-center gap-1 font-medium">
+              <MapPin className="w-3.5 h-3.5" /> Scheduled & In-Transit
             </div>
           </div>
 
-          <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 backdrop-blur-sm">
-            <div className="text-slate-400 text-xs font-medium uppercase tracking-wider">Dispatched Parcels</div>
-            <div className="text-2xl font-bold text-slate-100 mt-1">{summary.dispatchedParcels}</div>
-            <div className="text-xs text-slate-500 mt-1">Total Delivery Challans</div>
+          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
+            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Dispatched Parcels</div>
+            <div className="text-2xl font-black text-slate-900 dark:text-white mt-1">{summary.dispatchedParcels}</div>
+            <div className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">Total Delivery Challans</div>
           </div>
 
-          <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 backdrop-blur-sm">
-            <div className="text-slate-400 text-xs font-medium uppercase tracking-wider">Delivered Today</div>
-            <div className="text-2xl font-bold text-emerald-400 mt-1">{summary.deliveredToday}</div>
-            <div className="text-xs text-emerald-500/80 mt-1 flex items-center gap-1">
-              <CheckCircle2 className="w-3 h-3" /> Electronic POD Signed
+          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
+            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Delivered Today</div>
+            <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1">{summary.deliveredToday}</div>
+            <div className="text-xs text-emerald-700 dark:text-emerald-400/90 mt-1 flex items-center gap-1 font-medium">
+              <CheckCircle2 className="w-3.5 h-3.5" /> Electronic POD Signed
             </div>
           </div>
 
-          <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 backdrop-blur-sm">
-            <div className="text-slate-400 text-xs font-medium uppercase tracking-wider">Pending COD Collection</div>
-            <div className="text-2xl font-bold text-amber-400 mt-1">₹{summary.pendingCodCollections.toLocaleString('en-IN')}</div>
-            <div className="text-xs text-amber-500/80 mt-1">With Drivers on Field</div>
+          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
+            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Pending COD Collection</div>
+            <div className="text-2xl font-black text-amber-600 dark:text-amber-400 mt-1">₹{summary.pendingCodCollections.toLocaleString('en-IN')}</div>
+            <div className="text-xs text-amber-700 dark:text-amber-400/90 mt-1 font-medium">With Drivers on Field</div>
           </div>
 
-          <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 backdrop-blur-sm">
-            <div className="text-slate-400 text-xs font-medium uppercase tracking-wider">Reconciled COD Today</div>
-            <div className="text-2xl font-bold text-purple-400 mt-1">₹{summary.reconciledCodToday.toLocaleString('en-IN')}</div>
-            <div className="text-xs text-purple-400/80 mt-1">Deposited into Cash Counter</div>
+          <div className="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
+            <div className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Reconciled COD Today</div>
+            <div className="text-2xl font-black text-purple-600 dark:text-purple-400 mt-1">₹{summary.reconciledCodToday.toLocaleString('en-IN')}</div>
+            <div className="text-xs text-purple-700 dark:text-purple-400/90 mt-1 font-medium">Deposited into Cash Counter</div>
           </div>
         </div>
       )}
@@ -188,9 +188,9 @@ export default function LogisticsDispatchView() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left: Manifests List */}
         <div className="space-y-4">
-          <div className="text-sm font-semibold text-slate-300 flex items-center justify-between">
+          <div className="text-sm font-bold text-slate-800 dark:text-slate-200 flex items-center justify-between">
             <span>Route Trip Sheets ({manifests.length})</span>
-            <span className="text-xs text-slate-500">Select to inspect challans</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400">Select to inspect challans</span>
           </div>
 
           <div className="space-y-3">
@@ -202,24 +202,24 @@ export default function LogisticsDispatchView() {
                   onClick={() => setSelectedManifest(man)}
                   className={`p-4 rounded-xl border cursor-pointer transition ${
                     isSelected
-                      ? 'bg-slate-800/90 border-emerald-500/60 shadow-lg shadow-emerald-500/10'
-                      : 'bg-slate-900/60 border-slate-800 hover:bg-slate-800/40'
+                      ? 'bg-emerald-50 dark:bg-slate-800/90 border-emerald-500 dark:border-emerald-500/60 shadow-xs'
+                      : 'bg-white dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-xs font-bold text-emerald-400">{man.manifestNumber}</span>
+                    <span className="font-mono text-xs font-bold text-emerald-700 dark:text-emerald-400">{man.manifestNumber}</span>
                     <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
                       man.status === 'Reconciled' || man.status === 'Completed'
-                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                        : 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                        ? 'bg-emerald-100 text-emerald-800 border border-emerald-200 dark:bg-emerald-500/20 dark:text-emerald-300 dark:border-emerald-500/30'
+                        : 'bg-blue-100 text-blue-800 border border-blue-200 dark:bg-blue-500/20 dark:text-blue-300 dark:border-blue-500/30'
                     }`}>
                       {man.status}
                     </span>
                   </div>
 
-                  <div className="font-medium text-slate-200 text-sm mt-2">{man.routeName}</div>
+                  <div className="font-bold text-slate-900 dark:text-slate-200 text-sm mt-2">{man.routeName}</div>
 
-                  <div className="mt-3 flex items-center justify-between text-xs text-slate-400">
+                  <div className="mt-3 flex items-center justify-between text-xs text-slate-600 dark:text-slate-400">
                     <div className="flex items-center gap-1">
                       <Truck className="w-3.5 h-3.5 text-slate-500" />
                       <span>{man.vehicleNumber}</span>
@@ -230,9 +230,9 @@ export default function LogisticsDispatchView() {
                     </div>
                   </div>
 
-                  <div className="mt-2 pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
-                    <span className="text-slate-400">{man.challans.length} Challans • {man.totalCartons} Cartons</span>
-                    <span className="font-semibold text-emerald-400">COD: ₹{man.totalCodAmount.toLocaleString('en-IN')}</span>
+                  <div className="mt-2 pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs">
+                    <span className="text-slate-500 dark:text-slate-400">{man.challans.length} Challans • {man.totalCartons} Cartons</span>
+                    <span className="font-bold text-emerald-700 dark:text-emerald-400">COD: ₹{man.totalCodAmount.toLocaleString('en-IN')}</span>
                   </div>
                 </div>
               );
@@ -243,16 +243,16 @@ export default function LogisticsDispatchView() {
         {/* Right: Selected Manifest Details & Challans */}
         {selectedManifest ? (
           <div className="lg:col-span-2 space-y-4">
-            <div className="bg-slate-900/60 p-5 rounded-2xl border border-slate-800 backdrop-blur-sm">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
+            <div className="bg-white dark:bg-slate-900/80 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-base font-bold text-emerald-400">{selectedManifest.manifestNumber}</span>
-                    <span className="text-xs text-slate-500">• {new Date(selectedManifest.dispatchDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                    <span className="font-mono text-base font-bold text-emerald-700 dark:text-emerald-400">{selectedManifest.manifestNumber}</span>
+                    <span className="text-xs text-slate-500 dark:text-slate-400">• {new Date(selectedManifest.dispatchDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
                   </div>
-                  <div className="text-sm font-semibold text-slate-200 mt-1">{selectedManifest.routeName}</div>
-                  <div className="text-xs text-slate-400 mt-0.5">
-                    Vehicle: <span className="text-slate-200">{selectedManifest.vehicleNumber}</span> | Driver: <span className="text-slate-200">{selectedManifest.driverName} ({selectedManifest.driverPhone})</span>
+                  <div className="text-sm font-bold text-slate-900 dark:text-slate-200 mt-1">{selectedManifest.routeName}</div>
+                  <div className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+                    Vehicle: <span className="font-semibold text-slate-900 dark:text-slate-200">{selectedManifest.vehicleNumber}</span> | Driver: <span className="font-semibold text-slate-900 dark:text-slate-200">{selectedManifest.driverName} ({selectedManifest.driverPhone})</span>
                   </div>
                 </div>
 
@@ -260,7 +260,7 @@ export default function LogisticsDispatchView() {
                   {selectedManifest.status !== 'Reconciled' && (
                     <button
                       onClick={() => handleReconcileManifest(selectedManifest.id)}
-                      className="px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold shadow flex items-center gap-1.5 transition"
+                      className="px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold shadow-sm flex items-center gap-1.5 transition cursor-pointer"
                     >
                       <DollarSign className="w-3.5 h-3.5" />
                       Reconcile Cash & Close Trip
@@ -271,7 +271,7 @@ export default function LogisticsDispatchView() {
 
               {/* Challans List */}
               <div className="mt-4 space-y-3">
-                <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                <div className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
                   Assigned Delivery Challans ({selectedManifest.challans.length})
                 </div>
 
@@ -279,29 +279,29 @@ export default function LogisticsDispatchView() {
                   {selectedManifest.challans.map(challan => (
                     <div
                       key={challan.id}
-                      className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80 flex flex-col md:flex-row md:items-center justify-between gap-3 hover:border-slate-700 transition"
+                      className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800/80 flex flex-col md:flex-row md:items-center justify-between gap-3 hover:border-slate-400 dark:hover:border-slate-700 transition"
                     >
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-xs font-bold text-blue-400">{challan.challanNumber}</span>
-                          <span className="text-xs text-slate-500">Ref: {challan.invoiceNumber}</span>
+                          <span className="font-mono text-xs font-bold text-blue-700 dark:text-blue-400">{challan.challanNumber}</span>
+                          <span className="text-xs text-slate-500 dark:text-slate-400">Ref: {challan.invoiceNumber}</span>
                           <span className={`px-2 py-0.2 rounded-full text-xs font-semibold ${
                             challan.deliveryStatus === 'Delivered'
-                              ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                              ? 'bg-emerald-100 text-emerald-800 border border-emerald-200 dark:bg-emerald-500/20 dark:text-emerald-300 dark:border-emerald-500/30'
                               : challan.deliveryStatus === 'OutForDelivery'
-                              ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-                              : 'bg-slate-800 text-slate-400'
+                              ? 'bg-amber-100 text-amber-800 border border-amber-200 dark:bg-amber-500/20 dark:text-amber-300 dark:border-amber-500/30'
+                              : 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-400'
                           }`}>
                             {challan.deliveryStatus}
                           </span>
                         </div>
-                        <div className="font-medium text-slate-200 text-sm">{challan.customerName}</div>
-                        <div className="text-xs text-slate-400 flex items-center gap-1">
+                        <div className="font-semibold text-slate-900 dark:text-white text-sm">{challan.customerName}</div>
+                        <div className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-1">
                           <MapPin className="w-3 h-3 text-slate-500 shrink-0" />
                           <span className="truncate max-w-md">{challan.deliveryAddress}</span>
                         </div>
                         {challan.podReceiverName && (
-                          <div className="text-xs text-emerald-400 flex items-center gap-1 mt-1">
+                          <div className="text-xs text-emerald-700 dark:text-emerald-400 flex items-center gap-1 mt-1 font-medium">
                             <ShieldCheck className="w-3.5 h-3.5" />
                             <span>POD Signed by: {challan.podReceiverName} ({challan.podRemarks || 'Verified'})</span>
                           </div>
@@ -310,11 +310,11 @@ export default function LogisticsDispatchView() {
 
                       <div className="flex items-center gap-4 shrink-0 justify-between md:justify-end">
                         <div className="text-right">
-                          <div className="text-xs text-slate-400">{challan.cartonCount} Cartons</div>
-                          <div className="font-semibold text-emerald-400 text-sm">
+                          <div className="text-xs text-slate-500 dark:text-slate-400">{challan.cartonCount} Cartons</div>
+                          <div className="font-bold text-emerald-700 dark:text-emerald-400 text-sm">
                             {challan.codAmount > 0 ? `COD: ₹${challan.codAmount.toLocaleString('en-IN')}` : 'Credit Invoice'}
                           </div>
-                          <div className="text-xs text-slate-500">{challan.paymentMode}</div>
+                          <div className="text-xs text-slate-500 dark:text-slate-400">{challan.paymentMode}</div>
                         </div>
 
                         {challan.deliveryStatus !== 'Delivered' ? (
@@ -324,13 +324,13 @@ export default function LogisticsDispatchView() {
                               setReceiverName('');
                               setPodRemarks('');
                             }}
-                            className="px-3 py-1.5 rounded-lg bg-emerald-600/80 hover:bg-emerald-500 text-white text-xs font-medium flex items-center gap-1.5 shadow transition"
+                            className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition cursor-pointer"
                           >
                             <Check className="w-3.5 h-3.5" />
                             Record POD
                           </button>
                         ) : (
-                          <div className="px-2.5 py-1 rounded bg-slate-900 border border-emerald-500/30 text-emerald-400 text-xs font-mono flex items-center gap-1">
+                          <div className="px-2.5 py-1 rounded bg-emerald-50 dark:bg-slate-900 border border-emerald-300 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-mono font-bold flex items-center gap-1">
                             <CheckCircle2 className="w-3 h-3" /> Delivered
                           </div>
                         )}
@@ -342,7 +342,7 @@ export default function LogisticsDispatchView() {
             </div>
           </div>
         ) : (
-          <div className="lg:col-span-2 bg-slate-900/60 p-8 rounded-2xl border border-slate-800 text-center text-slate-500">
+          <div className="lg:col-span-2 bg-white dark:bg-slate-900/60 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 text-center text-slate-500 dark:text-slate-400">
             Select a delivery manifest to view route dispatch details and challans.
           </div>
         )}
@@ -350,34 +350,34 @@ export default function LogisticsDispatchView() {
 
       {/* Modal: Record Proof of Delivery (POD) */}
       {podTarget && (
-        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md overflow-hidden shadow-2xl animate-in zoom-in-95">
-            <div className="p-5 border-b border-slate-800 flex items-center justify-between">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-md overflow-hidden shadow-2xl animate-in zoom-in-95">
+            <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
               <div>
-                <h3 className="font-bold text-slate-100 text-base flex items-center gap-2">
-                  <ShieldCheck className="w-5 h-5 text-emerald-400" />
+                <h3 className="font-bold text-slate-900 dark:text-white text-base flex items-center gap-2">
+                  <ShieldCheck className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                   Electronic Proof of Delivery (POD)
                 </h3>
-                <p className="text-xs text-slate-400 mt-0.5">{podTarget.challan.challanNumber} • {podTarget.challan.customerName}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{podTarget.challan.challanNumber} • {podTarget.challan.customerName}</p>
               </div>
-              <button onClick={() => setPodTarget(null)} className="text-slate-400 hover:text-slate-200">
+              <button onClick={() => setPodTarget(null)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <div className="p-5 space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
                   Delivery Outcome
                 </label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
                     onClick={() => setPodStatus('Delivered')}
-                    className={`py-2 px-3 rounded-xl text-xs font-medium border flex items-center justify-center gap-2 transition ${
+                    className={`py-2 px-3 rounded-xl text-xs font-semibold border flex items-center justify-center gap-2 transition cursor-pointer ${
                       podStatus === 'Delivered'
-                        ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300'
-                        : 'bg-slate-950 border-slate-800 text-slate-400'
+                        ? 'bg-emerald-100 text-emerald-800 border-emerald-400 dark:bg-emerald-500/20 dark:border-emerald-500 dark:text-emerald-300'
+                        : 'bg-slate-100 dark:bg-slate-950 border-slate-300 dark:border-slate-800 text-slate-700 dark:text-slate-400'
                     }`}
                   >
                     <CheckCircle2 className="w-4 h-4" /> Delivered & Handed Over
@@ -385,10 +385,10 @@ export default function LogisticsDispatchView() {
                   <button
                     type="button"
                     onClick={() => setPodStatus('AttemptedFailed')}
-                    className={`py-2 px-3 rounded-xl text-xs font-medium border flex items-center justify-center gap-2 transition ${
+                    className={`py-2 px-3 rounded-xl text-xs font-semibold border flex items-center justify-center gap-2 transition cursor-pointer ${
                       podStatus === 'AttemptedFailed'
-                        ? 'bg-rose-500/20 border-rose-500 text-rose-300'
-                        : 'bg-slate-950 border-slate-800 text-slate-400'
+                        ? 'bg-rose-100 text-rose-800 border-rose-400 dark:bg-rose-500/20 dark:border-rose-500 dark:text-rose-300'
+                        : 'bg-slate-100 dark:bg-slate-950 border-slate-300 dark:border-slate-800 text-slate-700 dark:text-slate-400'
                     }`}
                   >
                     <AlertTriangle className="w-4 h-4" /> Attempted / Failed
@@ -397,7 +397,7 @@ export default function LogisticsDispatchView() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
                   Receiving Pharmacist / Store In-Charge Name
                 </label>
                 <input
@@ -405,14 +405,14 @@ export default function LogisticsDispatchView() {
                   value={receiverName}
                   onChange={e => setReceiverName(e.target.value)}
                   placeholder="e.g. Dr. K. Murugan (Reg. Pharmacist)"
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500"
                 />
               </div>
 
               {podTarget.challan.codAmount > 0 && (
-                <div className="p-3 bg-emerald-950/40 rounded-xl border border-emerald-800/50 flex items-center justify-between text-xs">
-                  <span className="text-emerald-300 font-medium">COD Collection Amount:</span>
-                  <span className="font-bold text-emerald-400 text-sm">₹{podTarget.challan.codAmount.toLocaleString('en-IN')}</span>
+                <div className="p-3 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl border border-emerald-300 dark:border-emerald-800/50 flex items-center justify-between text-xs">
+                  <span className="text-emerald-800 dark:text-emerald-300 font-semibold">COD Collection Amount:</span>
+                  <span className="font-bold text-emerald-700 dark:text-emerald-400 text-sm">₹{podTarget.challan.codAmount.toLocaleString('en-IN')}</span>
                 </div>
               )}
 
@@ -426,16 +426,16 @@ export default function LogisticsDispatchView() {
               />
             </div>
 
-            <div className="p-4 bg-slate-950 border-t border-slate-800 flex justify-end gap-3">
+            <div className="p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex justify-end gap-3">
               <button
                 onClick={() => setPodTarget(null)}
-                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold"
+                className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-300 text-xs font-semibold cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={handleUpdatePod}
-                className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-lg shadow-emerald-500/20 flex items-center gap-2"
+                className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-sm flex items-center gap-2 cursor-pointer"
               >
                 <Check className="w-4 h-4" />
                 Commit POD Record

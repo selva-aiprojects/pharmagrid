@@ -469,19 +469,19 @@ export default function RapidBillingWorkspace() {
       <div className="glass-panel rounded-xl p-4 flex flex-wrap items-center justify-between gap-4">
         {/* Branch Context */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-cyan-950 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+          <div className="w-10 h-10 rounded-lg bg-blue-50 dark:bg-cyan-950 border border-blue-200 dark:border-cyan-500/30 flex items-center justify-center text-blue-700 dark:text-cyan-400">
             <Building2 className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400">Hub Branch</span>
-              <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-cyan-950/80 text-cyan-300 border border-cyan-800">
+              <span className="text-xs font-semibold uppercase tracking-wider text-blue-700 dark:text-cyan-400">Hub Branch</span>
+              <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-blue-50 dark:bg-cyan-950/80 text-blue-700 dark:text-cyan-300 border border-blue-200 dark:border-cyan-800">
                 GST: 33AAACD9910E1Z2 (TN)
               </span>
             </div>
-            <h2 className="text-base font-bold text-white flex items-center gap-2">
+            <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
               Main Chennai Depot
-              <span className="text-xs font-normal text-slate-400">| DL: TN/CHE/20B/1004</span>
+              <span className="text-xs font-normal text-slate-600 dark:text-slate-400">| DL: TN/CHE/20B/1004</span>
             </h2>
           </div>
         </div>

@@ -38,26 +38,26 @@ export default function ProductCatalogView() {
       {/* 1. HEADER & ACTIONS */}
       <div className="glass-panel rounded-xl p-4 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-lg font-bold text-white flex items-center gap-2">
-            <Package className="w-5 h-5 text-cyan-400" />
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <Package className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
             Master Product Catalog &amp; SKU Directory
           </h2>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
             CDSCO Drugs &amp; Cosmetics classification, Indian GST HSN codes, and cold-chain attributes.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           {/* Schedule Filter Tabs */}
-          <div className="bg-slate-900 border border-slate-800 rounded-lg p-1 flex text-xs">
+          <div className="bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-1 flex text-xs">
             {['all', 'Regular', 'H', 'H1', 'G'].map(sch => (
               <button
                 key={sch}
                 onClick={() => setScheduleFilter(sch)}
                 className={`px-3 py-1 rounded font-semibold transition-all ${
                   scheduleFilter === sch
-                    ? 'bg-cyan-600 text-white'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-cyan-600 text-white shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
                 }`}
               >
                 {sch === 'all' ? 'All Classes' : `Sch ${sch}`}
@@ -80,14 +80,14 @@ export default function ProductCatalogView() {
             placeholder="Search by Brand Name, Molecule / Generic, HSN Code..."
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="w-full bg-slate-900/90 border border-slate-800 focus:border-cyan-500 rounded-lg pl-9 pr-4 py-2 text-xs text-white outline-none"
+            className="w-full bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 focus:border-cyan-500 rounded-lg pl-9 pr-4 py-2 text-xs text-slate-900 dark:text-white outline-none shadow-xs"
           />
         </div>
 
-        <div className="flex items-center gap-3 text-xs text-slate-400 font-mono">
-          <span>Showing <strong className="text-cyan-400">{filteredProducts.length}</strong> of {SAMPLE_PRODUCTS.length} SKUs</span>
+        <div className="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-400 font-mono">
+          <span>Showing <strong className="text-cyan-700 dark:text-cyan-400">{filteredProducts.length}</strong> of {SAMPLE_PRODUCTS.length} SKUs</span>
           <span>•</span>
-          <span>Active Batches: <strong className="text-emerald-400">9 Available</strong></span>
+          <span>Active Batches: <strong className="text-emerald-700 dark:text-emerald-400">9 Available</strong></span>
         </div>
       </div>
 

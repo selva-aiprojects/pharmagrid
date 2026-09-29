@@ -75,18 +75,18 @@ export default function WarehouseInventoryView() {
       {/* 1. HEADER */}
       <div className="glass-panel rounded-xl p-4 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-lg font-bold text-white flex items-center gap-2">
-            <Boxes className="w-5 h-5 text-cyan-400" />
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <Boxes className="w-5 h-5 text-blue-600 dark:text-cyan-400" />
             Physical Inventory Balances &amp; Rack Allocations
           </h2>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
             Real-time Zone-Rack-Shelf-Bin tracking with Available, Reserved, Quarantined, and Expired states.
           </p>
         </div>
 
         <div className="flex items-center gap-2 text-xs">
-          <span className="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-slate-300 font-mono">
-            Total Batches: <strong className="text-cyan-400">{allBatches.length}</strong>
+          <span className="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-mono shadow-2xs">
+            Total Batches: <strong className="text-blue-700 dark:text-cyan-400">{allBatches.length}</strong>
           </span>
         </div>
       </div>

@@ -46,6 +46,7 @@ const MODULE_TITLES: Record<AppModuleId, { title: string; subtitle: string }> = 
   audit: { title: 'Regulatory Audit', subtitle: 'Immutable Append-Only Compliance Trail' },
   payroll: { title: 'Staff Payroll & Slips', subtitle: 'Monthly Salary Disbursement & Statutory A4 Payslips' },
   users: { title: 'Staff & RBAC Management', subtitle: 'CDSCO Pharmacist Licensing & Counter Access' },
+  masters: { title: 'Central Masters Management', subtitle: 'Pharma Companies, Racks, Categories & Statutory Profiles' },
 };
 
 export default function Header({

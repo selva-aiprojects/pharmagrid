@@ -61,18 +61,18 @@ export default function AuditLogView() {
       {/* 1. HEADER */}
       <div className="glass-panel rounded-xl p-4 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-lg font-bold text-white flex items-center gap-2">
-            <Shield className="w-5 h-5 text-cyan-400" />
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <Shield className="w-5 h-5 text-blue-600 dark:text-cyan-400" />
             Immutable Regulatory Audit Trail (CDSCO Compliance)
           </h2>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
             Cryptographically sealed, append-only transaction ledger enforced by PostgreSQL trigger policy.
           </p>
         </div>
 
         <div className="flex items-center gap-2 text-xs">
-          <span className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-950/80 text-emerald-300 border border-emerald-700/50 font-medium">
-            <Lock className="w-3.5 h-3.5 text-emerald-400" />
+          <span className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-700/50 font-medium">
+            <Lock className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             Append-Only Trigger Active
           </span>
         </div>

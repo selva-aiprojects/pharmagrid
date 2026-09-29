@@ -19,6 +19,7 @@ import LogisticsDispatchView from '@/components/LogisticsDispatchView';
 import StockMasterView from '@/components/StockMasterView';
 import DemandForecastView from '@/components/DemandForecastView';
 import PayrollView from '@/components/PayrollView';
+import MastersManagementView from '@/components/MastersManagementView';
 import { useAuth } from '@/context/AuthContext';
 
 export default function Home() {
@@ -93,6 +94,8 @@ export default function Home() {
         return <PayrollView />;
       case 'users':
         return <UserManagementView />;
+      case 'masters':
+        return <MastersManagementView />;
       default:
         return <RapidBillingWorkspace />;
     }

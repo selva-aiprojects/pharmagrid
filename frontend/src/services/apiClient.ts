@@ -738,6 +738,75 @@ export const pharmaApi = {
     });
     if (!res.ok) throw new Error('Failed to disburse salary');
     return await res.json();
+  },
+
+  // ----------------------------------------
+  // CENTRALIZED MASTERS MANAGEMENT
+  // ----------------------------------------
+  async getMastersSummary(): Promise<any> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/masters/summary`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Masters summary error:', e);
+    }
+    return {
+      totalManufacturers: 6,
+      totalCategories: 6,
+      totalRacks: 6,
+      totalHsnCodes: 5,
+      totalRoutes: 4
+    };
+  },
+
+  async getManufacturersMaster(): Promise<ApiManufacturerMaster[]> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/masters/manufacturers`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Manufacturers fetch error:', e);
+    }
+    return [];
+  },
+
+  async getCategoriesMaster(): Promise<ApiCategoryMaster[]> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/masters/categories`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Categories fetch error:', e);
+    }
+    return [];
+  },
+
+  async getRacksMaster(): Promise<ApiWarehouseRack[]> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/masters/racks`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Racks fetch error:', e);
+    }
+    return [];
+  },
+
+  async getHsnTaxMaster(): Promise<ApiHsnTaxMaster[]> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/masters/hsn-tax`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('HSN Tax fetch error:', e);
+    }
+    return [];
+  },
+
+  async getDeliveryRoutesMaster(): Promise<ApiDeliveryRoute[]> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/masters/routes`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Delivery routes fetch error:', e);
+    }
+    return [];
   }
 };
 
@@ -998,6 +1067,68 @@ export interface ApiPayrollRunSummary {
   totalEsiContribution: number;
   status: string;
   slips: ApiSalarySlip[];
+}
+
+// ==========================================
+// MASTERS MANAGEMENT INTERFACES
+// ==========================================
+export interface ApiManufacturerMaster {
+  id: string;
+  code: string;
+  name: string;
+  divisions: string;
+  returnPolicy: string;
+  phone: string;
+  email: string;
+  isActive: boolean;
+  skuCount: number;
+}
+
+export interface ApiCategoryMaster {
+  id: string;
+  name: string;
+  description: string;
+  scheduleClass: string;
+  storageCondition: string;
+  isActive: boolean;
+  skuCount: number;
+}
+
+export interface ApiWarehouseRack {
+  id: string;
+  binCode: string;
+  zone: string;
+  rack: string;
+  shelf: string;
+  bin: string;
+  storageType: string;
+  capacity: number;
+  occupied: number;
+  status: string;
+}
+
+export interface ApiHsnTaxMaster {
+  id: string;
+  hsnCode: string;
+  description: string;
+  gstRate: number;
+  cgstRate: number;
+  sgstRate: number;
+  igstRate: number;
+  slabName: string;
+  isActive: boolean;
+}
+
+export interface ApiDeliveryRoute {
+  id: string;
+  routeName: string;
+  areaCoverage: string;
+  vehicleAssigned: string;
+  driverName: string;
+  driverPhone: string;
+  chemistCount: number;
+  frequency: string;
+  targetCodCollection: number;
 }
 
 

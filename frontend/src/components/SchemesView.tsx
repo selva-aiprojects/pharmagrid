@@ -18,11 +18,11 @@ export default function SchemesView() {
       {/* 1. HEADER */}
       <div className="glass-panel rounded-xl p-4 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-lg font-bold text-white flex items-center gap-2">
-            <Tag className="w-5 h-5 text-cyan-400" />
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <Tag className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
             Pharmaceutical Scheme Engine &amp; Rebate Claims
           </h2>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
             Volumetric free bonus deals, turnover discounts, and factory-sponsored manufacturer claim ledgers.
           </p>
         </div>
@@ -35,65 +35,65 @@ export default function SchemesView() {
       {/* 2. ACTIVE SCHEMES GRID */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Scheme 1 */}
-        <div className="glass-panel rounded-xl p-4 border border-cyan-500/30 flex flex-col justify-between gap-3">
+        <div className="glass-panel rounded-xl p-4 border border-cyan-200 dark:border-cyan-500/30 flex flex-col justify-between gap-3 shadow-xs">
           <div>
             <div className="flex items-center justify-between">
-              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-950 text-cyan-300 border border-cyan-700">
+              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-100 text-cyan-800 border border-cyan-200 dark:bg-cyan-950 dark:text-cyan-300 dark:border-cyan-700">
                 Volumetric Bonus (10 + 1)
               </span>
-              <Gift className="w-4 h-4 text-cyan-400" />
+              <Gift className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
             </div>
-            <h3 className="font-bold text-white text-base mt-2">Buy 10 Get 1 Free</h3>
-            <p className="text-xs text-slate-300 mt-0.5">Pan 40mg Injection (Alkem Labs)</p>
-            <p className="text-[11px] text-slate-400 mt-2">
+            <h3 className="font-bold text-slate-900 dark:text-white text-base mt-2">Buy 10 Get 1 Free</h3>
+            <p className="text-xs text-slate-700 dark:text-slate-300 mt-0.5">Pan 40mg Injection (Alkem Labs)</p>
+            <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-2">
               For every 10 vials billed, the billing counter auto-allocates 1 bonus free vial without charging customer.
             </p>
           </div>
-          <div className="border-t border-slate-800 pt-2.5 flex justify-between text-xs text-slate-400 font-mono">
+          <div className="border-t border-slate-200 dark:border-slate-800 pt-2.5 flex justify-between text-xs text-slate-600 dark:text-slate-400 font-mono">
             <span>Valid Until: 31-Oct-2026</span>
-            <span className="text-emerald-400 font-semibold">Active</span>
+            <span className="text-emerald-700 dark:text-emerald-400 font-semibold">Active</span>
           </div>
         </div>
 
         {/* Scheme 2 */}
-        <div className="glass-panel rounded-xl p-4 border border-teal-500/30 flex flex-col justify-between gap-3">
+        <div className="glass-panel rounded-xl p-4 border border-teal-200 dark:border-teal-500/30 flex flex-col justify-between gap-3 shadow-xs">
           <div>
             <div className="flex items-center justify-between">
-              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-teal-950 text-teal-300 border border-teal-700">
+              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-teal-100 text-teal-800 border border-teal-200 dark:bg-teal-950 dark:text-teal-300 dark:border-teal-700">
                 Volumetric Bonus (20 + 2)
               </span>
-              <Gift className="w-4 h-4 text-teal-400" />
+              <Gift className="w-4 h-4 text-teal-600 dark:text-teal-400" />
             </div>
-            <h3 className="font-bold text-white text-base mt-2">Buy 20 Get 2 Free</h3>
-            <p className="text-xs text-slate-300 mt-0.5">Augmentin 625mg Tablet (GSK)</p>
-            <p className="text-[11px] text-slate-400 mt-2">
+            <h3 className="font-bold text-slate-900 dark:text-white text-base mt-2">Buy 20 Get 2 Free</h3>
+            <p className="text-xs text-slate-700 dark:text-slate-300 mt-0.5">Augmentin 625mg Tablet (GSK)</p>
+            <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-2">
               Seasonal antibiotic monsoon promotion sponsored by GSK India. Free stock deducted from manufacturer quota.
             </p>
           </div>
-          <div className="border-t border-slate-800 pt-2.5 flex justify-between text-xs text-slate-400 font-mono">
+          <div className="border-t border-slate-200 dark:border-slate-800 pt-2.5 flex justify-between text-xs text-slate-600 dark:text-slate-400 font-mono">
             <span>Valid Until: 15-Nov-2026</span>
-            <span className="text-emerald-400 font-semibold">Active</span>
+            <span className="text-emerald-700 dark:text-emerald-400 font-semibold">Active</span>
           </div>
         </div>
 
         {/* Scheme 3 */}
-        <div className="glass-panel rounded-xl p-4 border border-emerald-500/30 flex flex-col justify-between gap-3">
+        <div className="glass-panel rounded-xl p-4 border border-emerald-200 dark:border-emerald-500/30 flex flex-col justify-between gap-3 shadow-xs">
           <div>
             <div className="flex items-center justify-between">
-              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-300 border border-emerald-700">
+              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-700">
                 Turnover Cash Discount
               </span>
-              <Percent className="w-4 h-4 text-emerald-400" />
+              <Percent className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
             </div>
-            <h3 className="font-bold text-white text-base mt-2">5% Wholesale Bulk Off</h3>
-            <p className="text-xs text-slate-300 mt-0.5">Dolo 650mg Tablet (Micro Labs)</p>
-            <p className="text-[11px] text-slate-400 mt-2">
+            <h3 className="font-bold text-slate-900 dark:text-white text-base mt-2">5% Wholesale Bulk Off</h3>
+            <p className="text-xs text-slate-700 dark:text-slate-300 mt-0.5">Dolo 650mg Tablet (Micro Labs)</p>
+            <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-2">
               Automatically applies 5% discount to taxable base on orders exceeding 50 strips threshold.
             </p>
           </div>
-          <div className="border-t border-slate-800 pt-2.5 flex justify-between text-xs text-slate-400 font-mono">
+          <div className="border-t border-slate-200 dark:border-slate-800 pt-2.5 flex justify-between text-xs text-slate-600 dark:text-slate-400 font-mono">
             <span>Valid Until: 31-Dec-2026</span>
-            <span className="text-emerald-400 font-semibold">Active</span>
+            <span className="text-emerald-700 dark:text-emerald-400 font-semibold">Active</span>
           </div>
         </div>
       </div>
@@ -101,8 +101,8 @@ export default function SchemesView() {
       {/* 3. MANUFACTURER REBATE ACCRUAL LEDGER */}
       <div className="glass-panel rounded-xl p-4 flex flex-col gap-3">
         <div className="flex justify-between items-center text-xs">
-          <span className="font-bold text-white text-sm">Manufacturer Scheme Claim Accruals (Pending Credit Note)</span>
-          <span className="font-mono text-cyan-400">Total Accrued: ₹44,200</span>
+          <span className="font-bold text-slate-900 dark:text-white text-sm">Manufacturer Scheme Claim Accruals (Pending Credit Note)</span>
+          <span className="font-mono text-cyan-700 dark:text-cyan-400 font-semibold">Total Accrued: ₹44,200</span>
         </div>
 
         <div className="overflow-x-auto">
