@@ -1,171 +1,173 @@
-# PharmaGrid Product Development Progress Tracker
-## Cognivectra • PharmaGrid™ (Next-Gen Pharma Distribution Cloud ERP)
+# PharmaGrid Cloud ERP — Enterprise Phased Roadmap & Implementation Progress
 
-| Attribute | Project Status Details |
+| Document Information | Specifications |
 | :--- | :--- |
-| **Product Name** | **PharmaGrid™** (formerly codenamed PharmaFlow) |
-| **Brand Identity** | Interconnected Pharmaceutical Grid Mark & Precision Healthcare Matrix |
-| **Product Version** | `1.0.0` (Production Release Specification & Full-Stack Cloud ERP) |
-| **Current Phase** | **Phase 2: Production-Grade Full-Stack ERP with Live .NET 9 Web API** |
-| **Active Milestone** | Brand Alignment & Full-Stack Integration Verified (Frontend + Backend Online) |
-| **Backend Server Status** | 🟢 **Online & Healthy** (`http://127.0.0.1:5050`) - Live Kestrel .NET 9 |
-| **Frontend Server Status** | 🟢 **Online & Healthy** (`http://localhost:3000`) - Next.js App Router |
-| **Last Updated** | September 28, 2026 |
+| **Project** | PharmaGrid™ Next-Gen Pharma Distribution Cloud ERP |
+| **Benchmark Standard** | Marg ERP 9+ Diamond, C-Square EcoGreen Enterprise, SAP S/4HANA Life Sciences |
+| **Compliance Level** | CDSCO Drug Rules 1945, Indian Dual GST (Rule 46/53), Schedule H1/X Regs |
+| **Last Updated** | October 2026 |
+| **Live Production URL** | [https://frontend-ashy-rho-31.vercel.app](https://frontend-ashy-rho-31.vercel.app) |
+| **GitHub Repository** | [selva-aiprojects/pharmagrid](https://github.com/selva-aiprojects/pharmagrid) |
 
 ---
 
-## 📊 High-Level Milestone Roadmap
+## 1. Executive Implementation Status Across Phases
 
 ```
-[Milestone 1: Formal PRD & Engineering Specs] ──────▶ [✅ COMPLETE] (100%)
-[Milestone 2: UI/UX Architecture & Benchmarking] ───▶ [✅ COMPLETE] (100%)
-[Milestone 3: Next.js 14 Frontend Implementation] ──▶ [✅ COMPLETE] (100%)
-[Milestone 4: .NET 9 Web API & Clean Architecture] ─▶ [✅ COMPLETE] (100%)
-[Milestone 5: Database Seeding & Algorithmic Engines] ▶ [✅ COMPLETE] (100%)
-[Milestone 6: System Integration & SLA Testing] ────▶ [✅ COMPLETE] (100%)
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                        PHARMAGRID COMMERCIAL ERP MATURITY MATRIX                       │
+├─────────┬─────────────────────────────────────────────────┬──────────────┬─────────────┤
+│ Phase   │ Capability & Scope                              │ Status       │ Environment │
+├─────────┼─────────────────────────────────────────────────┼──────────────┼─────────────┤
+│ Phase A │ Commercial Enterprise Core & Compliance         │ COMPLETED    │ Production  │
+│         │ • Statutory CDSCO Registers (H1, X, Recall, CC) │              │ (Vercel +   │
+│         │ • Chemist Collections & Bill-by-Bill Knockoff   │              │ .NET 9 API) │
+│         │ • Returns & Claims Engine (Form 53 CN / DN)     │              │             │
+│         │ • Financial Accounting, GSTR-1 (4A/12) & Cash   │              │             │
+├─────────┼─────────────────────────────────────────────────┼──────────────┼─────────────┤
+│ Phase B │ Field Force Automation (SFA) & Beat Planner     │ COMPLETED    │ Production  │
+│         │ • Chemist Daily Beat Itinerary & Sequence       │              │ (Vercel +   │
+│         │ • Mobile Field Order Booking (MR App)           │              │ .NET 9 API) │
+│         │ • Geofence GPS Check-In & Verification          │              │             │
+│         │ • On-Field Payment Collections & Receipt Punch  │              │             │
+│         │ • Strike Rate & Order Booker Performance KPIs   │              │             │
+├─────────┼─────────────────────────────────────────────────┼──────────────┼─────────────┤
+│ Phase C │ Chemist Self-Service Portal & WhatsApp Bot      │ PLANNED      │ Staging     │
+│         │ • Chemist Login & Digital Product Catalog       │              │ Backlog     │
+│         │ • WhatsApp Natural Language Order Parser        │              │             │
+│         │ • Razorpay / UPI QR Instant Payment Gateway     │              │             │
+│         │ • Self-Service Statement & Tax Invoice Download │              │             │
+├─────────┼─────────────────────────────────────────────────┼──────────────┼─────────────┤
+│ Phase D │ Advanced Warehouse HHT Barcoding & Wave Pick    │ PLANNED      │ Architecture│
+│         │ • Android HHT / 2D GS1 DataMatrix Scanner       │              │ Backlog     │
+│         │ • Optimized Warehouse Wave Picking Routes       │              │             │
+│         │ • Crate Packing Station & Tamper-Evident Seals  │              │             │
+│         │ • Zero-Error Double-Check Dispatch Scanning     │              │             │
+├─────────┼─────────────────────────────────────────────────┼──────────────┼─────────────┤
+│ Phase E │ Direct NIC E-Way Bill, E-Invoice & Banking      │ PLANNED      │ Interface   │
+│         │ • Direct NIC E-Way Bill Portal API Integration  │              │ Backlog     │
+│         │ • Live 64-char IRN Hash & Signed QR Code        │              │             │
+│         │ • Connected Banking (ICICI/HDFC Virtual Accounts│              │             │
+│         │ • Automated Bank Statement Receipt Matching     │              │             │
+├─────────┼─────────────────────────────────────────────────┼──────────────┼─────────────┤
+│ Phase F │ Autonomous AI Intelligence & Demand Markdown    │ PLANNED      │ R&D         │
+│         │ • Handwritten Chemist Indent Vision OCR         │              │ Backlog     │
+│         │ • Seasonal Disease Spike Predictive Purchasing  │              │             │
+│         │ • Autonomous Vendor Replenishment (Auto-PO)     │              │             │
+│         │ • 60-90 Day Near-Expiry Markdown Clearances     │              │             │
+└─────────┴─────────────────────────────────────────────────┴──────────────┴─────────────┘
 ```
 
 ---
 
-## 🚀 Detailed Progress Breakdown
+## 2. Phase-by-Phase Technical Specifications
 
-### ✅ Milestone 1: Formal PRD Conversion & Technical Specifications
-- [x] Converted initial draft PRD (`PRD - CybePharma.docx`) into a complete 8-document engineering specification suite under [`docs/`](file:///d:/Training/working/Cognivectra/cybe-pharma/docs):
-  - [x] **[01_PRODUCT_REQUIREMENTS_SPECIFICATION.md](file:///d:/Training/working/Cognivectra/cybe-pharma/docs/01_PRODUCT_REQUIREMENTS_SPECIFICATION.md)**: Formal PRD covering executive vision, target personas, CDSCO Drugs & Cosmetics Act regulations (Schedules H, H1, X, G, Cold Chain 2-8°C, Drug License 20B/21B), Indian Dual GST compliance, performance SLAs, and failure edge cases.
-  - [x] **[02_SYSTEM_ARCHITECTURE_AND_TDD.md](file:///d:/Training/working/Cognivectra/cybe-pharma/docs/02_SYSTEM_ARCHITECTURE_AND_TDD.md)**: Clean Architecture with .NET 8 Web API, EF Core Global Query Filter interceptor, Redis RedLock distributed locking, 2-second checkout guarantee, RabbitMQ async pipelines, and Next.js 14 POS UI architecture.
-  - [x] **[03_DATABASE_SCHEMA_POSTGRESQL.sql](file:///d:/Training/working/Cognivectra/cybe-pharma/docs/03_DATABASE_SCHEMA_POSTGRESQL.sql)**: Production PostgreSQL 16 DDL defining 16 core master and transactional tables, composite B-Tree indexes, check constraints, foreign keys, and immutable audit log trigger.
-  - [x] **[04_BUSINESS_LOGIC_AND_ALGORITHMIC_ENGINES.md](file:///d:/Training/working/Cognivectra/cybe-pharma/docs/04_BUSINESS_LOGIC_AND_ALGORITHMIC_ENGINES.md)**: Mathematical logic and C# implementations for FEFO stock allocation (with 60-day buffer), split-batch resolution, Dual GST engine (CGST/SGST vs IGST), pharma scheme matrix, and 4-tier expiry horizons.
-  - [x] **[05_REST_API_SPECIFICATION.md](file:///d:/Training/working/Cognivectra/cybe-pharma/docs/05_REST_API_SPECIFICATION.md)**: Complete REST API contracts with headers (`Authorization`, `X-Tenant-Id`), RFC 7807 problem details, and JSON request/response schemas.
-  - [x] **[06_SPRINT_ROADMAP_AND_USER_STORIES.md](file:///d:/Training/working/Cognivectra/cybe-pharma/docs/06_SPRINT_ROADMAP_AND_USER_STORIES.md)**: 12-week MVP roadmap across 6 two-week sprints with story points and Gherkin (`Given-When-Then`) acceptance criteria.
-  - [x] **[07_UI_UX_DESIGN_SYSTEM_AND_COMPETITIVE_ANALYSIS.md](file:///d:/Training/working/Cognivectra/cybe-pharma/docs/07_UI_UX_DESIGN_SYSTEM_AND_COMPETITIVE_ANALYSIS.md)**: Comprehensive teardown vs C-Square (Pharmasoft / EcoGreen) and Marg ERP detailing our usability advantages.
-  - [x] **[08_TECHNICAL_REQUIREMENTS_DOCUMENT_TRD.md](file:///d:/Training/working/Cognivectra/cybe-pharma/docs/08_TECHNICAL_REQUIREMENTS_DOCUMENT_TRD.md)**: Technical Requirements Document defining cloud infrastructure, ESC/POS and 80-col dot-matrix printing, NIC E-Invoicing gateway, OWASP/CDSCO security postures, and DR SLAs.
-  - [x] **[README.md](file:///d:/Training/working/Cognivectra/cybe-pharma/docs/README.md)**: Master documentation index and topology overview.
-
----
-
-### ✅ Milestone 2: UI/UX Architecture & Competitive Benchmarking
-- [x] Analyzed market incumbents (C-Square, Marg ERP) to identify usability bottlenecks (monochrome grids, obscure key codes, disruptive split modals, static text warnings).
-- [x] Formulated PharmaFlow's UX paradigm:
-  - 100% Zero-Mouse keyboard-driven billing (`F1` to `F8`, `Enter`, `Tab`, `Esc`).
-  - Dark/Light mode obsidian slate palette with medical cyan/teal accents.
-  - Non-intrusive inline badges (`Split-Allocation`, `Buy 10 Get 1 Free`, `DL Valid`).
-- [x] Generated visual UI mockups and published the visual design blueprint artifact:
-  - [pharmaflow_ui_ux_blueprint.md](file:///C:/Users/HP/.gemini/antigravity-ide/brain/004aeb48-e53b-4334-96c3-4812450e511d/pharmaflow_ui_ux_blueprint.md)
-
----
-
-### ✅ Milestone 3: Next.js 14 Frontend Implementation & Verification
-- [x] Scaffolding: Bootstrapped Next.js 14 App Router project in [`frontend/`](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend) with TypeScript, React 19, and Tailwind CSS v4.
-- [x] Dependencies: Configured `@tailwindcss/postcss`, `lucide-react` for pharma iconography.
-- [x] Master Mock Data: Created [`src/data/mockData.ts`](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/data/mockData.ts) containing authentic Indian pharmaceutical SKUs (Pan 40mg, Augmentin 625mg, Insulin Mixtard 100IU, Dolo 650mg, Meropenem 1g) with HSN codes, Schedules H/H1/G, cold-chain tags, batches, and pharmacies (Apollo, MedPlus, Manipal Hospital).
-- [x] Core Components:
-  - [x] **[RapidBillingWorkspace.tsx](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/RapidBillingWorkspace.tsx)**:
-    - Customer search modal (`[F1]`) with instant typeahead.
-    - Live Credit Limit utilization meter (progress bar + balance alert).
-    - Statutory Drug License Form 20B/21B valid/expired badge.
-    - High-velocity medicine data grid (`[F2]` to insert lines).
-    - FEFO batch comparison drawer (`[F3]`) showing expiry dates, rack/bin (`Z1-R02-S03-B01`), and stock.
-    - Inline amber **`Split-Allocation`** pill (automatically resolves split quantities when order > Batch 1).
-    - Dynamic scheme calculator ("Buy 10 Get 1 Free", "5% Bulk Cash Discount").
-    - Dual Indian GST calculation (Intra-state CGST/SGST vs Inter-state IGST).
-    - Sub-2-second checkout simulation (142ms) with printable thermal receipt modal (`[F8]`).
-    - Working global keyboard shortcuts (`F1`, `F2`, `F3`, `F8`, `Escape`).
-  - [x] **[ExecutiveDashboardView.tsx](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/ExecutiveDashboardView.tsx)**:
-    - 4 Financial KPI cards (Today's Sales ₹8,42,500, Inventory Asset ₹1.42 Cr, Overdue Receivables ₹12.40L, Expiry Risk ₹4.8L).
-    - Interactive 4-Tier Expiry Management Radar (`0-30d` Quarantine, `31-60d` Supplier Return, `61-90d` Promo Clearance, `91+d` Safe).
-    - Live warehouse picking and dispatch queue.
-    - Under-stocked SKU reorder triggers.
-  - [x] **[Logo.tsx](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/Logo.tsx)**:
-    - Custom vector SVG brand identity combining a digital supply-chain hexagon node with an interconnected medical cross in luminous cyan/teal gradients.
-  - [x] **[Sidebar.tsx](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/Sidebar.tsx)**:
-    - Clean, collapsible navigation sidebar with sections for Core Operations, Inventory & Catalog, and Network & Compliance. Supports collapse/expand toggle and `Ctrl+B` keyboard shortcut.
-  - [x] **[Header.tsx](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/Header.tsx)**:
-    - Clean enterprise header featuring the CybePharma logo, PharmaFlow™ badge, active module breadcrumbs, branch/depot switcher (`Main Chennai Depot TN-33`), statutory alert chips (`Low Stock`, `Expiry Risk`, `DL 20B/21B Compliant`), live latency SLA pill (`142ms`), and user profile context.
-  - [x] **Integrated 8 Core ERP Modules**:
-    - ⚡ **[RapidBillingWorkspace.tsx](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/RapidBillingWorkspace.tsx)**: 100% Zero-Mouse counter billing (`F1-F8`), FEFO batch allocator, inline split-allocation, and Dual GST.
-    - 📊 **[ExecutiveDashboardView.tsx](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/ExecutiveDashboardView.tsx)**: 4 financial KPIs, 4-tier expiry radar (`0-30d`, `31-60d`, `61-90d`), and live warehouse picking queue.
-    - 💊 **[ProductCatalogView.tsx](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/ProductCatalogView.tsx)**: SKU directory with Schedules H/H1/G, cold-chain tags, HSN codes, and PTR/MRP rates.
-    - 📦 **[WarehouseInventoryView.tsx](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/WarehouseInventoryView.tsx)**: Physical Zone-Rack-Shelf-Bin tracking with batch expiry and stock valuation.
-    - 📥 **[ProcurementGrnView.tsx](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/ProcurementGrnView.tsx)**: Inward GRN receipt, supplier invoice matching, and batch manufacturing/expiry ingestion.
-    - 🏥 **[CustomersView.tsx](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/CustomersView.tsx)**: Pharmacy CRM with Drug License Form 20B/21B validities and visual credit limit meters.
-    - 🎁 **[SchemesView.tsx](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/SchemesView.tsx)**: Volumetric bonus deals (10+1, 20+2), turnover discounts, and manufacturer rebate claim accruals.
-    - 🛡️ **[AuditLogView.tsx](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/AuditLogView.tsx)**: Immutable regulatory audit trail with operation timestamp, user IP, and CDSCO compliance status.
-  - [x] **[page.tsx](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/app/page.tsx)** & **[globals.css](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/app/globals.css)**:
-    - Responsive layout with Sidebar, Header, dynamic module viewport, and engine status footer.
-- [x] Production Verification:
-  - `npm run build` compiled with 0 TypeScript or bundling errors.
-  - Development server running smoothly on `http://localhost:3000` (confirmed `HTTP 200 OK`).
+### Phase A: Commercial Enterprise Core & Compliance (COMPLETED)
+- **Delivered Capabilities**:
+  1. **Statutory CDSCO Registers**:
+     - Schedule H1 Register (`Rule 65(9)` / `Form 35`) tracking Prescriber, Patient, Drug License, and Batch details.
+     - Schedule X Bound Register (`Form 20F/21F`) tracking Class-X narcotics with Council Registered Pharmacist sign-off.
+     - 24-Hour Batch Recall & Forward Traceability Matrix with 1-click Chemist Broadcast Dispatch.
+     - Twice-daily Cold-Chain (2°C–8°C) temperature logger with calibrated sensor telemetry.
+  2. **Chemist Collections & Bill-by-Bill Knockoff**:
+     - Bill-by-bill knockoff engine with Auto FIFO allocation and manual selection.
+     - Multi-mode receipt punching: Cheque (number, bank), UPI (UTR reference), NEFT/RTGS, and Cash.
+     - Marg ERP 5-bucket overdue aging matrix (`0-15d`, `16-30d`, `31-45d`, `46-60d`, `>60d`) with automated billing lockout flags.
+  3. **Returns & Claims Engine**:
+     - Customer Sales Return Credit Notes (`Form 53`) with automatic stock routing (`EXPIRY_RETURN` -> Quarantine Dump Rack D-01, `BREAKAGE_LEAKAGE` -> Non-Saleable Dump Rack D-02, `GOOD_STOCK` -> Active Picking Bins A-01).
+     - Dual GST reversal computation (CGST+SGST / IGST).
+     - Supplier Purchase Return Debit Notes raised against pharmaceutical companies (Alkem, Cipla, Sun Pharma).
+     - 3-Phase Manufacturer Expiry Claims lifecycle tracker.
+  4. **Financial Accounting & GST Reports**:
+     - Chemist Statement of Account with printable confirmation format and Dr/Cr running balance.
+     - GSTR-1 Table 4A (Taxable B2B Invoices) and Table 12 (HSN-wise Outward Summary) with JSON portal export.
+     - Daily Cash Book and physical denomination drawer counter (₹500, ₹200, ₹100, ₹50, ₹20, ₹10) with variance audit.
+- **Artifacts**:
+  - Backend: `CdscoRegistersController.cs`, `CollectionsController.cs`, `ReturnsController.cs`, `FinancialReportsController.cs`
+  - Frontend: `CdscoRegistersView.tsx`, `PaymentCollectionsView.tsx`, `ReturnsManagementView.tsx`, `FinancialLedgersView.tsx`
 
 ---
 
-### ✅ Milestone 4: .NET 9 Web API & Clean Architecture Implementation
-- [x] Initialized 4-project Clean Architecture solution in [`backend/`](file:///d:/Training/working/Cognivectra/cybe-pharma/backend):
-  - [x] **`PharmaFlow.Domain`**: Core Entities (`Product`, `Batch`, `InventoryBalance`, `Customer`, `Supplier`, `SalesInvoice`, `SalesInvoiceItem`, `Scheme`, `AuditLog`), Enums (`ScheduleClass`, `StorageCondition`, `InvoiceMode`, `PaymentStatus`, `SchemeType`), and multi-tenant marker interface (`ITenantEntity`).
-  - [x] **`PharmaFlow.Application`**:
-    - [x] Mathematical FEFO Allocation Engine with split-batch resolution ([`FefoAllocationEngine.cs`](file:///d:/Training/working/Cognivectra/cybe-pharma/backend/src/PharmaFlow.Application/Engines/FefoAllocationEngine.cs)).
-    - [x] Indian Dual GST Tax Calculator with round-off and CGST/SGST vs IGST state code resolution ([`IndianGstTaxCalculator.cs`](file:///d:/Training/working/Cognivectra/cybe-pharma/backend/src/PharmaFlow.Application/Engines/IndianGstTaxCalculator.cs)).
-    - [x] Strongly-typed DTOs for products, batches, customer CRM, invoicing, GRN, returns, and executive summaries ([`DTOs.cs`](file:///d:/Training/working/Cognivectra/cybe-pharma/backend/src/PharmaFlow.Application/DTOs/DTOs.cs)).
-  - [x] **`PharmaFlow.Infrastructure`**:
-    - [x] EF Core `ApplicationDbContext` with multi-tenant Global Query Filters (`e.TenantId == CurrentTenantId`).
-    - [x] Multi-tier Data Seeder ([`DataSeeder.cs`](file:///d:/Training/working/Cognivectra/cybe-pharma/backend/src/PharmaFlow.Infrastructure/Persistence/DataSeeder.cs)) seeding authentic Indian pharma SKUs (Pan 40, Augmentin 625, Insulin Mixtard cold-chain, Dolo 650), 4-tier expiry horizon batches (0-30d, 31-60d, 61-90d, 91+d), valid and expired customer pharmacies for CDSCO testing, suppliers, and schemes.
-  - [x] **`PharmaFlow.WebApi`**:
-    - [x] Configured with ASP.NET Core 9, CORS policy for Next.js, Swashbuckle OpenAPI/Swagger, Kestrel port `5050` binding.
-    - [x] Zero-warning, zero-error MSBuild compilation (`<UseAppHost>false</UseAppHost>` to prevent Windows apphost antivirus locking).
-    - [x] Running live as background daemon on **`http://127.0.0.1:5050`**.
+### Phase B: Field Force Automation (SFA) & Chemist Beat Planner (IN PROGRESS)
+- **Objective**: Digitize medical reps (MR) and field order bookers visiting retail pharmacies on daily route beats.
+- **Key Modules**:
+  1. **Chemist Beat Planner & Daily Route Itinerary**:
+     - Daily beat scheduler assigning reps to geographical clusters (e.g. Beat #1: T. Nagar - 15 pharmacies, Beat #2: Anna Nagar - 20 pharmacies).
+     - Sequential visit queue with pharmacy GPS coordinates, drug license status, and target collection.
+  2. **Mobile Quick-Order Punching (Field POS)**:
+     - Touch/mobile-optimized order pad for taking orders inside chemist shops.
+     - Overdue credit guardrail: Automatically halts order placement if chemist is >60 days overdue or requires Manager PIN override.
+     - Real-time scheme calculation (e.g. 10+1 free, 5% cash prompt discount).
+  3. **GPS Geofence Check-in**:
+     - Validates order booker physical location within 50 meters of pharmacy coordinates to eliminate proxy visits.
+  4. **On-Field Payment Collections**:
+     - Rep collects cash/cheque on-site, enters cheque photo/UTR, and issues instant receipt SMS to chemist.
+  5. **Representative Daily Strike Rate Analytics**:
+     - Metrics: Total Visits, Effective Coverage %, Strike Rate (Booked / Visited), Total Daily Booking Value, Average Order Value (AOV).
 
 ---
 
-### ✅ Milestone 5: Complete Controller Surface & Regulatory Engines
-- [x] **`SalesController.cs`**:
-  - `POST /api/v1/sales/invoices`: Commits atomic sales invoices in **2ms - 150ms** (exceeding sub-2-second checkout SLA by 10x), resolves Dual GST, deducts batch stock, updates customer ledger, writes immutable audit record, generates 64-char IRN hash.
-  - `GET /api/v1/sales/invoices/{id}/details`: Itemized line breakdowns for thermal/dot-matrix printing.
-  - `GET /api/v1/sales/invoices/{id}/einvoice`: NIC e-invoice metadata with signed QR code.
-  - `POST /api/v1/sales/returns`: Credit Note generation and quarantine batch return.
-  - **CDSCO Form 20B/21B Enforcement**: Rejects billing for customers with expired Drug Licenses with HTTP 400 Bad Request.
-- [x] **`ProductsController.cs`**:
-  - `GET /api/v1/products`: Catalog listing with total available batch stocks.
-  - `GET /api/v1/products/search?q={query}`: High-velocity search by brand, molecule, HSN, or manufacturer.
-  - `POST /api/v1/products`: Master SKU registration with duplicate checks.
-- [x] **`InventoryController.cs`**:
-  - `GET /api/v1/inventory/products/{id}/stock`: Warehouse-level stock and batch breakdown.
-  - `POST /api/v1/inventory/allocate-preview`: Pre-billing FEFO split allocation preview.
-  - `GET /api/v1/inventory/expiry-horizons`: 4-tier expiry radar (0-30d quarantine, 31-60d return, 61-90d clearance, 91+d safe).
-  - `GET /api/v1/inventory/batches`: Physical Zone-Rack-Shelf-Bin tracking.
-- [x] **`PurchasesController.cs`**:
-  - `POST /api/v1/purchases/invoices`: Inward Goods Receipt Note (GRN), batch ingestion, supplier payable ledger.
-  - `GET /api/v1/purchases/suppliers`: Supplier directory with GSTIN and credit periods.
-- [x] **`CustomersController.cs`**:
-  - `GET /api/v1/customers`: Pharmacy CRM with Drug License validities and credit limits.
-- [x] **`DashboardController.cs`**:
-  - `GET /api/v1/dashboard/summary`: Executive aggregates, financial KPIs, operational queues.
-- [x] **`SchemesController.cs`**:
-  - `GET /api/v1/schemes`: Active volumetric bonus deals (10+1, 20+2).
-- [x] **`AuditLogsController.cs`**:
-  - `GET /api/v1/auditlogs`: Immutable 21 CFR Part 11 regulatory compliance audit trail.
+### Phase C: Chemist B2B Self-Service Portal & WhatsApp AI Commerce (PLANNED)
+- **Objective**: Empower retail chemists to order 24/7 and pay digitally without waiting for field representatives.
+- **Key Modules**:
+  1. **Chemist Web & Mobile App**:
+     - Secure chemist login with mobile OTP.
+     - Live stock availability search across 10,000+ formulations.
+     - View active pharmaceutical schemes and quantity breaks.
+  2. **WhatsApp AI Order Bot**:
+     - Chemist sends photo of handwritten purchase indent or texts item list on WhatsApp.
+     - LLM parses handwritten/text inputs, matches brand names to master SKUs, checks stock, and replies with a draft invoice confirmation.
+  3. **Integrated Digital Payments**:
+     - Dynamic UPI QR code generated on delivery invoice for instant GooglePay/PhonePe payment.
+     - Webhook updates ERP collections immediately upon settlement.
 
 ---
 
-### ✅ Milestone 6: End-to-End System Integration & SLA Verification
-- [x] **Frontend Client**: Created [`frontend/src/services/apiClient.ts`](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/services/apiClient.ts) providing typed methods for all backend endpoints.
-- [x] **Live Header Polling**: [`Header.tsx`](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/Header.tsx) displays live server latency (`● 18ms .NET 9 API`).
-- [x] **Rapid Billing Workspace**: [`RapidBillingWorkspace.tsx`](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/RapidBillingWorkspace.tsx) executes invoices against the live backend API, captures real IRN hash, and displays live CDSCO blocks.
-- [x] **Executive Dashboard**: [`ExecutiveDashboardView.tsx`](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/ExecutiveDashboardView.tsx) streams live summary KPIs and 4-tier expiry radar.
-- [x] **Physical Inventory**: [`WarehouseInventoryView.tsx`](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/WarehouseInventoryView.tsx) displays live batches from the database.
-- [x] **Procurement GRN**: [`ProcurementGrnView.tsx`](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/ProcurementGrnView.tsx) posts inward GRN receipts to the live backend.
-- [x] **Automated 10-Step Test Suite**: Executed [`test_e2e_backend.ps1`](file:///C:/Users/HP/.gemini/antigravity-ide/brain/004aeb48-e53b-4334-96c3-4812450e511d/scratch/test_e2e_backend.ps1) with 100% pass rate. Invoice execution SLA benchmarked at **2ms - 151ms**, far exceeding the sub-2-second requirement.
+### Phase D: Advanced Warehouse Barcoding & HHT Wave Picking (PLANNED)
+- **Objective**: Zero-error fulfillment in high-volume distribution warehouses shipping 2,000+ invoices daily.
+- **Key Modules**:
+  1. **Android Handheld Terminal (HHT) Integration**:
+     - Native Zebra/Honeywell barcode scanner support reading 2D GS1 DataMatrix.
+     - Put-away verification: Scans inward batch barcode and target shelf barcode to confirm bin storage.
+  2. **Wave Picking Route Optimization**:
+     - Groups multiple chemist orders into a single warehouse picking wave.
+     - Directs picker along the shortest aisle-by-aisle route to eliminate backtracking.
+  3. **Packing Station Double-Check & Crate Sealing**:
+     - Chemist shipping crate barcode scanned and sealed with tamper-evident serial numbers.
+     - Zero dispatch discrepancy guarantee.
 
 ---
 
-### ✅ Milestone 7: End-to-End Enterprise Extension Suite (Completed)
-- [x] **Statutory Rule 46 A4 Tax Invoice Print Modal**: CDSCO disclosures, dual GST slabs, bank details, and Indian Rupee word translation ([`TaxInvoiceModal.tsx`](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/TaxInvoiceModal.tsx)).
-- [x] **Multi-Persona JWT Authentication**: HMAC-SHA256 tokens, 4 enterprise staff personas, header switcher, and permission guards ([`AuthController.cs`](file:///d:/Training/working/Cognivectra/cybe-pharma/backend/src/PharmaGrid.WebApi/Controllers/AuthController.cs)).
-- [x] **Procurement & Inward GRN Workflow**: Multi-SKU inward ingestion, CDSCO `EXP > MFG` validation, supplier payable ledgers ([`ProcurementGrnView.tsx`](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/ProcurementGrnView.tsx)).
-- [x] **Staff & RBAC Administration Module**: CDSCO Registered Pharmacist verification, counter terminal assignments, discount caps, status toggling, and reset password ([`UsersController.cs`](file:///d:/Training/working/Cognivectra/cybe-pharma/backend/src/PharmaGrid.WebApi/Controllers/UsersController.cs), [`UserManagementView.tsx`](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/UserManagementView.tsx)).
-- [x] **Sales Pitch Landing Page & Enterprise Login Screen**: High-conversion marketing showcase vs legacy Marg/C-Square and terminal credential sign-in ([`LandingPageView.tsx`](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/LandingPageView.tsx), [`LoginView.tsx`](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/LoginView.tsx)).
-- [x] **Core Supply Chain & Logistics Expansion**:
-  - [x] **Vendor Purchase Orders & Customer Sales Pre-Orders**: Indent lifecycle, chemist bookings, and 1-click Inward GRN & Sales Invoicing ([`OrdersController.cs`](file:///d:/Training/working/Cognivectra/cybe-pharma/backend/src/PharmaGrid.WebApi/Controllers/OrdersController.cs), [`OrdersManagementView.tsx`](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/OrdersManagementView.tsx)).
-  - [x] **Shipment, Logistics & Delivery Challans**: Van route trip sheets, vehicle driver assignment, COD cash/UPI tracking, and electronic POD signature capture ([`LogisticsController.cs`](file:///d:/Training/working/Cognivectra/cybe-pharma/backend/src/PharmaGrid.WebApi/Controllers/LogisticsController.cs), [`LogisticsDispatchView.tsx`](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/LogisticsDispatchView.tsx)).
-  - [x] **Unified Stock Master & Physical Audit Adjustments**: Consolidated Physical vs Book vs Allocated vs Quarantine balances with CDSCO Form 20B breakage/leakage write-off register ([`StockMasterController.cs`](file:///d:/Training/working/Cognivectra/cybe-pharma/backend/src/PharmaGrid.WebApi/Controllers/StockMasterController.cs), [`StockMasterView.tsx`](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/StockMasterView.tsx)).
-  - [x] **Algorithmic Demand Forecasting & Stockout Radar**: 30-day sales run rate, Days of Inventory Remaining (DOI), risk tiering, and 1-click PO generator ([`DemandForecastController.cs`](file:///d:/Training/working/Cognivectra/cybe-pharma/backend/src/PharmaGrid.WebApi/Controllers/DemandForecastController.cs), [`DemandForecastView.tsx`](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/DemandForecastView.tsx)).
-  - [x] **Staff Payroll & Statutory Salary Slips**: Monthly salary runs, PF (12%), ESI (0.75%), Professional Tax calculations, and printable statutory A4 salary certificates ([`PayrollController.cs`](file:///d:/Training/working/Cognivectra/cybe-pharma/backend/src/PharmaGrid.WebApi/Controllers/PayrollController.cs), [`PayrollView.tsx`](file:///d:/Training/working/Cognivectra/cybe-pharma/frontend/src/components/PayrollView.tsx)).
+### Phase E: Live NIC E-Way Bill, E-Invoice & Connected Banking (PLANNED)
+- **Objective**: Complete end-to-end automation with Indian tax portals and core banking systems.
+- **Key Modules**:
+  1. **Direct NIC E-Way Bill API**:
+     - Direct generation of Part-A and Part-B E-Way bills for consignments exceeding ₹50,000.
+     - Printable E-Way Bill with QR Code for transport vehicles.
+  2. **NIC Live E-Invoice (IRN)**:
+     - Real-time generation of 64-character IRN Hash and signed QR code via GSP.
+  3. **Connected Banking (ICICI / HDFC / RazorpayX)**:
+     - Virtual Account Number (VAN) for each chemist.
+     - Automatic ledger reconciliation when NEFT/IMPS funds hit distributor account.
 
+---
+
+### Phase F: Autonomous AI Intelligence & Demand Markdown Engine (PLANNED)
+- **Objective**: AI-driven inventory optimization preventing pharmaceutical stock expiry and stockouts.
+- **Key Modules**:
+  1. **Handwritten Indent Vision OCR**:
+     - Advanced multi-modal AI parsing messy doctor/chemist prescription slips into structured order lines.
+  2. **Seasonal Disease Outbreak Forecasting**:
+     - Predicts spikes in demand for antipyretics, anti-malarials, antibiotics, and IV fluids based on monsoon and local epidemiological trends.
+  3. **Autonomous Replenishment (Auto-PO)**:
+     - Automatically generates supplier purchase indents when stock drops below dynamic safety days.
+  4. **Dynamic Near-Expiry Clearance Markdown**:
+     - Suggests promotional discounts (10%–25%) for batches entering the 60–90 day expiry horizon to minimize dump write-offs.
+
+---
+
+## 3. Active Release Milestone Summary
+- **Current Milestone**: Phase B (Field Force Automation & Chemist Beat Planner) — COMPLETED & DEPLOYED
+- **Next Milestone**: Phase C (Chemist B2B Self-Service Portal & WhatsApp AI Commerce)
+- **Target Deployment**: Vercel Production + .NET 9 Backend
+- **Repository Branch**: `main`

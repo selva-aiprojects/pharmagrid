@@ -1482,6 +1482,239 @@ export const pharmaApi = {
         }
       ]
     };
+  },
+
+  // ----------------------------------------
+  // PHASE B: FIELD FORCE AUTOMATION & BEAT PLANNER
+  // ----------------------------------------
+  async getFieldForceSummary(): Promise<ApiFieldForceSummary> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/fieldforce/summary`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Field force summary error:', e);
+    }
+    return {
+      activeRepsCount: 4,
+      totalBeatsToday: 4,
+      totalScheduledVisits: 45,
+      visitsCompleted: 34,
+      coveragePercentage: 75.6,
+      totalFieldOrdersBooked: 28,
+      totalFieldBookingValue: 293550.00,
+      totalFieldCollections: 173500.00,
+      strikeRatePercentage: 82.4,
+      beats: [
+        {
+          beatId: 'beat-1',
+          beatName: 'T. Nagar Commercial & Hospital Beat',
+          areaZone: 'Central Chennai (Zone-1)',
+          repId: 'rep-101',
+          repName: 'Rajesh Kumar (MR)',
+          repPhone: '+91 98401 55667',
+          dayOfWeek: 'Monday & Thursday',
+          totalChemistsCount: 12,
+          visitedCount: 9,
+          targetOrderValue: 85000.00,
+          achievedOrderValue: 92450.00,
+          targetCollection: 50000.00,
+          achievedCollection: 42000.00,
+          status: 'In_Progress'
+        },
+        {
+          beatId: 'beat-2',
+          beatName: 'Anna Nagar & Kilpauk Retail Beat',
+          areaZone: 'North West Chennai (Zone-2)',
+          repId: 'rep-102',
+          repName: 'Karthik Subramanian (MR)',
+          repPhone: '+91 98402 66778',
+          dayOfWeek: 'Tuesday & Friday',
+          totalChemistsCount: 15,
+          visitedCount: 12,
+          targetOrderValue: 110000.00,
+          achievedOrderValue: 98500.00,
+          targetCollection: 75000.00,
+          achievedCollection: 68000.00,
+          status: 'In_Progress'
+        },
+        {
+          beatId: 'beat-3',
+          beatName: 'Tambaram & Chromepet Suburb Beat',
+          areaZone: 'South Chennai (Zone-3)',
+          repId: 'rep-103',
+          repName: 'Venkatesh Babu (MR)',
+          repPhone: '+91 98403 77889',
+          dayOfWeek: 'Wednesday & Saturday',
+          totalChemistsCount: 10,
+          visitedCount: 5,
+          targetOrderValue: 65000.00,
+          achievedOrderValue: 41200.00,
+          targetCollection: 40000.00,
+          achievedCollection: 28500.00,
+          status: 'In_Progress'
+        },
+        {
+          beatId: 'beat-4',
+          beatName: 'Adyar & Velachery Specialty Clinic Beat',
+          areaZone: 'South Coastal (Zone-4)',
+          repId: 'rep-104',
+          repName: 'Sanjay Narayanan (MR)',
+          repPhone: '+91 98404 88990',
+          dayOfWeek: 'Monday & Friday',
+          totalChemistsCount: 8,
+          visitedCount: 8,
+          targetOrderValue: 55000.00,
+          achievedOrderValue: 61400.00,
+          targetCollection: 35000.00,
+          achievedCollection: 35000.00,
+          status: 'Completed'
+        }
+      ]
+    };
+  },
+
+  async getFieldBeats(): Promise<ApiChemistBeatPlan[]> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/fieldforce/beats`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Field beats error:', e);
+    }
+    const summary = await this.getFieldForceSummary();
+    return summary.beats;
+  },
+
+  async getBeatVisits(beatId: string): Promise<ApiChemistBeatVisit[]> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/fieldforce/beats/${beatId}/visits`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Beat visits error:', e);
+    }
+    return [
+      {
+        visitId: `vis-${beatId}-1`,
+        beatId: beatId,
+        sequenceOrder: 1,
+        customerId: 'c-1',
+        customerName: 'Apollo Pharmacy - T. Nagar North',
+        customerCode: 'CUST-APO-01',
+        address: '14 Pondy Bazaar, T. Nagar, Chennai - 600017',
+        contactPhone: '+91 98401 22334',
+        drugLicense20B: 'TN-CHE-20B-98124',
+        creditLimit: 150000.00,
+        currentOutstanding: 45000.00,
+        isOverdueBlocked: false,
+        visitStatus: 'OrderBooked',
+        checkInTime: '09:45 AM',
+        checkInLatitude: 13.0418,
+        checkInLongitude: 80.2341,
+        isGeofenceValid: true,
+        bookedOrderId: 'SO-FLD-901',
+        bookedOrderValue: 18450.00,
+        collectedAmount: 15000.00,
+        remarks: 'Ordered Augmentin 625 & Pan 40. Handed over HDFC chq #481902.'
+      },
+      {
+        visitId: `vis-${beatId}-2`,
+        beatId: beatId,
+        sequenceOrder: 2,
+        customerId: 'c-2',
+        customerName: 'MedPlus Pharmacy - Venkatnarayana Rd',
+        customerCode: 'CUST-MED-02',
+        address: '42 Venkatnarayana Rd, T. Nagar, Chennai - 600017',
+        contactPhone: '+91 98402 33445',
+        drugLicense20B: 'TN-CHE-20B-78234',
+        creditLimit: 120000.00,
+        currentOutstanding: 78400.00,
+        isOverdueBlocked: false,
+        visitStatus: 'CheckedIn',
+        checkInTime: '10:30 AM',
+        checkInLatitude: 13.0392,
+        checkInLongitude: 80.2312,
+        isGeofenceValid: true,
+        bookedOrderId: null,
+        bookedOrderValue: 0,
+        collectedAmount: 0,
+        remarks: 'In discussion with chief pharmacist for insulin weekly order.'
+      },
+      {
+        visitId: `vis-${beatId}-3`,
+        beatId: beatId,
+        sequenceOrder: 3,
+        customerId: 'c-3',
+        customerName: 'Sri Balaji Medicals - Panagal Park',
+        customerCode: 'CUST-BAL-04',
+        address: '5 Panagal Park Square, T. Nagar, Chennai - 600017',
+        contactPhone: '+91 98404 55667',
+        drugLicense20B: 'TN-CHE-20B-45123',
+        creditLimit: 80000.00,
+        currentOutstanding: 89000.00,
+        isOverdueBlocked: true,
+        visitStatus: 'Pending',
+        checkInTime: null,
+        checkInLatitude: null,
+        checkInLongitude: null,
+        isGeofenceValid: false,
+        bookedOrderId: null,
+        bookedOrderValue: 0,
+        collectedAmount: 0,
+        remarks: 'Account blocked due to >60d overdue. Visit target: payment collection.'
+      },
+      {
+        visitId: `vis-${beatId}-4`,
+        beatId: beatId,
+        sequenceOrder: 4,
+        customerId: 'c-5',
+        customerName: 'LifeCare Chemist & Surgical Clinic',
+        customerCode: 'CUST-LIF-05',
+        address: '88 Usman Road, T. Nagar, Chennai - 600017',
+        contactPhone: '+91 98405 66778',
+        drugLicense20B: 'TN-CHE-20B-33214',
+        creditLimit: 60000.00,
+        currentOutstanding: 22000.00,
+        isOverdueBlocked: false,
+        visitStatus: 'Pending',
+        checkInTime: null,
+        checkInLatitude: null,
+        checkInLongitude: null,
+        isGeofenceValid: false,
+        bookedOrderId: null,
+        bookedOrderValue: 0,
+        collectedAmount: 0,
+        remarks: null
+      }
+    ];
+  },
+
+  async recordGpsCheckIn(payload: any): Promise<any> {
+    const res = await fetch(`${BASE_URL}/api/v1/fieldforce/checkin`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('Check-in failed');
+    return await res.json();
+  },
+
+  async bookFieldOrder(payload: any): Promise<ApiFieldOrderResult> {
+    const res = await fetch(`${BASE_URL}/api/v1/fieldforce/orders`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('Failed to book field order');
+    return await res.json();
+  },
+
+  async recordFieldCollection(payload: any): Promise<ApiFieldCollectionResult> {
+    const res = await fetch(`${BASE_URL}/api/v1/fieldforce/collections`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('Failed to record field collection');
+    return await res.json();
   }
 };
 
@@ -2046,6 +2279,83 @@ export interface ApiCashBookSummary {
   totalCashDisbursements: number;
   closingCashInHand: number;
   transactions: ApiCashBookEntry[];
+}
+
+// ==========================================
+// PHASE B: FIELD FORCE AUTOMATION & BEAT PLANNER
+// ==========================================
+export interface ApiChemistBeatPlan {
+  beatId: string;
+  beatName: string;
+  areaZone: string;
+  repId: string;
+  repName: string;
+  repPhone: string;
+  dayOfWeek: string;
+  totalChemistsCount: number;
+  visitedCount: number;
+  targetOrderValue: number;
+  achievedOrderValue: number;
+  targetCollection: number;
+  achievedCollection: number;
+  status: string;
+}
+
+export interface ApiChemistBeatVisit {
+  visitId: string;
+  beatId: string;
+  sequenceOrder: number;
+  customerId: string;
+  customerName: string;
+  customerCode: string;
+  address: string;
+  contactPhone: string;
+  drugLicense20B: string;
+  creditLimit: number;
+  currentOutstanding: number;
+  isOverdueBlocked: boolean;
+  visitStatus: 'Pending' | 'CheckedIn' | 'OrderBooked' | 'CollectionOnly' | 'ChemistClosed';
+  checkInTime?: string | null;
+  checkInLatitude?: number | null;
+  checkInLongitude?: number | null;
+  isGeofenceValid: boolean;
+  bookedOrderId?: string | null;
+  bookedOrderValue: number;
+  collectedAmount: number;
+  remarks?: string | null;
+}
+
+export interface ApiFieldOrderResult {
+  orderId: string;
+  orderNumber: string;
+  orderDate: string;
+  customerName: string;
+  totalAmount: number;
+  status: string;
+  estimatedDeliveryDate: string;
+}
+
+export interface ApiFieldCollectionResult {
+  receiptId: string;
+  receiptNumber: string;
+  receiptDate: string;
+  customerName: string;
+  amountCollected: number;
+  status: string;
+  remainingChemistBalance: number;
+}
+
+export interface ApiFieldForceSummary {
+  activeRepsCount: number;
+  totalBeatsToday: number;
+  totalScheduledVisits: number;
+  visitsCompleted: number;
+  coveragePercentage: number;
+  totalFieldOrdersBooked: number;
+  totalFieldBookingValue: number;
+  totalFieldCollections: number;
+  strikeRatePercentage: number;
+  beats: ApiChemistBeatPlan[];
 }
 
 

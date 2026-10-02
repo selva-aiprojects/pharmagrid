@@ -30,7 +30,8 @@ import {
   Banknote,
   RotateCcw,
   ShieldAlert,
-  FileSpreadsheet
+  FileSpreadsheet,
+  Compass
 } from 'lucide-react';
 
 export type AppModuleId =
@@ -38,6 +39,7 @@ export type AppModuleId =
   | 'collections'
   | 'returns'
   | 'financials'
+  | 'fieldforce'
   | 'dashboard'
   | 'orders'
   | 'procurement'
@@ -155,6 +157,13 @@ export default function Sidebar({
           icon: Truck,
           badge: 'Live',
           badgeColor: 'emerald',
+        },
+        {
+          id: 'fieldforce',
+          label: 'Field Force & Beats (MR)',
+          icon: Compass,
+          badge: 'SFA',
+          badgeColor: 'cyan',
         },
       ],
     },

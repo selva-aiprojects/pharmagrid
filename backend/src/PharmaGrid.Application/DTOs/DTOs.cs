@@ -799,3 +799,111 @@ public record CashBookSummaryDto(
     decimal ClosingCashInHand,
     List<CashBookEntryDto> Transactions);
 
+// ==========================================
+// PHASE B: FIELD FORCE AUTOMATION & BEAT PLANNER
+// ==========================================
+public record ChemistBeatPlanDto(
+    string BeatId,
+    string BeatName,
+    string AreaZone,
+    string RepId,
+    string RepName,
+    string RepPhone,
+    string DayOfWeek,
+    int TotalChemistsCount,
+    int VisitedCount,
+    decimal TargetOrderValue,
+    decimal AchievedOrderValue,
+    decimal TargetCollection,
+    decimal AchievedCollection,
+    string Status);
+
+public record ChemistBeatVisitDto(
+    string VisitId,
+    string BeatId,
+    int SequenceOrder,
+    string CustomerId,
+    string CustomerName,
+    string CustomerCode,
+    string Address,
+    string ContactPhone,
+    string DrugLicense20B,
+    decimal CreditLimit,
+    decimal CurrentOutstanding,
+    bool IsOverdueBlocked,
+    string VisitStatus, // "Pending", "CheckedIn", "OrderBooked", "CollectionOnly", "ChemistClosed"
+    string? CheckInTime,
+    double? CheckInLatitude,
+    double? CheckInLongitude,
+    bool IsGeofenceValid,
+    string? BookedOrderId,
+    decimal BookedOrderValue,
+    decimal CollectedAmount,
+    string? Remarks);
+
+public record FieldCheckInRequest(
+    string VisitId,
+    double Latitude,
+    double Longitude,
+    string RepId);
+
+public record FieldOrderItemDto(
+    string ProductId,
+    string ProductName,
+    string BatchNumber,
+    int Quantity,
+    decimal UnitPrice,
+    string? SchemeApplied,
+    decimal LineTotal);
+
+public record FieldOrderBookingRequest(
+    string VisitId,
+    string CustomerId,
+    string RepId,
+    double Latitude,
+    double Longitude,
+    List<FieldOrderItemDto> Items,
+    string PaymentMode,
+    string? Remarks);
+
+public record FieldOrderBookingResult(
+    string OrderId,
+    string OrderNumber,
+    string OrderDate,
+    string CustomerName,
+    decimal TotalAmount,
+    string Status,
+    string EstimatedDeliveryDate);
+
+public record FieldCollectionRequest(
+    string VisitId,
+    string CustomerId,
+    string RepId,
+    decimal AmountCollected,
+    string PaymentMode,
+    string? ChequeNumber,
+    string? ChequeBankName,
+    string? UpiTransactionRef,
+    string? Remarks);
+
+public record FieldCollectionResult(
+    string ReceiptId,
+    string ReceiptNumber,
+    string ReceiptDate,
+    string CustomerName,
+    decimal AmountCollected,
+    string Status,
+    decimal RemainingChemistBalance);
+
+public record FieldForceSummaryDto(
+    int ActiveRepsCount,
+    int TotalBeatsToday,
+    int TotalScheduledVisits,
+    int VisitsCompleted,
+    decimal CoveragePercentage,
+    int TotalFieldOrdersBooked,
+    decimal TotalFieldBookingValue,
+    decimal TotalFieldCollections,
+    decimal StrikeRatePercentage,
+    List<ChemistBeatPlanDto> Beats);
+

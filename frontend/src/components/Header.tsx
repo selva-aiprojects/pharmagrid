@@ -41,6 +41,7 @@ const MODULE_TITLES: Record<AppModuleId, { title: string; subtitle: string }> = 
   orders: { title: 'Orders & Indents', subtitle: 'Manufacturer Indents (PO) & Chemist Field Bookings (SO)' },
   procurement: { title: 'Inbound GRN', subtitle: 'Goods Receipt Note & Batch Date Ingestion' },
   logistics: { title: 'Shipment & Fleet', subtitle: 'Van Dispatch Manifests, COD Reconciliation & POD' },
+  fieldforce: { title: 'Field Force & Beat Planner (SFA)', subtitle: 'Chemist Daily Route Beats, Mobile Field POS & Geofence GPS Check-In' },
   products: { title: 'Master SKU Catalog', subtitle: 'CDSCO Schedules H/H1/G & Cold-Chain Master' },
   stockmaster: { title: 'Unified Stock Master', subtitle: 'Consolidated SKU Inventory & CDSCO Breakage Register' },
   inventory: { title: 'Warehouse Balances', subtitle: 'Zone-Rack-Shelf-Bin Batch Allocations' },

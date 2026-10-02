@@ -24,6 +24,7 @@ import CdscoRegistersView from '@/components/CdscoRegistersView';
 import PaymentCollectionsView from '@/components/PaymentCollectionsView';
 import ReturnsManagementView from '@/components/ReturnsManagementView';
 import FinancialLedgersView from '@/components/FinancialLedgersView';
+import FieldForceSfaView from '@/components/FieldForceSfaView';
 import { useAuth } from '@/context/AuthContext';
 
 export default function Home() {
@@ -132,6 +133,8 @@ export default function Home() {
         return <ProcurementGrnView />;
       case 'logistics':
         return <LogisticsDispatchView />;
+      case 'fieldforce':
+        return <FieldForceSfaView />;
       case 'products':
         return <ProductCatalogView />;
       case 'stockmaster':
