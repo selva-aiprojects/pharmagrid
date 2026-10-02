@@ -1,15 +1,15 @@
 # Product Requirements Specification (PRS / Formal PRD)
-## Cybelinx Pharma Distribution (Codename: PharmaFlow)
+## Cognivectra • PharmaGrid™ (Next-Gen Pharma Distribution Cloud ERP)
 
 | Attribute | Specification Details |
 | :--- | :--- |
 | **Document Version** | `1.0.0` (Production Release Specification) |
-| **Status** | Approved for Development |
-| **Product Family** | Cybelinx Healthcare Platform |
-| **Product Type** | Multi-Tenant B2B Cloud ERP & SaaS Platform |
+| **Status** | Approved for Production Development & Deployment |
+| **Product Name** | **PharmaGrid™** (formerly codenamed PharmaFlow) |
+| **Product Type** | Multi-Tenant B2B Cloud Distribution ERP & SaaS Platform |
 | **Target Market** | Indian Pharmaceutical Stockists, Distributors, Wholesalers, and C&F (Carrying & Forwarding) Operators |
-| **Compliance Baseline** | Drugs & Cosmetics Act 1940 & Rules 1945 (Schedules H, H1, X, G), CDSCO Guidelines, Indian GST E-Invoicing (NIC API Schema) |
-| **Core Technology Stack** | Next.js 14 (App Router) + Tailwind CSS + shadcn/ui, .NET 8 Web API (C#), PostgreSQL 16 (pgvector ready), Redis 7, RabbitMQ 3.13 |
+| **Compliance Baseline** | Drugs & Cosmetics Act 1940 & Rules 1945 (Schedules H, H1, X, G), CDSCO Guidelines, Indian GST Rule 46 E-Invoicing (NIC API Schema), 21 CFR Part 11 |
+| **Core Technology Stack** | Next.js 14 (App Router) + TypeScript + Tailwind CSS, .NET 9 Web API (C#), PostgreSQL 16, Redis 7 (RedLock), RabbitMQ 3.13 |
 
 ---
 
