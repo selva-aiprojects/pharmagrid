@@ -20,6 +20,10 @@ import StockMasterView from '@/components/StockMasterView';
 import DemandForecastView from '@/components/DemandForecastView';
 import PayrollView from '@/components/PayrollView';
 import MastersManagementView from '@/components/MastersManagementView';
+import CdscoRegistersView from '@/components/CdscoRegistersView';
+import PaymentCollectionsView from '@/components/PaymentCollectionsView';
+import ReturnsManagementView from '@/components/ReturnsManagementView';
+import FinancialLedgersView from '@/components/FinancialLedgersView';
 import { useAuth } from '@/context/AuthContext';
 
 export default function Home() {
@@ -112,6 +116,14 @@ export default function Home() {
     switch (activeModule) {
       case 'billing':
         return <RapidBillingWorkspace />;
+      case 'collections':
+        return <PaymentCollectionsView />;
+      case 'returns':
+        return <ReturnsManagementView />;
+      case 'cdsco':
+        return <CdscoRegistersView />;
+      case 'financials':
+        return <FinancialLedgersView />;
       case 'dashboard':
         return <ExecutiveDashboardView />;
       case 'orders':

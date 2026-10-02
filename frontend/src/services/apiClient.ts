@@ -262,19 +262,6 @@ export const pharmaApi = {
     }
   },
 
-  // 5d. Process Sales Return / Credit Note
-  async createSalesReturn(payload: { customerId: string; originalInvoiceNumber: string; returnLines: any[] }) {
-    const res = await fetch(`${BASE_URL}/api/v1/sales/returns`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    if (!res.ok) {
-      const errorData = await res.json().catch(() => ({ message: 'Credit note issuance failed' }));
-      throw new Error(errorData.message || 'Credit note failure');
-    }
-    return await res.json();
-  },
 
   // 6. Customers CRM
   async getCustomers(): Promise<ApiCustomer[]> {
@@ -807,6 +794,694 @@ export const pharmaApi = {
       console.warn('Delivery routes fetch error:', e);
     }
     return [];
+  },
+
+  // ----------------------------------------
+  // STATUTORY CDSCO COMPLIANCE REGISTERS
+  // ----------------------------------------
+  async getCdscoScheduleH1(query?: string): Promise<ApiScheduleH1Entry[]> {
+    try {
+      const q = query ? `?query=${encodeURIComponent(query)}` : '';
+      const res = await fetch(`${BASE_URL}/api/v1/cdsco/schedule-h1${q}`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('CDSCO H1 fetch error:', e);
+    }
+    return [
+      {
+        id: 'h1-1',
+        supplyDate: '2026-10-02',
+        invoiceNumber: 'INV-2026-0891',
+        customerName: 'Apollo Pharmacy - T. Nagar',
+        drugLicenseNumber: 'TN-CHE-20B-98124',
+        customerCity: 'Chennai',
+        doctorName: 'Dr. A. K. Sundaram, MD',
+        doctorRegistrationNumber: 'MCI-TN-45812',
+        productName: 'Meropenem 1g Injection',
+        genericName: 'Meropenem Trihydrate IP',
+        batchNumber: 'OCT-MERO-901',
+        expiryDate: '2028-05-31',
+        quantitySold: 60,
+        packagingUnit: '1 Vial with WFI'
+      },
+      {
+        id: 'h1-2',
+        supplyDate: '2026-10-01',
+        invoiceNumber: 'INV-2026-0884',
+        customerName: 'MedPlus - Anna Nagar West',
+        drugLicenseNumber: 'TN-CHE-20B-78234',
+        customerCity: 'Chennai',
+        doctorName: 'Dr. Priya Venkatesh, MBBS',
+        doctorRegistrationNumber: 'MCI-TN-89241',
+        productName: 'Augmentin 625mg Tablet',
+        genericName: 'Amoxicillin + Potassium Clavulanate',
+        batchNumber: 'AUG-AUG625-102',
+        expiryDate: '2027-08-31',
+        quantitySold: 120,
+        packagingUnit: '10x10 Tablets'
+      },
+      {
+        id: 'h1-3',
+        supplyDate: '2026-09-29',
+        invoiceNumber: 'INV-2026-0870',
+        customerName: 'Manipal Hospital Pharmacy',
+        drugLicenseNumber: 'TN-CHE-20B-11209',
+        customerCity: 'Chennai',
+        doctorName: 'Dr. R. Ramanathan, MD',
+        doctorRegistrationNumber: 'MCI-TN-12409',
+        productName: 'Cefixime 200mg Tablet',
+        genericName: 'Cefixime Trihydrate IP',
+        batchNumber: 'JUL-CEF200-44',
+        expiryDate: '2027-04-30',
+        quantitySold: 200,
+        packagingUnit: '10x10 Tablets'
+      }
+    ];
+  },
+
+  async getCdscoScheduleX(): Promise<ApiScheduleXLedger[]> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/cdsco/schedule-x`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('CDSCO Schedule X fetch error:', e);
+    }
+    return [
+      {
+        id: 'schx-1',
+        date: '2026-09-25',
+        productName: 'Alprazolam 0.5mg Tablets',
+        batchNumber: 'SCHX-ALP-101',
+        openingBalance: 500,
+        inwardReceiptQuantity: 1000,
+        inwardSupplierBillNo: 'SUN-CHN-9012',
+        outwardSoldQuantity: 200,
+        outwardChemistName: 'Manipal Hospital Central Dispensing',
+        chemistLicenseForm20F21F: 'TN-CHE-20F-1204',
+        closingBalance: 1300,
+        registeredPharmacistName: 'Karthik Raja, B.Pharm',
+        pharmacistRegNo: 'TN-PC-48912-A'
+      },
+      {
+        id: 'schx-2',
+        date: '2026-09-28',
+        productName: 'Zolpidem 10mg Tablets',
+        batchNumber: 'SCHX-ZOL-202',
+        openingBalance: 250,
+        inwardReceiptQuantity: 0,
+        inwardSupplierBillNo: '-',
+        outwardSoldQuantity: 100,
+        outwardChemistName: 'Apollo Specialty Hospital Pharmacy',
+        chemistLicenseForm20F21F: 'TN-CHE-20F-9941',
+        closingBalance: 150,
+        registeredPharmacistName: 'Karthik Raja, B.Pharm',
+        pharmacistRegNo: 'TN-PC-48912-A'
+      },
+      {
+        id: 'schx-3',
+        date: '2026-10-01',
+        productName: 'Ketamine 50mg/ml Injection',
+        batchNumber: 'SCHX-KET-303',
+        openingBalance: 80,
+        inwardReceiptQuantity: 200,
+        inwardSupplierBillNo: 'CIPLA-MAA-441',
+        outwardSoldQuantity: 50,
+        outwardChemistName: 'Fortis Malar Hospital OT Dispensing',
+        chemistLicenseForm20F21F: 'TN-CHE-21F-3321',
+        closingBalance: 230,
+        registeredPharmacistName: 'Karthik Raja, B.Pharm',
+        pharmacistRegNo: 'TN-PC-48912-A'
+      }
+    ];
+  },
+
+  async getBatchTraceability(batchNumber: string): Promise<ApiBatchRecallTrace> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/cdsco/batch-recall/${encodeURIComponent(batchNumber)}`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Batch recall trace error:', e);
+    }
+    return {
+      batchNumber: batchNumber.toUpperCase(),
+      productName: 'Augmentin 625mg Tablet',
+      genericName: 'Amoxicillin + Potassium Clavulanate IP',
+      manufacturerName: 'GlaxoSmithKline Pharmaceuticals',
+      manufacturingDate: '2026-08-01',
+      expiryDate: '2028-07-31',
+      initialBatchQuantity: 2500,
+      totalUnitsSupplied: 250,
+      currentWarehouseStock: 180,
+      warehouseRackLocation: 'Z1-R02-S03-B01',
+      recallStatus: 'ACTIVE_RECALL',
+      severityLevel: 'Class II (Potential Harm)',
+      impactedPharmacies: [
+        {
+          customerId: 'c-1',
+          customerName: 'Apollo Pharmacy - T. Nagar',
+          contactPhone: '+91 98401 22334',
+          city: 'Chennai',
+          drugLicense20B: 'TN-CHE-20B-98124',
+          invoiceNumber: 'INV-2026-0891',
+          invoiceDate: '2026-09-27',
+          quantitySupplied: 60,
+          deliveryStatus: 'Delivered_Acknowledged'
+        },
+        {
+          customerId: 'c-2',
+          customerName: 'MedPlus Pharmacy - Anna Nagar',
+          contactPhone: '+91 98402 33445',
+          city: 'Chennai',
+          drugLicense20B: 'TN-CHE-20B-78234',
+          invoiceNumber: 'INV-2026-0884',
+          invoiceDate: '2026-09-26',
+          quantitySupplied: 40,
+          deliveryStatus: 'Delivered_Acknowledged'
+        },
+        {
+          customerId: 'c-3',
+          customerName: 'Manipal Hospital Pharmacy',
+          contactPhone: '+91 98403 44556',
+          city: 'Chennai',
+          drugLicense20B: 'TN-CHE-20B-11209',
+          invoiceNumber: 'INV-2026-0870',
+          invoiceDate: '2026-09-23',
+          quantitySupplied: 150,
+          deliveryStatus: 'Delivered_Acknowledged'
+        }
+      ]
+    };
+  },
+
+  async issueRecallNotice(payload: { batchNumber: string; reasonForRecall: string; authorityOrderReference: string; urgencyLevel: string }) {
+    const res = await fetch(`${BASE_URL}/api/v1/cdsco/batch-recall/issue-notice`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('Failed to issue recall notice');
+    return await res.json();
+  },
+
+  async getColdChainLogs(): Promise<ApiColdChainLog[]> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/cdsco/cold-chain-logs`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Cold chain logs error:', e);
+    }
+    return [
+      {
+        id: 'cc-1',
+        logDate: '2026-10-02',
+        timeSlot: '08:00 AM (Morning)',
+        storageUnitName: 'Deep Cold Room Unit-A (2-8°C)',
+        recordedTemperatureCelsius: 4.2,
+        isWithinSafeThreshold: true,
+        calibratedLoggerSerialNumber: 'SEN-CAL-99410',
+        inspectorPharmacistName: 'Karthik Raja, B.Pharm',
+        excursionRemarks: null
+      },
+      {
+        id: 'cc-2',
+        logDate: '2026-10-01',
+        timeSlot: '08:00 PM (Evening)',
+        storageUnitName: 'Deep Cold Room Unit-A (2-8°C)',
+        recordedTemperatureCelsius: 4.6,
+        isWithinSafeThreshold: true,
+        calibratedLoggerSerialNumber: 'SEN-CAL-99410',
+        inspectorPharmacistName: 'Karthik Raja, B.Pharm',
+        excursionRemarks: null
+      },
+      {
+        id: 'cc-3',
+        logDate: '2026-10-01',
+        timeSlot: '08:00 AM (Morning)',
+        storageUnitName: 'Transit Chiller Unit-B (2-8°C)',
+        recordedTemperatureCelsius: 5.1,
+        isWithinSafeThreshold: true,
+        calibratedLoggerSerialNumber: 'SEN-CAL-99412',
+        inspectorPharmacistName: 'Karthik Raja, B.Pharm',
+        excursionRemarks: null
+      }
+    ];
+  },
+
+  async recordColdChainLog(payload: { storageUnitName: string; timeSlot: string; temperatureCelsius: number; remarks?: string }) {
+    const res = await fetch(`${BASE_URL}/api/v1/cdsco/cold-chain-logs`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('Failed to record cold chain log');
+    return await res.json();
+  },
+
+  // ----------------------------------------
+  // CHEMIST PAYMENT COLLECTIONS & KNOCKOFF
+  // ----------------------------------------
+  async getPendingInvoices(customerId: string): Promise<ApiPendingInvoiceKnockoff[]> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/collections/pending-invoices/${customerId}`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Pending invoices knockoff error:', e);
+    }
+    return [
+      {
+        invoiceId: 'inv-1',
+        invoiceNumber: 'INV-2026-0391',
+        invoiceDate: '2026-09-04',
+        totalNetPayable: 18450.00,
+        alreadyPaidAmount: 0,
+        outstandingBalance: 18450.00,
+        daysOverdue: 7,
+        promptPaymentDiscountEligible: 0
+      },
+      {
+        invoiceId: 'inv-2',
+        invoiceNumber: 'INV-2026-0412',
+        invoiceDate: '2026-09-18',
+        totalNetPayable: 12300.00,
+        alreadyPaidAmount: 0,
+        outstandingBalance: 12300.00,
+        daysOverdue: 0,
+        promptPaymentDiscountEligible: 0
+      },
+      {
+        invoiceId: 'inv-3',
+        invoiceNumber: 'INV-2026-0445',
+        invoiceDate: '2026-09-28',
+        totalNetPayable: 8640.00,
+        alreadyPaidAmount: 0,
+        outstandingBalance: 8640.00,
+        daysOverdue: 0,
+        promptPaymentDiscountEligible: 172.80
+      }
+    ];
+  },
+
+  async createPaymentReceipt(payload: any): Promise<ApiPaymentReceiptVoucher> {
+    const res = await fetch(`${BASE_URL}/api/v1/collections/receipts`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('Failed to create payment receipt');
+    return await res.json();
+  },
+
+  async getAgingAnalysis(): Promise<ApiChemistAgingSummary> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/collections/aging-analysis`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Aging analysis fetch error:', e);
+    }
+    return {
+      totalReceivables: 1245000.00,
+      totalOverdueAmount: 485000.00,
+      totalOverdueCustomers: 5,
+      amountOver60Days: 78000.00,
+      customerAgingList: [
+        {
+          customerId: 'c-1',
+          customerName: 'Apollo Pharmacy - T. Nagar',
+          customerCode: 'CUST-APO-01',
+          phoneNumber: '+91 98401 22334',
+          totalOutstanding: 45000.00,
+          currentNotDue: 25000.00,
+          days1To15: 12000.00,
+          days16To30: 8000.00,
+          days31To45: 0,
+          days46To60: 0,
+          daysOver60: 0,
+          isBlockedForBilling: false
+        },
+        {
+          customerId: 'c-2',
+          customerName: 'MedPlus - Anna Nagar West',
+          customerCode: 'CUST-MED-02',
+          phoneNumber: '+91 98402 33445',
+          totalOutstanding: 78400.00,
+          currentNotDue: 35000.00,
+          days1To15: 20000.00,
+          days16To30: 15000.00,
+          days31To45: 8400.00,
+          days46To60: 0,
+          daysOver60: 0,
+          isBlockedForBilling: false
+        },
+        {
+          customerId: 'c-3',
+          customerName: 'Manipal Hospital Central Pharmacy',
+          customerCode: 'CUST-MAN-03',
+          phoneNumber: '+91 98403 44556',
+          totalOutstanding: 198500.00,
+          currentNotDue: 80000.00,
+          days1To15: 45000.00,
+          days16To30: 35000.00,
+          days31To45: 25000.00,
+          days46To60: 13500.00,
+          daysOver60: 0,
+          isBlockedForBilling: false
+        },
+        {
+          customerId: 'c-4',
+          customerName: 'Sri Balaji Medicals - Tambaram',
+          customerCode: 'CUST-BAL-04',
+          phoneNumber: '+91 98404 55667',
+          totalOutstanding: 89000.00,
+          currentNotDue: 15000.00,
+          days1To15: 14000.00,
+          days16To30: 20000.00,
+          days31To45: 15000.00,
+          days46To60: 10000.00,
+          daysOver60: 15000.00,
+          isBlockedForBilling: true
+        }
+      ]
+    };
+  },
+
+  // ----------------------------------------
+  // RETURNS & CLAIMS MANAGEMENT
+  // ----------------------------------------
+  async getSalesReturns(): Promise<ApiSalesReturnCreditNote[]> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/returns/sales`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Sales returns fetch error:', e);
+    }
+    return [
+      {
+        creditNoteId: 'cn-1',
+        creditNoteNumber: 'CN-2026-0812',
+        creditNoteDate: '2026-09-30',
+        customerId: 'c-1',
+        customerName: 'Apollo Pharmacy - T. Nagar',
+        originalInvoiceNumber: 'INV-2026-0812',
+        subTotalTaxable: 4250.00,
+        totalGstReversed: 510.00,
+        totalCreditNoteAmount: 4760.00,
+        status: 'CreditNoteIssued',
+        itemsCount: 3
+      },
+      {
+        creditNoteId: 'cn-2',
+        creditNoteNumber: 'CN-2026-0805',
+        creditNoteDate: '2026-09-27',
+        customerId: 'c-2',
+        customerName: 'MedPlus - Anna Nagar West',
+        originalInvoiceNumber: 'INV-2026-0798',
+        subTotalTaxable: 2400.00,
+        totalGstReversed: 288.00,
+        totalCreditNoteAmount: 2688.00,
+        status: 'CreditNoteIssued',
+        itemsCount: 2
+      }
+    ];
+  },
+
+  async createSalesReturn(payload: any): Promise<ApiSalesReturnCreditNote> {
+    const res = await fetch(`${BASE_URL}/api/v1/returns/sales`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('Failed to create sales return credit note');
+    return await res.json();
+  },
+
+  async getPurchaseReturns(): Promise<ApiPurchaseReturnDebitNote[]> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/v1/returns/purchases`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Purchase returns fetch error:', e);
+    }
+    return [
+      {
+        debitNoteId: 'dn-1',
+        debitNoteNumber: 'DN-2026-0310',
+        debitNoteDate: '2026-09-29',
+        supplierId: 's-1',
+        supplierName: 'Alkem Laboratories Ltd - Chennai C&F',
+        totalDebitAmount: 18500.00,
+        manufacturerClaimStatus: 'APPROVED_BY_COMPANY',
+        companyClaimReference: 'ALK-CLM-8921'
+      },
+      {
+        debitNoteId: 'dn-2',
+        debitNoteNumber: 'DN-2026-0294',
+        debitNoteDate: '2026-09-23',
+        supplierId: 's-2',
+        supplierName: 'Cipla Distribution Centre',
+        totalDebitAmount: 9400.00,
+        manufacturerClaimStatus: 'CREDIT_NOTE_RECEIVED',
+        companyClaimReference: 'CIP-CN-4412'
+      }
+    ];
+  },
+
+  async createPurchaseReturn(payload: any): Promise<ApiPurchaseReturnDebitNote> {
+    const res = await fetch(`${BASE_URL}/api/v1/returns/purchases`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('Failed to create purchase return debit note');
+    return await res.json();
+  },
+
+  // ----------------------------------------
+  // FINANCIAL ACCOUNTING & GST REPORTS
+  // ----------------------------------------
+  async getCustomerStatement(customerId: string, fromDate?: string, toDate?: string): Promise<ApiCustomerStatement> {
+    try {
+      const query = `?fromDate=${fromDate || ''}&toDate=${toDate || ''}`;
+      const res = await fetch(`${BASE_URL}/api/v1/financials/customer-ledger/${customerId}${query}`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Customer statement error:', e);
+    }
+    return {
+      customerId,
+      customerName: 'Apollo Pharmacy - T. Nagar',
+      customerCode: 'CUST-APO-01',
+      gstin: '33AAACA1234A1Z5',
+      periodFrom: fromDate || '2026-09-01',
+      periodTo: toDate || '2026-10-02',
+      openingBalance: 15000.00,
+      totalDebits: 68450.00,
+      totalCredits: 38450.00,
+      closingBalance: 45000.00,
+      entries: [
+        {
+          date: '2026-09-01',
+          voucherType: 'OPENING',
+          voucherNumber: 'OP-BAL',
+          particulars: 'Opening Balance Brought Forward',
+          debitAmount: 15000.00,
+          creditAmount: 0,
+          runningBalance: 15000.00
+        },
+        {
+          date: '2026-09-12',
+          voucherType: 'SALES_INV',
+          voucherNumber: 'INV-2026-0812',
+          particulars: 'Tax Invoice - Rapid Counter POS',
+          debitAmount: 35000.00,
+          creditAmount: 0,
+          runningBalance: 50000.00
+        },
+        {
+          date: '2026-09-20',
+          voucherType: 'RECEIPT_VOUCHER',
+          voucherNumber: 'REC-2026-8910',
+          particulars: 'Cheque Collection - HDFC Chq #481902 Cleared',
+          debitAmount: 0,
+          creditAmount: 35000.00,
+          runningBalance: 15000.00
+        },
+        {
+          date: '2026-09-28',
+          voucherType: 'SALES_INV',
+          voucherNumber: 'INV-2026-0891',
+          particulars: 'Tax Invoice - Rapid Counter POS',
+          debitAmount: 33450.00,
+          creditAmount: 0,
+          runningBalance: 48450.00
+        },
+        {
+          date: '2026-09-30',
+          voucherType: 'CREDIT_NOTE',
+          voucherNumber: 'CN-2026-0812',
+          particulars: 'Credit Note - Expiry Stock Return Reversal',
+          debitAmount: 0,
+          creditAmount: 3450.00,
+          runningBalance: 45000.00
+        }
+      ]
+    };
+  },
+
+  async getGstR1Summary(monthYear?: string): Promise<ApiGstR1Summary> {
+    try {
+      const q = monthYear ? `?monthYear=${encodeURIComponent(monthYear)}` : '';
+      const res = await fetch(`${BASE_URL}/api/v1/financials/gst-r1-summary${q}`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('GST R1 summary error:', e);
+    }
+    return {
+      monthYear: monthYear || '2026-09',
+      totalB2BInvoicesCount: 142,
+      totalTaxableTurnover: 2845000.00,
+      totalCgstCollected: 170700.00,
+      totalSgstCollected: 170700.00,
+      totalIgstCollected: 0.00,
+      totalGrossTaxLiability: 341400.00,
+      b2bInvoices: [
+        {
+          chemistGstin: '33AAACA1234A1Z5',
+          chemistLegalTradeName: 'Apollo Pharmacy - T. Nagar',
+          invoiceNumber: 'INV-2026-0891',
+          invoiceDate: '2026-09-28',
+          invoiceValue: 37464.00,
+          placeOfSupply: '33-Tamil Nadu',
+          reverseCharge: false,
+          taxableValue: 33450.00,
+          cgstAmount: 2007.00,
+          sgstAmount: 2007.00,
+          igstAmount: 0
+        },
+        {
+          chemistGstin: '33BBBMP5678B2Z1',
+          chemistLegalTradeName: 'MedPlus Pharmacy - Anna Nagar',
+          invoiceNumber: 'INV-2026-0884',
+          invoiceDate: '2026-09-27',
+          invoiceValue: 28400.00,
+          placeOfSupply: '33-Tamil Nadu',
+          reverseCharge: false,
+          taxableValue: 25357.14,
+          cgstAmount: 1521.43,
+          sgstAmount: 1521.43,
+          igstAmount: 0
+        },
+        {
+          chemistGstin: '33CCCAP9012C3Z8',
+          chemistLegalTradeName: 'Manipal Hospital Pharmacy',
+          invoiceNumber: 'INV-2026-0870',
+          invoiceDate: '2026-09-25',
+          invoiceValue: 98500.00,
+          placeOfSupply: '33-Tamil Nadu',
+          reverseCharge: false,
+          taxableValue: 87946.43,
+          cgstAmount: 5276.79,
+          sgstAmount: 5276.79,
+          igstAmount: 0
+        }
+      ],
+      hsnSummary: [
+        {
+          hsnCode: '30049099',
+          description: 'Allopathic Formulations (Tablets/Capsules)',
+          uqc: 'STRIPS',
+          totalQuantity: 4500,
+          totalValue: 185000.00,
+          taxableValue: 165178.57,
+          ratePercentage: 12.00,
+          cgstAmount: 9910.71,
+          sgstAmount: 9910.71,
+          igstAmount: 0
+        },
+        {
+          hsnCode: '30043110',
+          description: 'Insulin Formulations (Cold Chain 2-8°C)',
+          uqc: 'VIALS',
+          totalQuantity: 650,
+          totalValue: 92500.00,
+          taxableValue: 88095.24,
+          ratePercentage: 5.00,
+          cgstAmount: 2202.38,
+          sgstAmount: 2202.38,
+          igstAmount: 0
+        },
+        {
+          hsnCode: '30042010',
+          description: 'Cephalosporins & Meropenem Injectables',
+          uqc: 'VIALS',
+          totalQuantity: 1200,
+          totalValue: 145000.00,
+          taxableValue: 129464.29,
+          ratePercentage: 12.00,
+          cgstAmount: 7767.86,
+          sgstAmount: 7767.86,
+          igstAmount: 0
+        }
+      ]
+    };
+  },
+
+  async getCashBook(date?: string): Promise<ApiCashBookSummary> {
+    try {
+      const q = date ? `?date=${encodeURIComponent(date)}` : '';
+      const res = await fetch(`${BASE_URL}/api/v1/financials/cash-book${q}`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Cash book fetch error:', e);
+    }
+    return {
+      date: date || '2026-10-02',
+      openingCashInHand: 25000.00,
+      totalCashCollections: 22750.00,
+      totalCashDisbursements: 34700.00,
+      closingCashInHand: 13050.00,
+      transactions: [
+        {
+          date: '2026-10-02',
+          voucherNo: 'REC-CASH-01',
+          description: 'Counter Cash Sale - Cash Memo #CM-412',
+          cashFlowType: 'INFLOW',
+          amount: 4250.00,
+          cashInHandBalance: 29250.00
+        },
+        {
+          date: '2026-10-02',
+          voucherNo: 'REC-CASH-02',
+          description: 'Chemist COD Cash Collection - Van Route #1',
+          cashFlowType: 'INFLOW',
+          amount: 18500.00,
+          cashInHandBalance: 47750.00
+        },
+        {
+          date: '2026-10-02',
+          voucherNo: 'EXP-PETTY-01',
+          description: 'Warehouse Packing Material & Tamper Tape Purchase',
+          cashFlowType: 'OUTFLOW',
+          amount: 1200.00,
+          cashInHandBalance: 46550.00
+        },
+        {
+          date: '2026-10-02',
+          voucherNo: 'EXP-FUEL-01',
+          description: 'Delivery Van Diesel Fuel Reimbursement (TN-09-AX-4819)',
+          cashFlowType: 'OUTFLOW',
+          amount: 3500.00,
+          cashInHandBalance: 43050.00
+        },
+        {
+          date: '2026-10-02',
+          voucherNo: 'BNK-DEP-01',
+          description: 'Cash Remittance to HDFC Bank Current Account',
+          cashFlowType: 'OUTFLOW',
+          amount: 30000.00,
+          cashInHandBalance: 13050.00
+        }
+      ]
+    };
   }
 };
 
@@ -1129,6 +1804,248 @@ export interface ApiDeliveryRoute {
   chemistCount: number;
   frequency: string;
   targetCodCollection: number;
+}
+
+// ==========================================
+// PHASE A: STATUTORY CDSCO & COMPLIANCE
+// ==========================================
+export interface ApiScheduleH1Entry {
+  id: string;
+  supplyDate: string;
+  invoiceNumber: string;
+  customerName: string;
+  drugLicenseNumber: string;
+  customerCity: string;
+  doctorName: string;
+  doctorRegistrationNumber: string;
+  productName: string;
+  genericName: string;
+  batchNumber: string;
+  expiryDate: string;
+  quantitySold: number;
+  packagingUnit: string;
+}
+
+export interface ApiScheduleXLedger {
+  id: string;
+  date: string;
+  productName: string;
+  batchNumber: string;
+  openingBalance: number;
+  inwardReceiptQuantity: number;
+  inwardSupplierBillNo: string;
+  outwardSoldQuantity: number;
+  outwardChemistName: string;
+  chemistLicenseForm20F21F: string;
+  closingBalance: number;
+  registeredPharmacistName: string;
+  pharmacistRegNo: string;
+}
+
+export interface ApiBatchRecallChemist {
+  customerId: string;
+  customerName: string;
+  contactPhone: string;
+  city: string;
+  drugLicense20B: string;
+  invoiceNumber: string;
+  invoiceDate: string;
+  quantitySupplied: number;
+  deliveryStatus: string;
+}
+
+export interface ApiBatchRecallTrace {
+  batchNumber: string;
+  productName: string;
+  genericName: string;
+  manufacturerName: string;
+  manufacturingDate: string;
+  expiryDate: string;
+  initialBatchQuantity: number;
+  totalUnitsSupplied: number;
+  currentWarehouseStock: number;
+  warehouseRackLocation: string;
+  recallStatus: string;
+  severityLevel: string;
+  impactedPharmacies: ApiBatchRecallChemist[];
+}
+
+export interface ApiColdChainLog {
+  id: string;
+  logDate: string;
+  timeSlot: string;
+  storageUnitName: string;
+  recordedTemperatureCelsius: number;
+  isWithinSafeThreshold: boolean;
+  calibratedLoggerSerialNumber: string;
+  inspectorPharmacistName: string;
+  excursionRemarks?: string | null;
+}
+
+// ==========================================
+// PHASE A: COLLECTIONS & KNOCKOFF
+// ==========================================
+export interface ApiPendingInvoiceKnockoff {
+  invoiceId: string;
+  invoiceNumber: string;
+  invoiceDate: string;
+  totalNetPayable: number;
+  alreadyPaidAmount: number;
+  outstandingBalance: number;
+  daysOverdue: number;
+  promptPaymentDiscountEligible: number;
+}
+
+export interface ApiPaymentReceiptVoucher {
+  receiptId: string;
+  receiptNumber: string;
+  receiptDate: string;
+  customerId: string;
+  customerName: string;
+  customerCode: string;
+  amountCollected: number;
+  paymentMode: string;
+  chequeNumber?: string | null;
+  chequeBankName?: string | null;
+  upiTransactionRef?: string | null;
+  status: string;
+  customerBalanceAfterReceipt: number;
+  invoicesSettledCount: number;
+}
+
+export interface ApiChemistAgingBucket {
+  customerId: string;
+  customerName: string;
+  customerCode: string;
+  phoneNumber: string;
+  totalOutstanding: number;
+  currentNotDue: number;
+  days1To15: number;
+  days16To30: number;
+  days31To45: number;
+  days46To60: number;
+  daysOver60: number;
+  isBlockedForBilling: boolean;
+}
+
+export interface ApiChemistAgingSummary {
+  totalReceivables: number;
+  totalOverdueAmount: number;
+  totalOverdueCustomers: number;
+  amountOver60Days: number;
+  customerAgingList: ApiChemistAgingBucket[];
+}
+
+// ==========================================
+// PHASE A: RETURNS & CLAIMS
+// ==========================================
+export interface ApiSalesReturnCreditNote {
+  creditNoteId: string;
+  creditNoteNumber: string;
+  creditNoteDate: string;
+  customerId: string;
+  customerName: string;
+  originalInvoiceNumber: string;
+  subTotalTaxable: number;
+  totalGstReversed: number;
+  totalCreditNoteAmount: number;
+  status: string;
+  itemsCount: number;
+}
+
+export interface ApiPurchaseReturnDebitNote {
+  debitNoteId: string;
+  debitNoteNumber: string;
+  debitNoteDate: string;
+  supplierId: string;
+  supplierName: string;
+  totalDebitAmount: number;
+  manufacturerClaimStatus: string;
+  companyClaimReference?: string | null;
+}
+
+// ==========================================
+// PHASE A: FINANCIAL ACCOUNTING & GST REPORTS
+// ==========================================
+export interface ApiAccountStatementEntry {
+  date: string;
+  voucherType: string;
+  voucherNumber: string;
+  particulars: string;
+  debitAmount: number;
+  creditAmount: number;
+  runningBalance: number;
+}
+
+export interface ApiCustomerStatement {
+  customerId: string;
+  customerName: string;
+  customerCode: string;
+  gstin: string;
+  periodFrom: string;
+  periodTo: string;
+  openingBalance: number;
+  totalDebits: number;
+  totalCredits: number;
+  closingBalance: number;
+  entries: ApiAccountStatementEntry[];
+}
+
+export interface ApiGstR1B2BInvoice {
+  chemistGstin: string;
+  chemistLegalTradeName: string;
+  invoiceNumber: string;
+  invoiceDate: string;
+  invoiceValue: number;
+  placeOfSupply: string;
+  reverseCharge: boolean;
+  taxableValue: number;
+  cgstAmount: number;
+  sgstAmount: number;
+  igstAmount: number;
+}
+
+export interface ApiGstHsnSummary {
+  hsnCode: string;
+  description: string;
+  uqc: string;
+  totalQuantity: number;
+  totalValue: number;
+  taxableValue: number;
+  ratePercentage: number;
+  cgstAmount: number;
+  sgstAmount: number;
+  igstAmount: number;
+}
+
+export interface ApiGstR1Summary {
+  monthYear: string;
+  totalB2BInvoicesCount: number;
+  totalTaxableTurnover: number;
+  totalCgstCollected: number;
+  totalSgstCollected: number;
+  totalIgstCollected: number;
+  totalGrossTaxLiability: number;
+  b2bInvoices: ApiGstR1B2BInvoice[];
+  hsnSummary: ApiGstHsnSummary[];
+}
+
+export interface ApiCashBookEntry {
+  date: string;
+  voucherNo: string;
+  description: string;
+  cashFlowType: string;
+  amount: number;
+  cashInHandBalance: number;
+}
+
+export interface ApiCashBookSummary {
+  date: string;
+  openingCashInHand: number;
+  totalCashCollections: number;
+  totalCashDisbursements: number;
+  closingCashInHand: number;
+  transactions: ApiCashBookEntry[];
 }
 
 

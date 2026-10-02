@@ -26,11 +26,18 @@ import {
   Layers,
   Database,
   SlidersHorizontal,
-  ChevronsUpDown
+  ChevronsUpDown,
+  Banknote,
+  RotateCcw,
+  ShieldAlert,
+  FileSpreadsheet
 } from 'lucide-react';
 
 export type AppModuleId =
   | 'billing'
+  | 'collections'
+  | 'returns'
+  | 'financials'
   | 'dashboard'
   | 'orders'
   | 'procurement'
@@ -40,6 +47,7 @@ export type AppModuleId =
   | 'inventory'
   | 'demandforecast'
   | 'customers'
+  | 'cdsco'
   | 'schemes'
   | 'audit'
   | 'payroll'
@@ -109,6 +117,20 @@ export default function Sidebar({
           shortcut: 'F1-F8',
           badge: 'Fast',
           badgeColor: 'cyan',
+        },
+        {
+          id: 'collections',
+          label: 'Chemist AR Collections',
+          icon: Banknote,
+          badge: 'Knockoff',
+          badgeColor: 'emerald',
+        },
+        {
+          id: 'returns',
+          label: 'Returns & Claims Engine',
+          icon: RotateCcw,
+          badge: 'CR/DR Note',
+          badgeColor: 'amber',
         },
         {
           id: 'dashboard',
@@ -185,9 +207,28 @@ export default function Sidebar({
           badgeColor: 'emerald',
         },
         {
+          id: 'cdsco',
+          label: 'CDSCO Statutory Registers',
+          icon: ShieldAlert,
+          badge: 'H1 / X',
+          badgeColor: 'rose',
+        },
+        {
           id: 'audit',
           label: 'CDSCO Regulatory Audit',
           icon: Shield,
+        },
+      ],
+    },
+    {
+      title: 'Financials & Accounts',
+      items: [
+        {
+          id: 'financials',
+          label: 'Ledgers & GST Reports',
+          icon: FileSpreadsheet,
+          badge: 'GSTR-1',
+          badgeColor: 'cyan',
         },
       ],
     },

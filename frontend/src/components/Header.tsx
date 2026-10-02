@@ -34,6 +34,9 @@ interface HeaderProps {
 
 const MODULE_TITLES: Record<AppModuleId, { title: string; subtitle: string }> = {
   billing: { title: 'Rapid Counter Billing', subtitle: '100% Zero-Mouse POS Invoicing (F1-F8)' },
+  collections: { title: 'Chemist AR Collections', subtitle: 'Bill-by-Bill Knockoff & Marg ERP Aging Matrix' },
+  returns: { title: 'Returns & Claims Engine', subtitle: 'GST Credit Notes (Form 53), Supplier Debit Notes & Expiry Claims' },
+  financials: { title: 'Financial Ledgers & GST Reports', subtitle: 'Customer Statements, GSTR-1 Table 4A/12 & Counter Cash Book' },
   dashboard: { title: 'Executive Dashboard', subtitle: 'Real-Time Financial KPIs & Expiry Radar' },
   orders: { title: 'Orders & Indents', subtitle: 'Manufacturer Indents (PO) & Chemist Field Bookings (SO)' },
   procurement: { title: 'Inbound GRN', subtitle: 'Goods Receipt Note & Batch Date Ingestion' },
@@ -43,6 +46,7 @@ const MODULE_TITLES: Record<AppModuleId, { title: string; subtitle: string }> = 
   inventory: { title: 'Warehouse Balances', subtitle: 'Zone-Rack-Shelf-Bin Batch Allocations' },
   demandforecast: { title: 'Demand Forecast Radar', subtitle: '30-Day Sales Run Rate & Days of Inventory (DOI)' },
   customers: { title: 'Customer Registry', subtitle: 'Pharmacies, Form 20B/21B & Credit Limits' },
+  cdsco: { title: 'Statutory CDSCO Registers', subtitle: 'Schedule H1/X Registers, 24h Batch Recall & Cold-Chain 2-8°C Logs' },
   schemes: { title: 'Scheme Engine', subtitle: 'Volumetric Bonus Deals & Rebate Claims' },
   audit: { title: 'Regulatory Audit', subtitle: 'Immutable Append-Only Compliance Trail' },
   payroll: { title: 'Staff Payroll & Slips', subtitle: 'Monthly Salary Disbursement & Statutory A4 Payslips' },
