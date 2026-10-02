@@ -60,7 +60,7 @@ export default function Header({
 }: HeaderProps) {
   const currentMeta = MODULE_TITLES[activeModule];
   const { theme, toggleTheme } = useTheme();
-  const { user, personas, switchPersona } = useAuth();
+  const { user, personas, switchPersona, logout } = useAuth();
   const [latency, setLatency] = useState<number | null>(null);
   const [isApiOnline, setIsApiOnline] = useState<boolean>(true);
   const [isPersonaMenuOpen, setIsPersonaMenuOpen] = useState(false);
